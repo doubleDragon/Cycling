@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="indicator_icon">
+        <item>@drawable/tab_second</item>
+        <item>@drawable/tab_messages</item>
+        <item>@drawable/tab_around</item>
+        <item>@drawable/tab_contacts</item>
+        <item>@drawable/tab_settings</item>
+    </array>
+    
+    <array name="indicator_text">
+        <item>@string/indicator_title_index0</item>
+        <item>@string/indicator_title_index1</item>
+        <item>@string/indicator_title_index2</item>
+        <item>@string/indicator_title_index3</item>
+        <item>@string/indicator_title_index4</item>
+    </array>
+
+</resources>

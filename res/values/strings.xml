@@ -4,5 +4,17 @@
     <string name="app_name">Cycling</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="fragment0">Fragment0</string>
+    <string name="fragment1">Fragment1</string>
+    <string name="fragment2">Fragment2</string>
+    <string name="fragment3">Fragment3</string>
+    <string name="fragment4">Fragment4</string>
+    
+    <string name="indicator_title_index0">"掏二手"</string>
+    <string name="indicator_title_index1">"消息"</string>
+    <string name="indicator_title_index2">"周边"</string>
+    <string name="indicator_title_index3">"联系人"</string>
+    <string name="indicator_title_index4">"设置"</string>
 
 </resources>

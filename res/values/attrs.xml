@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <attr name="indicatorBarTabStyle" format="reference" />
+    <attr name="indicatorTabBarStyle" format="reference" />
+    <attr name="indicatorBarTabTextStyle" format="reference"/>
+</resources>
