@@ -3,19 +3,33 @@
     package="com.android.cycling"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
+    
+<!--     <activity -->
+<!--             android:name="com.android.cycling.activities.MainActivity" -->
+<!--             android:label="@string/app_name" > -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.MAIN" /> -->
+
+<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
+<!--             </intent-filter> -->
+<!--         </activity> -->
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.android.cycling.activities.MainActivity"
-            android:label="@string/app_name" >
+        
+        
+        <activity 
+            android:label="@string/registe"
+        	android:name="com.android.cycling.activities.RegisteActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

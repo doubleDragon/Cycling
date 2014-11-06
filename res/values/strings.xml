@@ -16,5 +16,14 @@
     <string name="indicator_title_index2">"周边"</string>
     <string name="indicator_title_index3">"联系人"</string>
     <string name="indicator_title_index4">"设置"</string>
+    
+    <string name="input_email">"请输入邮箱&#8230;"</string>
+    <string name="input_name_alias">"请输入用户昵称&#8230;"</string>
+    <string name="input_login_passward">"请输入登录密码&#8230;"</string>
+    <string name="input_login_passward_again">"请再次输入登录密码&#8230;"</string>
+    
+    <string name="back">"返回"</string>
+    <string name="confirm">"确认"</string>
+    <string name="registe">"注册"</string>
 
 </resources>

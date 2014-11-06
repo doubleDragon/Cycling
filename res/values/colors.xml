@@ -21,4 +21,6 @@
 	<color name="textview_tab_selected">#ffffff</color>
 	
 	<drawable name="indicator_bg">#21292b</drawable>
+	<drawable name="registe_activity_divide">#e4e4e4</drawable>
+	<drawable name="registe_activity_header_bg">#00b3f0</drawable>
 </resources>
