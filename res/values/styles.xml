@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -15,6 +15,25 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+    <style name="Theme.Default" parent="@android:style/Theme"></style>
+    <style name="Theme.NoTitle" parent="@android:style/Theme.NoTitleBar"></style>
+    <style name="Theme.FullScreen" parent="@android:style/Theme.NoTitleBar.Fullscreen"></style>
+    
+    <style name="ActivityHeaderTextStyle">
+	    <item name="android:textColor">#ffffff</item>
+	    <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+	</style>
+	
+    <style name="EditorActivityTextStyle">
+        <item name="android:textColor">#b1b1b1</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+    
+    <style name="EditorActivityEditTextStyle">
+        <item name="android:background">@drawable/issue_editor_fragment_edittext</item>
+        <item name="android:padding">6dip</item>
     </style>
 
 </resources>

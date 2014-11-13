@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    
+    <Button
+        android:id="@+id/left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_weight="1"
+        android:text="@string/bike_all_sell"/>
+    
+    <Button
+        android:id="@+id/middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" 
+        android:text="@string/bike_parts_sell"/>
+    
+    <Button
+        android:id="@+id/right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" 
+        android:text="@string/ask_buy"/>
+    
+</LinearLayout>

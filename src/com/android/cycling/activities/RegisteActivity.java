@@ -17,6 +17,7 @@ import android.view.Window;
 /**
  * 
  * Url:http://api.lovebiking.cn/Home/Registration
+ * Success when return ok from server
  * @author wsl
  */
 

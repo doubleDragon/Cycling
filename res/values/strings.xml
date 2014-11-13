@@ -2,8 +2,19 @@
 <resources>
 
     <string name="app_name">Cycling</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="add_photo">"添加图片"</string>
+    <string name="ask_buy">"求购"</string>
+    <string name="back">"返回"</string>
+    <string name="bike_all_sell">"整车出售"</string>
+    <string name="bike_parts_sell">"散件出售"</string>
+    <string name="commodity_name">"*商品名称:"</string>
+    <string name="commodity_description">"*商品描述:"</string>
+    <string name="commodity_description_hint">"请填写商品的具体情况，最多填写140个字&#8230;"</string>
+    <string name="confirm">"确认"</string>
+    <string name="contacts">"联系方式:"</string>
+    <string name="contacts_description">"请填写手机号码，可选填"</string>
+    
+    <string name="deal_type">"*交易类型:"</string>
     
     <string name="fragment0">Fragment0</string>
     <string name="fragment1">Fragment1</string>
@@ -22,8 +33,12 @@
     <string name="input_login_passward">"请输入登录密码&#8230;"</string>
     <string name="input_login_passward_again">"请再次输入登录密码&#8230;"</string>
     
-    <string name="back">"返回"</string>
-    <string name="confirm">"确认"</string>
+    <string name="issue">"发布交易"</string>
+    <string name="limit_char_count">"最多50个字&#8230;"</string>
+    <string name="old_level">"*新旧程度:"</string>
+    <string name="old_level_description">"几成新/使用多少公里&#8230;"</string>
+    <string name="price">"*商品价格:"</string>
     <string name="registe">"注册"</string>
-
+    <string name="upload_photo">"上传图片:"</string>
+    
 </resources>

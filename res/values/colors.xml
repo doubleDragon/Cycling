@@ -20,7 +20,14 @@
 	<color name="textview_tab_unselected">#888888</color>
 	<color name="textview_tab_selected">#ffffff</color>
 	
+	<color name="add_photo_stroke">#e4e4e4</color>
+	
+	<drawable name="activity_header_bg">#00b3f0</drawable>
+	
 	<drawable name="indicator_bg">#21292b</drawable>
 	<drawable name="registe_activity_divide">#e4e4e4</drawable>
-	<drawable name="registe_activity_header_bg">#00b3f0</drawable>
+	
+	<drawable name="multicheck_selected">#00b3f0</drawable>
+	<drawable name="multicheck_unselected">#ffffff</drawable>
+	
 </resources>

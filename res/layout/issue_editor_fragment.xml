@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <include 
+        layout="@layout/issue_editor_fragment_head"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
+        android:orientation="horizontal">
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="4.5dip"
+	        android:text="@string/commodity_name"
+	        style="@style/EditorActivityTextStyle"
+	        />
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="start"
+            android:gravity="top"
+            android:layout_marginLeft="4dip"
+            android:hint="@string/limit_char_count"
+            style="@style/EditorActivityEditTextStyle"
+            />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
+        android:orientation="horizontal">
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:text="@string/deal_type"
+	        style="@style/EditorActivityTextStyle"
+	        />
+        
+        <com.android.cycling.widget.MultiCheck
+            android:layout_width="0dip"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:layout_marginLeft="4dip"
+            />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
+        android:orientation="horizontal">
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:text="@string/old_level"
+	        style="@style/EditorActivityTextStyle"
+	        />
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="4dip"
+            android:hint="@string/old_level_description"
+            style="@style/EditorActivityEditTextStyle"
+            />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
+        android:orientation="horizontal">
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:text="@string/price"
+	        style="@style/EditorActivityTextStyle"
+	        />
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="4dip"
+            android:inputType="number"
+            style="@style/EditorActivityEditTextStyle"
+            />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="16.5dip"
+        android:paddingRight="6dip"
+        android:orientation="horizontal">
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:text="@string/contacts"
+	        style="@style/EditorActivityTextStyle"
+	        />
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="4dip"
+            android:hint="@string/contacts_description"
+            style="@style/EditorActivityEditTextStyle"
+            />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="16.5dip"
+        android:paddingRight="6dip"
+        android:orientation="horizontal">
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="4dip"
+	        android:text="@string/upload_photo"
+	        style="@style/EditorActivityTextStyle"
+	        />
+        <com.android.cycling.widget.AddPhotoView
+            android:id="@+id/photoContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dip"
+            />
+        
+    </LinearLayout>
+    
+<!--     <LinearLayout -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_marginTop="20dip" -->
+<!--         android:paddingLeft="6dip" -->
+<!--         android:paddingRight="6dip" -->
+<!--         android:orientation="horizontal"> -->
+<!--         <TextView -->
+<!-- 	        android:layout_width="wrap_content" -->
+<!-- 	        android:layout_height="wrap_content" -->
+<!-- 	        android:layout_marginTop="4.5dip" -->
+<!-- 	        android:text="@string/commodity_description" -->
+<!-- 	        style="@style/EditorActivityTextStyle" -->
+<!-- 	        /> -->
+        
+<!--         <EditText -->
+<!--             android:layout_width="0dip" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_weight="1" -->
+<!--             android:layout_gravity="start" -->
+<!--             android:layout_marginLeft="4dip" -->
+<!--             android:hint="@string/commodity_description_hint" -->
+<!--             style="@style/EditorActivityEditTextStyle" -->
+<!--             /> -->
+        
+<!--     </LinearLayout> -->
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
+        android:orientation="horizontal">
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="4.5dip"
+	        android:text="@string/commodity_description"
+	        style="@style/EditorActivityTextStyle"
+	        />
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="start"
+            android:gravity="top"
+            android:layout_marginLeft="4dip"
+            android:hint="@string/commodity_description_hint"
+            style="@style/EditorActivityEditTextStyle"
+            />
+        
+    </LinearLayout>
+    
+</LinearLayout>
