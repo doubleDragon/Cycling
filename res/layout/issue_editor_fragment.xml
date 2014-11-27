@@ -202,7 +202,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="start"
-            android:gravity="top"
+            android:gravity="top|left"
             android:layout_marginLeft="4dip"
             android:hint="@string/commodity_description_hint"
             style="@style/EditorActivityEditTextStyle"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_pictures">"所有图片"</string>
     <string name="app_name">Cycling</string>
     <string name="add_photo">"添加图片"</string>
     <string name="ask_buy">"求购"</string>
@@ -35,6 +36,7 @@
     
     <string name="issue">"发布交易"</string>
     <string name="limit_char_count">"最多50个字&#8230;"</string>
+    <string name="no_pictures">"0张"</string>
     <string name="old_level">"*新旧程度:"</string>
     <string name="old_level_description">"几成新/使用多少公里&#8230;"</string>
     <string name="price">"*商品价格:"</string>

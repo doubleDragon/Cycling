@@ -1,6 +1,7 @@
 package com.android.cycling.secondhand;
 
 import com.android.cycling.R;
+import com.android.cycling.activities.SelectPicturesActivity;
 import com.android.cycling.widget.AddPhotoView;
 
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -25,7 +27,7 @@ public class IssueEditorFragment extends Fragment {
 	
 	private View mRootView;
 	
-//	private FrameLayout mPhotoContainer;
+	private AddPhotoView mAddPhotoView;
 	
 	public void setContentResolver(ContentResolver contentResolver) {
 		mContentResolver = contentResolver;
@@ -77,8 +79,16 @@ public class IssueEditorFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.issue_editor_fragment, container, false);
-//		mPhotoContainer = (FrameLayout) mRootView.findViewById(R.id.photoContainer);
-//		mPhotoContainer.addView(new AddPhotoView(getActivity()));
+		mAddPhotoView = (AddPhotoView) mRootView.findViewById(R.id.photoContainer);
+		mAddPhotoView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i =  new Intent(mContext, SelectPicturesActivity.class);
+				mContext.startActivity(i);
+			}
+			
+		});
 		return mRootView;
 	}
 
