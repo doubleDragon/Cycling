@@ -42,7 +42,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="@string/no_pictures"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
