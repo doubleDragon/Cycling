@@ -7,7 +7,6 @@ import java.util.List;
 import com.android.cycling.R;
 import com.android.cycling.pictures.SelectPicturesAdapter.PictureListItemViewCache;
 
-import android.R.anim;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -117,7 +116,6 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 
 	@Override
 	public void onActionUnableSelected(int position) {
-		log("onActionUnableSelected---position: " + position);
 		if(!mUnableCheckedPosition.contains(position)) {
 			mUnableCheckedPosition.add(position);
 		}
@@ -150,10 +148,6 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 		
 		bean.setSelected(!bean.isSelected());
 		mAdapter.notifyDataSetChanged();
-	}
-	
-	private static void log(String msg) {
-		android.util.Log.d("SelectPictures", msg);
 	}
 	
 	private void toastToUser(int resId) {
@@ -204,7 +198,11 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 					result.add(new PictureBean(sb.toString()));
 				}
 			}
-			result.add(new PictureBean(FILE_URI_PREFIX + "/sdcard/100000000.png"));
+			/*
+			 * Test loadFailed
+			 * result.add(new PictureBean(FILE_URI_PREFIX +
+			 * "/sdcard/100000000.png"));
+			 */
 			return result;
 		}
 

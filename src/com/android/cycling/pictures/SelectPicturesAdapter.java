@@ -79,10 +79,6 @@ public class SelectPicturesAdapter extends ArrayAdapter<PictureBean>{
 		return result;
 	}
 	
-	private static void log(String msg) {
-		android.util.Log.d("SelectPictures", msg);
-	}
-	
 	private class ImageLoadingListener extends SimpleImageLoadingListener {
 		
 		private final ImageView mPicSelect;
@@ -107,20 +103,16 @@ public class SelectPicturesAdapter extends ArrayAdapter<PictureBean>{
 		@Override
 		public void onLoadingFailed(String imageUri, View view,
 				FailReason failReason) {
-			log("onLoadingFailed position :" + mPosition);
 			setVisiblePictureSelect(false);
 		}
 
 		@Override
 		public void onLoadingCancelled(String imageUri, View view) {
-			log("onLoadingCancelled position :" + mPosition);
-//			setVisiblePictureSelect(false);
 		}
 
 		@Override
 		public void onLoadingComplete(String imageUri, View view,
 				Bitmap loadedImage) {
-			log("onLoadingComplete position :" + mPosition);
 			setVisiblePictureSelect(true);
 		}
 		
