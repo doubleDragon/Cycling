@@ -1,6 +1,7 @@
 package com.android.cycling.secondhand;
 
 import com.android.cycling.R;
+import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
 import com.android.cycling.widget.AddPhotoView;
 
@@ -67,12 +68,16 @@ public class IssueEditorFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
-
 	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mContext = activity;
+	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
 	}
 
 	@Override
@@ -85,7 +90,7 @@ public class IssueEditorFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Intent i =  new Intent(mContext, SelectPicturesActivity.class);
-				mContext.startActivity(i);
+				getActivity().startActivityForResult(i, IssueEditorActivity.REQUEST_SELECT_PICTURE);
 			}
 			
 		});

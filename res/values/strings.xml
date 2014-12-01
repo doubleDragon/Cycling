@@ -43,6 +43,7 @@
     <string name="old_level">"*新旧程度:"</string>
     <string name="old_level_description">"几成新/使用多少公里&#8230;"</string>
     <string name="price">"*商品价格:"</string>
+    <string name="picture">"图片"</string>
     <string name="registe">"注册"</string>
     <string name="upload_photo">"上传图片:"</string>
     

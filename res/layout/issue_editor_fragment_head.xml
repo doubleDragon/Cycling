@@ -2,31 +2,47 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dip"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip"
+    android:paddingTop="6dip"
+    android:paddingBottom="6dip"
     android:background="@drawable/activity_header_bg"
     >
-    <LinearLayout
-        android:id="@+id/backContainer"
+    
+    <ImageView
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_marginLeft="10dip"
+        android:layout_marginStart="10dip"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@null"
+        android:src="@drawable/back" />
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@null"
-            android:src="@drawable/back" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/back"
-            style="@style/ActivityHeaderTextStyle"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            />
+<!--     <LinearLayout -->
+<!--         android:id="@+id/backContainer" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:gravity="center" -->
+<!--         android:orientation="horizontal" > -->
+
+<!--         <ImageView -->
+<!--             android:id="@+id/back" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_gravity="center_vertical" -->
+<!--             android:contentDescription="@null" -->
+<!--             android:src="@drawable/back" /> -->
+<!--         <TextView -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_gravity="center_vertical" -->
+<!--             android:text="@string/back" -->
+<!--             style="@style/ActivityHeaderTextStyle" -->
+<!--             android:textAppearance="?android:attr/textAppearanceMedium" -->
+<!--             /> -->
         
-    </LinearLayout>
+<!--     </LinearLayout> -->
     
     <TextView
         android:layout_width="wrap_content"

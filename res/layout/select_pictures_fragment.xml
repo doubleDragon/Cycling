@@ -3,10 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
+    <RelativeLayout
+        android:id="@+id/headContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dip"
+        android:paddingRight="10dip"
+        android:paddingTop="4dip"
+        android:paddingBottom="4dip"
+        >
+        
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            android:contentDescription="@null"
+            />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/cancel"
+            android:layout_toEndOf="@id/cancel"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dip"
+            android:layout_marginStart="30dip"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/picture"
+            />
+        
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/confirm"
+            android:textSize="20sp"
+            android:background="@drawable/confirm_button_bg"
+            android:contentDescription="@null"
+            />
+        
+    </RelativeLayout>
+    
     <GridView 
         android:id="@+id/pictureList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/headContainer"
         android:cacheColorHint="@android:color/transparent"
         android:gravity="center"
         android:horizontalSpacing="3dip"
@@ -29,9 +76,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginStart="10dip"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
-            android:paddingLeft="10dip"
             android:text="@string/app_pictures"
             android:textColor="@android:color/white" />
 
@@ -40,6 +89,7 @@
             android:layout_width="50dip"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:textColor="@android:color/white" />

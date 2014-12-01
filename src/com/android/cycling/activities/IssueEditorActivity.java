@@ -14,6 +14,8 @@ public class IssueEditorActivity extends Activity {
 	
 	private static final String TAG = IssueEditorActivity.class.getSimpleName();
 	
+	public static final int REQUEST_SELECT_PICTURE = 1000;
+	
 	private IssueEditorFragment mFragment;
 
 	@Override
@@ -32,6 +34,27 @@ public class IssueEditorActivity extends Activity {
 			Uri uri = Intent.ACTION_EDIT.equals(action) ? getIntent().getData() : null;
 			mFragment.load(action, uri, getIntent().getExtras());
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch(requestCode) {
+		case REQUEST_SELECT_PICTURE:
+			if(resultCode == Activity.RESULT_OK && data != null) {
+				String[] uriPathArray = data.getStringArrayExtra(SelectPicturesActivity.EXTRA_PICTURE_URI);
+				if(uriPathArray != null && uriPathArray.length > 0) {
+					//doSomeThings
+					android.util.Log.d(TAG, "select pictures result not null");
+				} else {
+					android.util.Log.d(TAG, "select pictures result is null");
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		
 	}
 	
 }

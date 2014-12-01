@@ -19,14 +19,22 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SelectPicturesFragment extends Fragment implements SelectPicturesAdapter.Listener{
+	
+	public static interface Listener {
+		void onActionCancel();
+		void onActionConfirm(String[] uriSet);
+	}
 	
 	//Append absolute path
 	private static final String FILE_URI_PREFIX = "file://";
@@ -36,12 +44,20 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 	private GridView mPicureList;
 	private TextView mChooseDis;
 	private TextView mTotalCount;
+	private ImageView mBack;
+	private Button mConfirm;
 	
 	private SelectPicturesAdapter mAdapter;
 	
 	private HashSet<String> mCheckedUri = new HashSet<String>();
 	private HashSet<Integer> mUnableCheckedPosition = new HashSet<Integer>();
 	private boolean reachToMaxCount;
+	
+	private Listener mListener;
+	
+	public void setListener(Listener listener) {
+		mListener = listener;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +85,7 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 		mPicureList.setAdapter(mAdapter);
 
 		//default 0 picture selected
-		updateCheckedCount(0);
+		updateWidget(0);
 		
 		new LoadTask().execute();
 	}
@@ -94,6 +110,28 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 		mPicureList = (GridView) root.findViewById(R.id.pictureList);
 		mChooseDis = (TextView) root.findViewById(R.id.chooseDir);
 		mTotalCount = (TextView) root.findViewById(R.id.totalCount);
+		mBack = (ImageView) root.findViewById(R.id.cancel);
+		mBack.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(mListener != null) {
+					mListener.onActionCancel();
+				}
+			}
+			
+		});
+		mConfirm = (Button) root.findViewById(R.id.confirm);
+		mConfirm.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(mListener != null && !mCheckedUri.isEmpty()) {
+					mListener.onActionConfirm(mCheckedUri.toArray(new String[0]));
+				}
+			}
+			
+		});
 		
 		mPicureList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -121,8 +159,13 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 		}
 	}
 	
-	private void updateCheckedCount(int count) {
+	private void updateWidget(int count) {
 		mTotalCount.setText(getString(R.string.pictures_selected, count));
+		if(count > 0) {
+			mConfirm.setEnabled(true);
+		} else {
+			mConfirm.setEnabled(false);
+		}
 	}
 	
 	private void changePictureCheckedStatus(PictureBean bean) {
@@ -144,7 +187,7 @@ public class SelectPicturesFragment extends Fragment implements SelectPicturesAd
 		} else {
 			reachToMaxCount = false;
 		}
-		updateCheckedCount(afterSize);
+		updateWidget(afterSize);
 		
 		bean.setSelected(!bean.isSelected());
 		mAdapter.notifyDataSetChanged();
