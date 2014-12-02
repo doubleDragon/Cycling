@@ -1,5 +1,8 @@
 package com.android.cycling.activities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.android.cycling.R;
 import com.android.cycling.secondhand.IssueEditorFragment;
 
@@ -43,12 +46,7 @@ public class IssueEditorActivity extends Activity {
 		case REQUEST_SELECT_PICTURE:
 			if(resultCode == Activity.RESULT_OK && data != null) {
 				String[] uriPathArray = data.getStringArrayExtra(SelectPicturesActivity.EXTRA_PICTURE_URI);
-				if(uriPathArray != null && uriPathArray.length > 0) {
-					//doSomeThings
-					android.util.Log.d(TAG, "select pictures result not null");
-				} else {
-					android.util.Log.d(TAG, "select pictures result is null");
-				}
+				mFragment.setAdapterData(uriPathArray);
 			}
 			break;
 		default:
