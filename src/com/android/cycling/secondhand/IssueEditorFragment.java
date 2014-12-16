@@ -7,7 +7,7 @@ import java.util.List;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
-import com.android.cycling.widget.AddPhotoView;
+import com.android.cycling.widget.MultiCheck;
 import com.android.cycling.widget.SimpleGridView;
 
 import android.app.Activity;
@@ -23,8 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
-import android.widget.GridView;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 public class IssueEditorFragment extends Fragment {
@@ -37,8 +36,14 @@ public class IssueEditorFragment extends Fragment {
 	private String mAction;
 	private Uri mUri;
 	
+	private EditText mName;//商品名称
+	private EditText mLevel;//新旧程度
+	private EditText mPrice;//商品价格
+	private EditText mPhone;//联系方式
+	private EditText mDescription;//商品描述
 	private ImageView mBack;
-	private SimpleGridView mPhotoList;
+	private MultiCheck mType;//交易类型
+	private SimpleGridView mPhotoList;//商品图片
 	private PhotoListAdapter mAdapter;
 	
 	public void setContentResolver(ContentResolver contentResolver) {
@@ -125,6 +130,11 @@ public class IssueEditorFragment extends Fragment {
 			}
 			
 		});
+		mName = (EditText) root.findViewById(R.id.name);
+		mLevel = (EditText) root.findViewById(R.id.level);
+		mPrice = (EditText) root.findViewById(R.id.price);
+		mPhone = (EditText) root.findViewById(R.id.phone);
+		mDescription = (EditText) root.findViewById(R.id.description);
 		
 		mAdapter = new PhotoListAdapter(mContext);
 		
@@ -137,7 +147,7 @@ public class IssueEditorFragment extends Fragment {
 				int count = mAdapter.getCount();
 				if(count == 1 || position == count) {
 					intentToSelectPicture();
-				} 
+				}
 			}
 			
 		});
@@ -153,18 +163,6 @@ public class IssueEditorFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.issue_editor_fragment, container, false);
-//		mRootView = inflater.inflate(R.layout.issue_editor_fragment, container, false);
-		
-//		mAddPhotoView = (AddPhotoView) mRootView.findViewById(R.id.photoContainer);
-//		mAddPhotoView.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				Intent i =  new Intent(mContext, SelectPicturesActivity.class);
-//				getActivity().startActivityForResult(i, IssueEditorActivity.REQUEST_SELECT_PICTURE);
-//			}
-//			
-//		});
 	}
 
 	@Override

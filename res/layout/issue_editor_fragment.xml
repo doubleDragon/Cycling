@@ -26,6 +26,7 @@
                 android:text="@string/commodity_name" />
 
             <EditText
+                android:id="@+id/name"
                 style="@style/EditorActivityEditTextStyle"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
                 android:text="@string/deal_type" />
 
             <com.android.cycling.widget.MultiCheck
+                android:id="@+id/type"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dip"
@@ -74,6 +76,7 @@
                 android:text="@string/old_level" />
 
             <EditText
+                android:id="@+id/level"
                 style="@style/EditorActivityEditTextStyle"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -98,6 +101,7 @@
                 android:text="@string/price" />
 
             <EditText
+                android:id="@+id/price"
                 style="@style/EditorActivityEditTextStyle"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -122,6 +126,7 @@
                 android:text="@string/contacts" />
 
             <EditText
+                android:id="@+id/phone"
                 style="@style/EditorActivityEditTextStyle"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -177,6 +182,7 @@
                 android:text="@string/commodity_description" />
 
             <EditText
+                android:id="@+id/description"
                 style="@style/EditorActivityEditTextStyle"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
