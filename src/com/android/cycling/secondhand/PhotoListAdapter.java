@@ -58,12 +58,15 @@ public class PhotoListAdapter extends ArrayAdapter<String>{
 		if(size == 1) {
 			//last photo not save to db
 			return null;
+		} else if(size == 6) {
+			return mData.toArray(new String[0]);
+		} else {
+			String[] result = new String[size - 1];
+			for (int i = 0; i < size - 1; i++) {
+				result[i] = mData.get(i);
+			}
+			return result;	
 		}
-		String[] result = new String[size - 1];
-		for(int i=0; i< size - 1; i++){
-			result[i] = mData.get(i);
-		}
-		return result;
 	}
 	
 	@Override
