@@ -39,6 +39,15 @@
         <activity 
         	android:name=".activities.SelectPicturesActivity">
         </activity>
+        
+        <service android:name="CycingSaveService"
+            android:exported="false"/>
+        
+        <provider android:name=".provider.CyclingProvider"
+            android:authorities="com.android.cycling"
+            android:exported="false">
+            <grant-uri-permission android:pathPattern=".*" />
+        </provider>
     </application>
 
 </manifest>

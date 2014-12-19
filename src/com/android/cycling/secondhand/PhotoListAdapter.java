@@ -21,6 +21,8 @@ public class PhotoListAdapter extends ArrayAdapter<String>{
 	
 	private Context mContext;
 	private DisplayImageOptions options;
+	
+	private List<String> mData;
 
 	public PhotoListAdapter(Context context) {
 		super(context, R.layout.photo_list_item);
@@ -42,6 +44,26 @@ public class PhotoListAdapter extends ArrayAdapter<String>{
 		clear();
 		if(data == null) return;
 		addAll(data);
+		mData = data;
+	}
+	
+	/**
+	 * return all picture path
+	 */
+	public String[] getAllData() {
+		if(mData == null) {
+			return null;
+		}
+		int size =mData.size();
+		if(size == 1) {
+			//last photo not save to db
+			return null;
+		}
+		String[] result = new String[size - 1];
+		for(int i=0; i< size - 1; i++){
+			result[i] = mData.get(i);
+		}
+		return result;
 	}
 	
 	@Override

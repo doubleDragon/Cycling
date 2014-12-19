@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
@@ -17,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class IssueEditorFragment extends Fragment {
 	
@@ -42,6 +45,7 @@ public class IssueEditorFragment extends Fragment {
 	private EditText mPhone;//联系方式
 	private EditText mDescription;//商品描述
 	private ImageView mBack;
+	private ImageView mConfirm;
 	private MultiCheck mType;//交易类型
 	private SimpleGridView mPhotoList;//商品图片
 	private PhotoListAdapter mAdapter;
@@ -113,6 +117,41 @@ public class IssueEditorFragment extends Fragment {
 		super.onDetach();
 	}
 	
+	private void finishActivity() { 
+		getActivity().finish();
+	}
+	
+	private void saveIssue() {
+		final String name = mName.getEditableText().toString();
+		if(TextUtils.isEmpty(name)) {
+			toastMessage(R.string.no_issue_name);
+			return;
+		}
+		final String level = mLevel.getEditableText().toString();
+		if(TextUtils.isEmpty(level)) {
+			toastMessage(R.string.no_issue_level);
+			return;
+		}
+		final String price = mPrice.getEditableText().toString();
+		if(TextUtils.isEmpty(price)) {
+			toastMessage(R.string.no_issue_price);
+			return;
+		}
+		final String description = mDescription.getEditableText().toString();
+		if(TextUtils.isEmpty(description)) {
+			toastMessage(R.string.no_issue_description);
+			return;
+		}
+		final String phone = mPhone.getEditableText().toString();
+		int type = mType.getType(); 
+		String[] pictures = mAdapter.getAllData();
+		
+		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,
+				description, phone, type, pictures);
+		mContext.startService(service);
+		finishActivity();
+	}
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -121,12 +160,22 @@ public class IssueEditorFragment extends Fragment {
 			throw new IllegalStateException("Content view not yet created");
 		}
 		
+		mConfirm  = (ImageView) root.findViewById(R.id.confirm);
+		mConfirm.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				saveIssue();
+			}
+			
+		});
+		
 		mBack = (ImageView) root.findViewById(R.id.back);
 		mBack.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				getActivity().finish();
+				finishActivity();
 			}
 			
 		});
@@ -135,6 +184,8 @@ public class IssueEditorFragment extends Fragment {
 		mPrice = (EditText) root.findViewById(R.id.price);
 		mPhone = (EditText) root.findViewById(R.id.phone);
 		mDescription = (EditText) root.findViewById(R.id.description);
+		
+		mType = (MultiCheck) root.findViewById(R.id.type);
 		
 		mAdapter = new PhotoListAdapter(mContext);
 		
@@ -172,6 +223,13 @@ public class IssueEditorFragment extends Fragment {
 	
 	private void onRestoreInstanceState(Bundle state) {
 		
+	}
+	
+	private void toastMessage(String msg) {
+		Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+	}
+	private void toastMessage(int msgId) {
+		Toast.makeText(mContext, msgId, Toast.LENGTH_SHORT).show();
 	}
 	
 }

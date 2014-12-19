@@ -37,6 +37,10 @@
     <string name="issue">"发布交易"</string>
     <string name="limit_char_count">"最多50个字&#8230;"</string>
     <string name="limit_picture_select_max_count">"只能选择6张图片"</string>
+    <string name="no_issue_description">"商品描诉不能为空"</string>
+    <string name="no_issue_level">"新旧程度不能为空"</string>
+    <string name="no_issue_name">"名称不能为空"</string>
+    <string name="no_issue_price">"价格不能为空"</string>
     <string name="pictures_selected"><xliff:g id="count">%1$d</xliff:g>"张"</string>
     <string name="picture_unable_select">"该图片不能被选择"</string>
     
@@ -48,3 +52,4 @@
     <string name="upload_photo">"上传图片:"</string>
     
 </resources>
+

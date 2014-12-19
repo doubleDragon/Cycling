@@ -16,9 +16,9 @@ public class MultiCheck extends LinearLayout implements View.OnClickListener{
 	private Button mMiddleBt;
 	private Button mRightBt;
 	
-	private static final int LEFT_INDEX = 0;
-	private static final int MIDDLE_INDEX = 1;
-	private static final int RIGHT_INDEX = 2;
+	private static final int ALL_SALE = 0;
+	private static final int PARTS_SALE = 1;
+	private static final int REQUEST_BUY = 2;
 	
 	private static final Position mDefaultPosition = Position.LEFT;
 	private Position mPosition = mDefaultPosition;
@@ -39,9 +39,9 @@ public class MultiCheck extends LinearLayout implements View.OnClickListener{
 		mMiddleBt = new Button(getContext());
 		mRightBt = new Button(getContext());
 		
-		mLeftBt.setId(LEFT_INDEX);
-		mMiddleBt.setId(MIDDLE_INDEX);
-		mRightBt.setId(RIGHT_INDEX);
+		mLeftBt.setId(ALL_SALE);
+		mMiddleBt.setId(PARTS_SALE);
+		mRightBt.setId(REQUEST_BUY);
 		
 		mLeftBt.setText(R.string.bike_all_sell);
 		mMiddleBt.setText(R.string.bike_parts_sell);
@@ -98,17 +98,22 @@ public class MultiCheck extends LinearLayout implements View.OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
-		case LEFT_INDEX:
+		case ALL_SALE:
 			mPosition = Position.LEFT;
 			break;
-		case MIDDLE_INDEX:
+		case PARTS_SALE:
 			mPosition = Position.MIDDLE;
 			break;
-		case RIGHT_INDEX:
+		case REQUEST_BUY:
 			mPosition = Position.RIGHT;
 			break;
 		}
 		updateBt();
+	}
+	
+	public int getType() {
+		int index = mPosition.getIndex();
+		return index;
 	}
 	
 	private enum Position {
@@ -117,11 +122,11 @@ public class MultiCheck extends LinearLayout implements View.OnClickListener{
 		public int getIndex() {
 			switch(this) {
 			case LEFT:
-				return LEFT_INDEX;
+				return ALL_SALE;
 			case MIDDLE:
-				return MIDDLE_INDEX;
+				return PARTS_SALE;
 			case RIGHT:
-				return RIGHT_INDEX;
+				return REQUEST_BUY;
 			default:
 				throw new IllegalArgumentException("Wrong index postion");
 			}
