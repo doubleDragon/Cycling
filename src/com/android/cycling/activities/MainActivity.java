@@ -6,7 +6,7 @@ import com.android.cycling.activities.ActionBarAdapter.TabState;
 import com.android.cycling.around.AroundFragment;
 import com.android.cycling.contacts.ContactsFragment;
 import com.android.cycling.messages.MessagesFragment;
-import com.android.cycling.secondhand.SecondHandFragment;
+import com.android.cycling.secondhand.IssueListFragment;
 import com.android.cycling.setting.SettingFragment;
 import com.android.cycling.widget.Indicator;
 
@@ -33,7 +33,7 @@ public class MainActivity extends CyclingActivity {
 	private TabPagerAdapter mPagerAdapter;
 	private ViewPager mTabPager;
 	
-	private SecondHandFragment mFragment0;
+	private IssueListFragment mFragment0;
 	private MessagesFragment mFragment1;
 	private AroundFragment mFragment2;
 	private ContactsFragment mFragment3;
@@ -64,7 +64,7 @@ public class MainActivity extends CyclingActivity {
         final String TAG3 = "tab-pager-index3";
         final String TAG4 = "tab-pager-index4";
         
-    	mFragment0 = (SecondHandFragment) fragmentManager  
+    	mFragment0 = (IssueListFragment) fragmentManager  
                 .findFragmentByTag(TAG0);
     	mFragment1 = (MessagesFragment) fragmentManager  
                 .findFragmentByTag(TAG1);
@@ -76,7 +76,7 @@ public class MainActivity extends CyclingActivity {
                 .findFragmentByTag(TAG4);
     	
     	if(mFragment0 == null) {
-    		mFragment0 = new SecondHandFragment();
+    		mFragment0 = new IssueListFragment();
         	mFragment1 = new MessagesFragment();
         	mFragment2 = new AroundFragment();
         	mFragment3 = new ContactsFragment();

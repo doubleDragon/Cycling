@@ -6,5 +6,7 @@
     
     <dimen name="indicator_default_height">48dip</dimen>
     <dimen name="indicator_stacked_tab_max_width">180dp</dimen>
+    
+    <dimen name="empty_message_top_margin">48dip</dimen>
 
 </resources>

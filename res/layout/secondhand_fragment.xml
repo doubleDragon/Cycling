@@ -6,5 +6,30 @@
     
     <include 
         layout="@layout/secondhand_fragment_head"/>
+    
+    <view
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        class="com.android.cycling.widget.AutoScrollListView"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
+        android:paddingLeft="16dip"
+        android:paddingRight="16dip"
+        android:scrollbarStyle="outsideOverlay" />
+    
+    <TextView
+        android:id="@+id/empty"
+        android:layout_marginTop="@dimen/empty_message_top_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="?android:attr/textColorSecondary"
+        android:text="@string/no_issue" />
+    
 
 </LinearLayout>

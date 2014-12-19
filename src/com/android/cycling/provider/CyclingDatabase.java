@@ -43,7 +43,7 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				+ Issue.PHONE + ","
 				+ Issue.TYPE + ","
 				+ Issue.DESCRIPTION + ","
-				+ PhotoColumns.CONCRETE_URI + " AS " + Issue.PHOTO
+				+ Photo.URI //Photo table uri
 				+ " FROM " + Tables.ISSUE 
 				+ " JOIN " + Tables.PHOTO + " ON("
 				+ Issue.CONCRETE_ID + "=" + Photo.CONCRETE_ISSUE_ID + ")";

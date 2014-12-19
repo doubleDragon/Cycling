@@ -30,7 +30,7 @@ public class CyclingProvider extends ContentProvider{
             .add(Issue.PHONE)
             .add(Issue.PRICE)
             .add(Issue.DESCRIPTION)
-            .add(Issue.PHOTO, Tables.PHOTO + "." + Photo.URI)
+            .add(Photo.URI)
             .build();
 	
 	private static final ProjectionMap sPhotoProjectionMap = ProjectionMap.builder()
