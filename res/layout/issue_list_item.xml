@@ -2,38 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/issue_list_item_bg"
     android:orientation="vertical" >
     
-    <LinearLayout
+    <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="6dip"
-        android:paddingRight="6dip" >
-
-        <TextView
-            style="@style/EditorActivityTextStyle"
+        android:padding="6dip"
+        >
+        
+        <ImageView
+            android:id="@+id/header_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4.5dip"
-            android:gravity="center"
-            android:text="@string/commodity_name" />
-
+            android:src="@drawable/head_now"
+            android:contentDescription="@null"
+            />
+        
         <TextView
-            android:id="@+id/name"
-            style="@style/EditorActivityTextStyle"
-            android:layout_width="0dip"
+            android:id="@+id/contact_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4.5dip"
+            android:layout_toRightOf="@id/header_photo"
             android:layout_marginLeft="4dip"
-            android:layout_weight="1"
-            android:text="sss"/>
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:text="Gusony"/>
+        
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="24分钟前"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/date"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dip"
+            android:text="7.89KM |"/>
+        
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/issue_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="秒价出佳能戴尔潮流法华寺的法定诵佛阿斯顿哦发短分发哦发发发的阿迪分附加的金发的" />
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="4dip"
         android:paddingLeft="6dip"
         android:paddingRight="6dip" >
 
@@ -43,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4.5dip"
             android:gravity="center"
-            android:text="@string/old_level" />
+            android:text="@string/old_level_label" />
 
         <TextView
             android:id="@+id/level"
@@ -69,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4.5dip"
             android:gravity="center"
-            android:text="@string/price" />
+            android:text="@string/price_label" />
 
         <TextView
             android:id="@+id/price"
@@ -82,30 +110,27 @@
             android:text="1000"/>
     </LinearLayout>
     
-    <LinearLayout
+    <TextView
+        android:id="@+id/description"
+        style="@style/EditorActivityTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="6dip"
-        android:paddingRight="6dip" >
-
-        <TextView
-            style="@style/EditorActivityTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4.5dip"
-            android:gravity="center"
-            android:text="@string/commodity_description" />
-
-        <TextView
-            android:id="@+id/description"
-            style="@style/EditorActivityTextStyle"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4.5dip"
-            android:layout_marginLeft="4dip"
-            android:layout_weight="1"
-            android:text="1000"/>
-    </LinearLayout>
+        android:layout_marginLeft="6dip"
+        android:layout_marginTop="4.5dip"
+        android:text="@string/description" />
+    
+    <com.android.cycling.widget.SimpleGridView
+        android:id="@+id/photos"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginStart="6dip"
+        android:cacheColorHint="@android:color/transparent"
+        android:gravity="center"
+        android:horizontalSpacing="3dip"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="3dip" />
 
 </LinearLayout>

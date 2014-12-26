@@ -15,10 +15,10 @@
         class="com.android.cycling.widget.AutoScrollListView"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
+        android:dividerHeight="10dip"
         android:fadingEdge="none"
         android:listSelector="@android:color/transparent"
-        android:paddingLeft="16dip"
-        android:paddingRight="16dip"
+        android:padding="10dip"
         android:scrollbarStyle="outsideOverlay" />
     
     <TextView

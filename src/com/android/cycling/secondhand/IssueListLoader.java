@@ -9,6 +9,7 @@ import com.android.cycling.provider.CyclingConstants.Issue;
 import com.android.cycling.provider.CyclingConstants.Photo;
 
 import android.os.Handler;
+import android.text.TextUtils;
 import android.content.AsyncTaskLoader;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -124,6 +125,10 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 				id = c.getInt(ISSUE_ID);
 				photo = c.getString(ISSUE_PHOTO);
 				if(issuesMap.containsKey(id)){
+					if (TextUtils.isEmpty(photo)) {
+						continue;
+					}
+					
 					result = issuesMap.get(id);
 					if(result.photoList == null) {
 						result.photoList = new ArrayList<String>();
@@ -139,8 +144,10 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 					result.type = c.getInt(ISSUE_TYPE);
 					result.description = c.getString(ISSUE_DESCRIPTION);
 					
-					result.photoList = new ArrayList<String>();
-					result.photoList.add(photo);
+					if (!TextUtils.isEmpty(photo)) {
+						result.photoList = new ArrayList<String>();
+						result.photoList.add(photo);
+					}
 					
 					results.add(result);
 					issuesMap.put(id, result);

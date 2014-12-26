@@ -1,11 +1,15 @@
 package com.android.cycling.secondhand;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.android.cycling.R;
 import com.android.cycling.secondhand.IssueListLoader.Result;
+import com.android.cycling.widget.SimpleGridView;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +23,15 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
 	private final Context mContext;
 	private final LayoutInflater mLayoutInflater;
 	
+	private final String mDescriptionPrefix;
+	private IssueListPhotoAdapter mIssueListPhotoAdapter;
+	
 	public IssueListAdapter(Context context) {
 		super(context, R.layout.issue_list_item);
 		mContext = context;
 		mLayoutInflater = LayoutInflater.from(context);
+		
+		mDescriptionPrefix = mContext.getString(R.string.description);
 	}
 	
 	public void setData(ArrayList<Result> items) {
@@ -51,12 +60,43 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
             result.setTag(viewCache);
         }
         
-        viewCache.name.setText(item.name);
+        viewCache.issueName.setText(item.name);
         viewCache.level.setText(item.level);
         viewCache.price.setText(item.price);
-        viewCache.description.setText(item.description);
+        final String checkedDescription = checkDescription(item.description);
+        if(TextUtils.isEmpty(checkedDescription)) {
+        	viewCache.description.setVisibility(View.GONE);
+        } else {
+        	viewCache.description.setVisibility(View.VISIBLE);
+        	viewCache.description.setText(checkedDescription);
+        }
+        
+        if(item.photoList == null || item.photoList.size() < 1) {
+        	viewCache.photos.setVisibility(View.GONE);
+        } else {
+        	viewCache.photos.setVisibility(View.VISIBLE);
+	        if(mIssueListPhotoAdapter == null) {
+	        	mIssueListPhotoAdapter = new IssueListPhotoAdapter(mContext);
+	        }
+	        mIssueListPhotoAdapter.setData(new ArrayList<String>(item.photoList));
+	        viewCache.photos.setAdapter(mIssueListPhotoAdapter);
+        }
         
 		return result;
+	}
+	
+	/**
+	 * Appedn prefix
+	 * @return description
+	 */
+	private String checkDescription(String description) {
+		if(TextUtils.isEmpty(description)) return null;
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(mContext.getString(R.string.description));
+		sb.append(" ");
+		sb.append(description);
+		return sb.toString();
 	}
 	
 	/**
@@ -64,17 +104,20 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
      */
     public static class IssueListItemViewCache {
     	
-    	private final TextView name;
+    	private final TextView issueName;
     	private final TextView level;
     	private final TextView price;
     	private final TextView description;
+    	private final SimpleGridView photos;
 
 
         public IssueListItemViewCache(View view) {
-        	name = (TextView) view.findViewById(R.id.name);
+        	issueName = (TextView) view.findViewById(R.id.issue_name);
         	level = (TextView) view.findViewById(R.id.level);
         	price = (TextView) view.findViewById(R.id.price);
         	description = (TextView) view.findViewById(R.id.description);
+        	
+        	photos = (SimpleGridView) view.findViewById(R.id.photos);
         }
 
     }

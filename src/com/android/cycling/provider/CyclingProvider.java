@@ -102,6 +102,9 @@ public class CyclingProvider extends ContentProvider{
 		if (c != null) {
             c.setNotificationUri(getContext().getContentResolver(), CyclingConstants.AUTHORITY_URI);
         }
+		if(c != null) {
+			android.util.Log.d("wsl", "result: " + c.getCount());
+		}
 		return c;
 	}
 

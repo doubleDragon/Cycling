@@ -45,7 +45,7 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				+ Issue.DESCRIPTION + ","
 				+ Photo.URI //Photo table uri
 				+ " FROM " + Tables.ISSUE 
-				+ " JOIN " + Tables.PHOTO + " ON("
+				+ " LEFT OUTER JOIN " + Tables.PHOTO + " ON("
 				+ Issue.CONCRETE_ID + "=" + Photo.CONCRETE_ISSUE_ID + ")";
 				
 		db.execSQL("CREATE VIEW " + Views.ISSUE + " AS " + issueSelect);

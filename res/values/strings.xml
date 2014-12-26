@@ -16,6 +16,7 @@
     <string name="contacts_description">"请填写手机号码，可选填"</string>
     
     <string name="deal_type">"*交易类型:"</string>
+    <string name="description">"描诉:"</string>
     
     <string name="fragment0">Fragment0</string>
     <string name="fragment1">Fragment1</string>
@@ -46,8 +47,10 @@
     <string name="picture_unable_select">"该图片不能被选择"</string>
     
     <string name="old_level">"*新旧程度:"</string>
+    <string name="old_level_label">"新旧程度:"</string>
     <string name="old_level_description">"几成新/使用多少公里&#8230;"</string>
     <string name="price">"*商品价格:"</string>
+    <string name="price_label">"商品价格:"</string>
     <string name="picture">"图片"</string>
     <string name="registe">"注册"</string>
     <string name="upload_photo">"上传图片:"</string>
