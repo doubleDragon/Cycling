@@ -2,6 +2,7 @@ package com.android.cycling.secondhand;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.android.cycling.R;
@@ -25,7 +26,9 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
 	private final LayoutInflater mLayoutInflater;
 	
 	private final String mDescriptionPrefix;
-	private IssueListPhotoAdapter mIssueListPhotoAdapter;
+	
+	private HashMap<Integer, IssueListPhotoAdapter> mAdapterMap = 
+			new HashMap<Integer, IssueListPhotoAdapter>();
 	
 	public IssueListAdapter(Context context) {
 		super(context, R.layout.issue_list_item);
@@ -84,11 +87,18 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
         	viewCache.photos.setVisibility(View.GONE);
         } else {
         	viewCache.photos.setVisibility(View.VISIBLE);
-	        if(mIssueListPhotoAdapter == null) {
-	        	mIssueListPhotoAdapter = new IssueListPhotoAdapter(mContext);
-	        }
-	        mIssueListPhotoAdapter.setData(new ArrayList<String>(item.photoList));
-	        viewCache.photos.setAdapter(mIssueListPhotoAdapter);
+        	IssueListPhotoAdapter photoAdapter;
+        	if(mAdapterMap.containsKey(position)) {
+        		photoAdapter = mAdapterMap.get(position);
+        		if(photoAdapter == null) {
+        			photoAdapter = new IssueListPhotoAdapter(mContext);
+        		}
+        	} else {
+        		photoAdapter = new IssueListPhotoAdapter(mContext);
+        		mAdapterMap.put(position, photoAdapter);
+        	}
+        	photoAdapter.setData(new ArrayList<String>(item.photoList));
+	        viewCache.photos.setAdapter(photoAdapter);
         }
         
 		return result;
