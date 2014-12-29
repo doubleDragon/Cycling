@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-public class PhotoListAdapter extends ArrayAdapter<String>{
+public class IssueEditorPhotoListAdapter extends ArrayAdapter<String>{
 	
 	private LayoutInflater mInflater;
 	
@@ -24,7 +24,7 @@ public class PhotoListAdapter extends ArrayAdapter<String>{
 	
 	private List<String> mData;
 
-	public PhotoListAdapter(Context context) {
+	public IssueEditorPhotoListAdapter(Context context) {
 		super(context, R.layout.photo_list_item);
 		mContext = context;
 		mInflater = LayoutInflater.from(context);

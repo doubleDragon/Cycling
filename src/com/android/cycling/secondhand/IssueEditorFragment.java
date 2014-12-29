@@ -48,7 +48,7 @@ public class IssueEditorFragment extends Fragment {
 	private ImageView mConfirm;
 	private MultiCheck mType;//交易类型
 	private SimpleGridView mPhotoList;//商品图片
-	private PhotoListAdapter mAdapter;
+	private IssueEditorPhotoListAdapter mAdapter;
 	
 	public void setContentResolver(ContentResolver contentResolver) {
 		mContentResolver = contentResolver;
@@ -187,7 +187,7 @@ public class IssueEditorFragment extends Fragment {
 		
 		mType = (MultiCheck) root.findViewById(R.id.type);
 		
-		mAdapter = new PhotoListAdapter(mContext);
+		mAdapter = new IssueEditorPhotoListAdapter(mContext);
 		
 		mPhotoList = (SimpleGridView) root.findViewById(R.id.pictureList);
 		mPhotoList.setOnItemClickListener(new OnItemClickListener() {
