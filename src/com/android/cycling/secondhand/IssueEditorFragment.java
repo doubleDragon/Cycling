@@ -8,6 +8,7 @@ import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
+import com.android.cycling.util.DateUtils;
 import com.android.cycling.widget.MultiCheck;
 import com.android.cycling.widget.SimpleGridView;
 
@@ -146,8 +147,9 @@ public class IssueEditorFragment extends Fragment {
 		int type = mType.getType();
 		String[] pictures = mAdapter.getAllData();
 		
+		long date = DateUtils.getCurrentTime();
 		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,
-				description, phone, type, pictures);
+				description, date, phone, type, pictures);
 		mContext.startService(service);
 		finishActivity();
 	}

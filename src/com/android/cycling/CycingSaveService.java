@@ -28,6 +28,7 @@ public class CycingSaveService extends IntentService{
 	private static final String EXTRA_ISSUE_PHOTO = "issuePhoto";
 	private static final String EXTRA_ISSUE_TYPE = "issueType";
 	private static final String EXTRA_ISSUE_DESCRIPTION = "issueDescription";
+	private static final String EXTRA_ISSUE_DATE = "date";
 
 	public CycingSaveService() {
 		super(TAG);
@@ -47,6 +48,10 @@ public class CycingSaveService extends IntentService{
 		String price = intent.getStringExtra(EXTRA_ISSUE_PRICE);
 		String phone = intent.getStringExtra(EXTRA_ISSUE_PHONE);
 		String description = intent.getStringExtra(EXTRA_ISSUE_DESCRIPTION);
+		long date = intent.getLongExtra(EXTRA_ISSUE_DATE, -1);
+		if(date == -1) {
+			date = System.currentTimeMillis();
+		}
 		int type = intent.getIntExtra(EXTRA_ISSUE_TYPE, 0);
 		String[] pictures = intent.getStringArrayExtra(EXTRA_ISSUE_PHOTO);
 		
@@ -60,6 +65,7 @@ public class CycingSaveService extends IntentService{
 					.withValue(Issue.PHONE, phone)
 					.withValue(Issue.TYPE, type)
 					.withValue(Issue.DESCRIPTION, description)
+					.withValue(Issue.DATE, date)
 					.build();
 			operations.add(op);
 			for(String pic : pictures) {
@@ -89,12 +95,13 @@ public class CycingSaveService extends IntentService{
 			values.put(Issue.PHONE, phone);
 			values.put(Issue.TYPE, type);
 			values.put(Issue.DESCRIPTION, description);
+			values.put(Issue.DATE, date);
 			getContentResolver().insert(Issue.CONTENT_URI, values);
 		}
 	}
 	
 	public static Intent createSaveIssueIntent(Context context, String name, 
-			String level, String price, String description, String phone, 
+			String level, String price, String description, long date, String phone, 
 			int type, String[] pictures) {
 		Intent i = new Intent(context, CycingSaveService.class);
 		i.setAction(ACTION_SAVE_ISSUE);
@@ -104,6 +111,7 @@ public class CycingSaveService extends IntentService{
 		i.putExtra(EXTRA_ISSUE_PHONE, phone);
 		i.putExtra(EXTRA_ISSUE_TYPE, type);
 		i.putExtra(EXTRA_ISSUE_DESCRIPTION, description);
+		i.putExtra(EXTRA_ISSUE_DATE, date);
 		if(pictures != null && pictures.length >= 0) {
 			i.putExtra(EXTRA_ISSUE_PHOTO, pictures);
 		}

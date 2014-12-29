@@ -30,6 +30,7 @@ public class CyclingProvider extends ContentProvider{
             .add(Issue.PHONE)
             .add(Issue.PRICE)
             .add(Issue.DESCRIPTION)
+            .add(Issue.DATE)
             .add(Photo.URI)
             .build();
 	

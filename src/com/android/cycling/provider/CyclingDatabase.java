@@ -43,6 +43,7 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				+ Issue.PHONE + ","
 				+ Issue.TYPE + ","
 				+ Issue.DESCRIPTION + ","
+				+ Issue.DATE + ","
 				+ Photo.URI //Photo table uri
 				+ " FROM " + Tables.ISSUE 
 				+ " LEFT OUTER JOIN " + Tables.PHOTO + " ON("
@@ -60,7 +61,8 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				IssueColumns.PHONE + " TEXT," +
 				IssueColumns.PRICE + " TEXT NOT NULL," +
 				IssueColumns.TYPE + " INTEGER NOT NULL DEFAULT 0," +
-				IssueColumns.DESCRIPTION + " TEXT NOT NULL" +
+				IssueColumns.DESCRIPTION + " TEXT NOT NULL," +
+				IssueColumns.DATE + " INTEGER NOT NULL" +
 		");");
 		db.execSQL("CREATE TABLE " + Tables.PHOTO + " (" +
 				PhotoColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

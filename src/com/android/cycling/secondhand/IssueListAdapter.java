@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.android.cycling.R;
 import com.android.cycling.secondhand.IssueListLoader.Result;
+import com.android.cycling.util.DateUtils;
 import com.android.cycling.widget.SimpleGridView;
 
 import android.content.Context;
@@ -71,6 +72,13 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
         	viewCache.description.setText(checkedDescription);
         }
         viewCache.type.setText(convertTypeToRessource(item.type));
+        final String dateToDisplay = DateUtils.getDisplayTime(item.date);
+        if(!TextUtils.isEmpty(dateToDisplay)) {
+        	viewCache.date.setVisibility(View.VISIBLE);
+        	viewCache.date.setText(DateUtils.getDisplayTime(item.date));
+        } else {
+        	viewCache.date.setVisibility(View.GONE);
+        }
         
         if(item.photoList == null || item.photoList.size() < 1) {
         	viewCache.photos.setVisibility(View.GONE);
@@ -126,6 +134,7 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
     	private final TextView level;
     	private final TextView price;
     	private final TextView description;
+    	private final TextView date;
     	private final TextView type;
     	private final SimpleGridView photos;
 
@@ -135,6 +144,7 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
         	level = (TextView) view.findViewById(R.id.level);
         	price = (TextView) view.findViewById(R.id.price);
         	description = (TextView) view.findViewById(R.id.description);
+        	date = (TextView) view.findViewById(R.id.date);
         	type = (TextView) view.findViewById(R.id.type);
         	
         	photos = (SimpleGridView) view.findViewById(R.id.photos);

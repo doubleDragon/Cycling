@@ -25,7 +25,8 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 	private static final int ISSUE_PHONE = 4;
 	private static final int ISSUE_TYPE = 5;
 	private static final int ISSUE_DESCRIPTION = 6;
-	private static final int ISSUE_PHOTO = 7;
+	private static final int ISSUE_DATE = 7;
+	private static final int ISSUE_PHOTO = 8;
 	
 	private ArrayList<Result> mResults;
 	
@@ -37,6 +38,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 		public String phone;
 		public int type;
 		public String description;
+		public long date;
 		public ArrayList<String> photoList;
 		
 	}
@@ -49,6 +51,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 		Issue.PHONE,
 		Issue.TYPE,
 		Issue.DESCRIPTION,
+		Issue.DATE,
 		Photo.URI
 	};
 	
@@ -107,8 +110,8 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 
 	@Override
 	public ArrayList<Result> loadInBackground() {
-		ArrayList<Result> contacts = getIssues();
-		return contacts;
+		ArrayList<Result> issues = getIssues();
+		return issues;
 	}
 	
 	public ArrayList<Result> getIssues() {
@@ -143,6 +146,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 					result.phone = c.getString(ISSUE_PHONE);
 					result.type = c.getInt(ISSUE_TYPE);
 					result.description = c.getString(ISSUE_DESCRIPTION);
+					result.date = c.getLong(ISSUE_DATE);
 					
 					if (!TextUtils.isEmpty(photo)) {
 						result.photoList = new ArrayList<String>();

@@ -33,6 +33,7 @@ public final class CyclingConstants {
 		public static final String PHONE = "phone";
 		public static final String PRICE = "price";
 		public static final String DESCRIPTION = "description";
+		public static final String DATE = "date";
 		
 		public static final String CONCRETE_ID = Tables.ISSUE + "." + _ID;
 	}
