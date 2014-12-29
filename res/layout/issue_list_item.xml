@@ -132,5 +132,18 @@
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="3dip" />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dip" >
+
+        <TextView
+            android:id="@+id/type"
+            style="@style/EditorActivityTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
 
 </LinearLayout>

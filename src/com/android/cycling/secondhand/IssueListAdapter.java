@@ -70,6 +70,7 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
         	viewCache.description.setVisibility(View.VISIBLE);
         	viewCache.description.setText(checkedDescription);
         }
+        viewCache.type.setText(convertTypeToRessource(item.type));
         
         if(item.photoList == null || item.photoList.size() < 1) {
         	viewCache.photos.setVisibility(View.GONE);
@@ -83,6 +84,23 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
         }
         
 		return result;
+	}
+	
+	/**
+	 * @param type
+	 * @return resource id
+	 */
+	private int convertTypeToRessource(int type) {
+		switch(type) {
+		case 0:
+			return R.string.type_all;
+		case 1:
+			return R.string.type_parts;
+		case 2:
+			return R.string.type_buy;
+		default:
+			throw new IllegalArgumentException("wrong issue type");
+		}
 	}
 	
 	/**
@@ -108,6 +126,7 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
     	private final TextView level;
     	private final TextView price;
     	private final TextView description;
+    	private final TextView type;
     	private final SimpleGridView photos;
 
 
@@ -116,6 +135,7 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
         	level = (TextView) view.findViewById(R.id.level);
         	price = (TextView) view.findViewById(R.id.price);
         	description = (TextView) view.findViewById(R.id.description);
+        	type = (TextView) view.findViewById(R.id.type);
         	
         	photos = (SimpleGridView) view.findViewById(R.id.photos);
         }

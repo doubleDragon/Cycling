@@ -143,7 +143,7 @@ public class IssueEditorFragment extends Fragment {
 			return;
 		}
 		final String phone = mPhone.getEditableText().toString();
-		int type = mType.getType(); 
+		int type = mType.getType();
 		String[] pictures = mAdapter.getAllData();
 		
 		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,

@@ -1,7 +1,6 @@
 package com.android.cycling;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.android.cycling.provider.CyclingConstants;
 import com.android.cycling.provider.CyclingConstants.Issue;
@@ -48,7 +47,7 @@ public class CycingSaveService extends IntentService{
 		String price = intent.getStringExtra(EXTRA_ISSUE_PRICE);
 		String phone = intent.getStringExtra(EXTRA_ISSUE_PHONE);
 		String description = intent.getStringExtra(EXTRA_ISSUE_DESCRIPTION);
-		int type = intent.getIntExtra(name, 0);
+		int type = intent.getIntExtra(EXTRA_ISSUE_TYPE, 0);
 		String[] pictures = intent.getStringArrayExtra(EXTRA_ISSUE_PHOTO);
 		
 		if(pictures != null && pictures.length > 0) {
