@@ -155,7 +155,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dip"
-                android:layout_marginStart="4dip"
                 android:cacheColorHint="@android:color/transparent"
                 android:gravity="center"
                 android:horizontalSpacing="3dip"
