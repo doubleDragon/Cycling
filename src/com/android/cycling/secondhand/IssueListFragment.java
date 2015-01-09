@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,9 +28,12 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	private static final int LOAD_ISSUES = 1000;
 	
 	private ImageView mPost;
+	private TextView mTitle;
 	private TextView mEmptyView;
 	private AutoScrollListView mListView;
 	private IssueListAdapter mAdapter;
+	
+	private PopupWindow mDisplayType;
 	
 	private Context mContext;
 
@@ -54,6 +59,12 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 		getLoaderManager().restartLoader(LOAD_ISSUES, null, this);
 		super.onStart();
 	}
+	
+	private void showIssueType() {
+		if(mDisplayType == null) {
+			mDisplayType = new PopupWindow(mContext);
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +79,15 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 		mListView.setAdapter(mAdapter);
 		mListView.setEmptyView(mEmptyView);
 		
+		mTitle = (TextView) rootView.findViewById(R.id.title);
+		mTitle.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				//showIssueType();
+			}
+			
+		});
 		mPost = (ImageView) rootView.findViewById(R.id.post);
 		mPost.setOnClickListener(new OnClickListener() {
 			

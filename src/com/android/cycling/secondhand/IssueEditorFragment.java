@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.listener.SaveListener;
+
 import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
@@ -20,6 +23,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +35,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class IssueEditorFragment extends Fragment {
+	
+	private static final String TAG = IssueEditorFragment.class.getSimpleName();
 	
 	private final String ADD_PHOTO_URI = "assets://addPhoto.png";
 	
@@ -146,8 +152,29 @@ public class IssueEditorFragment extends Fragment {
 		final String phone = mPhone.getEditableText().toString();
 		int type = mType.getType();
 		String[] pictures = mAdapter.getAllData();
-		
 		long date = DateUtils.getCurrentTime();
+		
+//		Issue issue = new Issue();
+//		issue.setName(name);
+//		issue.setLevel(level);
+//		issue.setPrice(price);
+//		issue.setDescription(description);
+//		issue.setPhone(phone);
+//		issue.setType(type);
+//		issue.save(getActivity(), new SaveListener() {
+//
+//			@Override
+//			public void onFailure(int arg0, String arg1) {
+//				Log.d(TAG, "添加数据成功");
+//			}
+//
+//			@Override
+//			public void onSuccess() {
+//				Log.d(TAG, "添加数据失败");
+//			}
+//			
+//		});
+		
 		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,
 				description, date, phone, type, pictures);
 		mContext.startService(service);
