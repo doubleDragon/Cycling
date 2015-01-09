@@ -1,4 +1,4 @@
-package com.android.cycling.secondhand;
+package com.android.cycling.data;
 
 import cn.bmob.v3.BmobObject;
 

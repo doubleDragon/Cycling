@@ -1,6 +1,9 @@
 package com.android.cycling.activities;
 
+import cn.bmob.v3.listener.SaveListener;
+
 import com.android.cycling.R;
+import com.android.cycling.data.CyclingUser;
 import com.android.cycling.util.NetworkUtils;
 
 import android.app.Activity;
@@ -23,6 +26,9 @@ import android.view.Window;
 
 public class RegisteActivity extends Activity implements View.OnClickListener{
 	
+	private static final String TAG = RegisteActivity.class.getSimpleName();
+	private static final boolean DEBUG = false;
+	
 	private Button mConfirmRegiste;
 	private Button mBack;
 	private EditText mEmail;
@@ -37,7 +43,6 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.registe_activity);
 
 		initData();
@@ -72,13 +77,37 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 		String pwd = mLoginPassward.getEditableText().toString();
 		String pwdConfirm = mLoginPasswardConfirm.getEditableText().toString();
 		
-		if(TextUtils.isEmpty(email) && TextUtils.isEmpty(nameAlias) &&
-				TextUtils.isEmpty(pwd) && TextUtils.isEmpty(pwdConfirm)) {
-			toastToUser("注册信息不能为空");
+		if(TextUtils.isEmpty(email) || TextUtils.isEmpty(nameAlias) ||
+				TextUtils.isEmpty(pwd) || TextUtils.isEmpty(pwdConfirm)) {
+			toastToUser(R.string.empty_registe_info);
 		}
 		
-		String[] params = new String[]{email, nameAlias, pwd};
-		new RegisteTask().execute(params);
+		if(!pwd.equals(pwdConfirm)) {
+			toastToUser(R.string.confirm_pwd_wrong);
+		}
+		
+		CyclingUser user = new CyclingUser();
+		user.setUsername(email);
+		user.setPassword(pwd);
+		user.setEmail(email);
+		user.setEmailVerified(true);
+		user.setMale(mIsMale);
+		user.setAvatar("");
+		user.signUp(this, new SaveListener() {
+			
+			@Override
+			public void onSuccess() {
+				logW("registe success");
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				logW("registe failed");
+			}
+		});
+		
+//		String[] params = new String[]{email, nameAlias, pwd};
+//		new RegisteTask().execute(params);
 	}
 
 	@Override
@@ -111,28 +140,31 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 		}
 	}
 	
-	private void toastToUser(String text) {
-		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	private void toastToUser(int textResId) {
+		Toast.makeText(this, textResId, Toast.LENGTH_SHORT).show();
 	}
 	
-	private static void log(String msg) {
-		android.util.Log.d("cyc", msg);
+	
+	private static void logW(String msg) {
+		if(DEBUG) {
+			android.util.Log.d(TAG, msg);
+		}
 	}
 	
-	private class RegisteTask extends AsyncTask<String, String, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-			String result = NetworkUtils.registeToServer(mIsMale, 
-					params[0], params[1], params[2]);
-			log("registe result: " + result);
-			return result;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-		}
-	}
+//	private class RegisteTask extends AsyncTask<String, String, String> {
+//
+//		@Override
+//		protected String doInBackground(String... params) {
+//			String result = NetworkUtils.registeToServer(mIsMale, 
+//					params[0], params[1], params[2]);
+//			logW("registe result: " + result);
+//			return result;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(String result) {
+//			super.onPostExecute(result);
+//		}
+//	}
 	
 }

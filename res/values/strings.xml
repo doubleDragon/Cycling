@@ -12,12 +12,14 @@
     <string name="commodity_description">"*商品描述:"</string>
     <string name="commodity_description_hint">"请填写商品的具体情况，最多填写140个字&#8230;"</string>
     <string name="confirm">"确认"</string>
+    <string name="confirm_pwd_wrong">"两次密码不相同"</string>
     <string name="contacts">"联系方式:"</string>
     <string name="contacts_description">"请填写手机号码，可选填"</string>
     
     <string name="deal_type">"*交易类型:"</string>
     <string name="description">"描诉:"</string>
     
+    <string name="empty_registe_info">"注册信息不能为空"</string>
     <string name="fragment0">Fragment0</string>
     <string name="fragment1">Fragment1</string>
     <string name="fragment2">Fragment2</string>
@@ -57,6 +59,7 @@
     <string name="type_parts">"[散件出售]"</string>
     <string name="type_buy">"[求购]"</string>
     <string name="upload_photo">"上传图片:"</string>
+    
     
 </resources>
 
