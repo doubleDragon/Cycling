@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.listener.SaveListener;
-
 import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
@@ -56,6 +53,8 @@ public class IssueEditorFragment extends Fragment {
 	private MultiCheck mType;//交易类型
 	private SimpleGridView mPhotoList;//商品图片
 	private IssueEditorPhotoListAdapter mAdapter;
+	
+	private IssueManager mIssueManager;
 	
 	public void setContentResolver(ContentResolver contentResolver) {
 		mContentResolver = contentResolver;
@@ -110,6 +109,7 @@ public class IssueEditorFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mIssueManager =  new IssueManager(mContext);
 	}
 	
 	@Override
@@ -161,7 +161,7 @@ public class IssueEditorFragment extends Fragment {
 //		issue.setDescription(description);
 //		issue.setPhone(phone);
 //		issue.setType(type);
-//		issue.save(getActivity(), new SaveListener() {
+//		issue.save(mContext, new SaveListener() {
 //
 //			@Override
 //			public void onFailure(int arg0, String arg1) {
@@ -174,6 +174,8 @@ public class IssueEditorFragment extends Fragment {
 //			}
 //			
 //		});
+		
+//		mIssueManager.saveIssueToServer(issue, listener)
 		
 		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,
 				description, date, phone, type, pictures);

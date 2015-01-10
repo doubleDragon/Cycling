@@ -2,7 +2,7 @@ package com.android.cycling.data;
 
 import cn.bmob.v3.BmobUser;
 
-public class CyclingUser extends BmobUser{
+public class ServerUser extends BmobUser{
 
 	//sex
 	private boolean isMale;

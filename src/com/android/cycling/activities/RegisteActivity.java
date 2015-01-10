@@ -3,7 +3,7 @@ package com.android.cycling.activities;
 import cn.bmob.v3.listener.SaveListener;
 
 import com.android.cycling.R;
-import com.android.cycling.data.CyclingUser;
+import com.android.cycling.data.ServerUser;
 import com.android.cycling.util.NetworkUtils;
 
 import android.app.Activity;
@@ -86,7 +86,7 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 			toastToUser(R.string.confirm_pwd_wrong);
 		}
 		
-		CyclingUser user = new CyclingUser();
+		ServerUser user = new ServerUser();
 		user.setUsername(email);
 		user.setPassword(pwd);
 		user.setEmail(email);

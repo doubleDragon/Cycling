@@ -2,7 +2,7 @@ package com.android.cycling.data;
 
 import cn.bmob.v3.BmobObject;
 
-public class Issue extends BmobObject{
+public class ServerIssue extends BmobObject{
 	
 	private static final long serialVersionUID = 1L;
 	
