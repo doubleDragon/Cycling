@@ -1,11 +1,11 @@
 package com.android.cycling.data;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 public class ServerIssue extends BmobObject{
 	
 	private static final long serialVersionUID = 1L;
-	
 	
 	private String name;
 	private String level;
@@ -14,6 +14,7 @@ public class ServerIssue extends BmobObject{
 	private String description;
 	private long date;
 	private int type;
+	
 	public String getName() {
 		return name;
 	}

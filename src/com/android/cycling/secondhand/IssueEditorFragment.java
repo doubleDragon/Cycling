@@ -9,6 +9,7 @@ import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
 import com.android.cycling.util.DateUtils;
+import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.widget.MultiCheck;
 import com.android.cycling.widget.SimpleGridView;
 
@@ -55,6 +56,15 @@ public class IssueEditorFragment extends Fragment {
 	private IssueEditorPhotoListAdapter mAdapter;
 	
 	private IssueManager mIssueManager;
+	
+	private final IssueManager.Listener mListener = new IssueManager.Listener() {
+
+		@Override
+		public void onComplete(boolean result) {
+			
+		}
+		
+	};
 	
 	public void setContentResolver(ContentResolver contentResolver) {
 		mContentResolver = contentResolver;
@@ -110,6 +120,7 @@ public class IssueEditorFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mIssueManager =  new IssueManager(mContext);
+		mIssueManager.setListener(mListener);
 	}
 	
 	@Override
@@ -129,6 +140,11 @@ public class IssueEditorFragment extends Fragment {
 	}
 	
 	private void saveIssue() {
+		if(!NetworkUtils.isNetworkConnected(mContext)) {
+			toastMessage(R.string.no_network);
+			return;
+		}
+		
 		final String name = mName.getEditableText().toString();
 		if(TextUtils.isEmpty(name)) {
 			toastMessage(R.string.no_issue_name);
@@ -154,33 +170,12 @@ public class IssueEditorFragment extends Fragment {
 		String[] pictures = mAdapter.getAllData();
 		long date = DateUtils.getCurrentTime();
 		
-//		Issue issue = new Issue();
-//		issue.setName(name);
-//		issue.setLevel(level);
-//		issue.setPrice(price);
-//		issue.setDescription(description);
-//		issue.setPhone(phone);
-//		issue.setType(type);
-//		issue.save(mContext, new SaveListener() {
-//
-//			@Override
-//			public void onFailure(int arg0, String arg1) {
-//				Log.d(TAG, "添加数据成功");
-//			}
-//
-//			@Override
-//			public void onSuccess() {
-//				Log.d(TAG, "添加数据失败");
-//			}
-//			
-//		});
+		mIssueManager.saveIssueToServer(name, level, price, description, date, phone, type, pictures);
 		
-//		mIssueManager.saveIssueToServer(issue, listener)
-		
-		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,
-				description, date, phone, type, pictures);
-		mContext.startService(service);
-		finishActivity();
+//		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,
+//				description, date, phone, type, pictures);
+//		mContext.startService(service);
+//		finishActivity();
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
+import com.android.cycling.data.ServerIssue;
 import com.android.cycling.data.ServerUser;
 
 import android.test.AndroidTestCase;
@@ -99,6 +100,31 @@ public class CyclingTestCase extends AndroidTestCase{
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				Log.i(TAG, "单个文件上传失败");
+			}
+
+		});
+	}
+	
+	public void testSaveIssueToServer() {
+
+		ServerIssue issue = new ServerIssue();
+		issue.setName("bmc");
+		issue.setLevel("8新");
+		issue.setPrice("16800");
+		issue.setDescription("随便看看把");
+		issue.setPhone("18600000000");
+		issue.setType(0);
+
+		issue.save(getContext(), new SaveListener() {
+
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				logW("save issue failed");
+			}
+
+			@Override
+			public void onSuccess() {
+				logW("save issue success");
 			}
 
 		});

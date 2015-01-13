@@ -48,22 +48,29 @@ public class IssueEditorPhotoListAdapter extends ArrayAdapter<String>{
 	}
 	
 	/**
-	 * return all picture path
+	 * return all picture path,not uri path
 	 */
 	public String[] getAllData() {
 		if(mData == null) {
 			return null;
 		}
+		
 		int size =mData.size();
 		if(size == 1) {
 			//last photo not save to db
 			return null;
 		} else if(size == 6) {
-			return mData.toArray(new String[0]);
+			int j = 0;
+			String[] result = new String[size];
+			for(String dataString : mData){
+				result[j] = dataString.substring(7);
+				j++;
+			}
+			return result;
 		} else {
 			String[] result = new String[size - 1];
 			for (int i = 0; i < size - 1; i++) {
-				result[i] = mData.get(i);
+				result[i] = mData.get(i).substring(7);
 			}
 			return result;	
 		}
