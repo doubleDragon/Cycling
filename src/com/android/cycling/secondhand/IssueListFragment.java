@@ -1,8 +1,12 @@
 package com.android.cycling.secondhand;
 
+import cn.volley.Network;
+
+import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.secondhand.IssueListLoader.Result;
+import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.widget.AutoScrollListView;
 
 import android.app.Activity;
@@ -17,9 +21,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -52,14 +56,34 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		logW("onCreate");
+		
+		//Check the network,display toast
+		if(NetworkUtils.isNetworkConnected(mContext)) {
+			syncIssueFromServer();
+		} else {
+			toastMessage(R.string.no_network);
+		}
+	}
+	
+	private void syncIssueFromServer() {
+		Intent i = CycingSaveService.createSyncIssueIntent(mContext);
+		mContext.startService(i);
 	}
 
 	@Override
 	public void onStart() {
-		getLoaderManager().restartLoader(LOAD_ISSUES, null, this);
 		super.onStart();
+		logW("onStart");
+		getLoaderManager().restartLoader(LOAD_ISSUES, null, this);
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		logW("onResume");
+	}
+
 	private void showIssueType() {
 		if(mDisplayType == null) {
 			mDisplayType = new PopupWindow(mContext);
@@ -107,16 +131,19 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		logW("onPause");
 	}
 
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		logW("onStop");
 	}
 
 	@Override
 	public void onDestroy() {
+		logW("onDestroy");
 		mListView = null;
         mEmptyView = null;
 		super.onDestroy();
@@ -152,5 +179,16 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 		mAdapter.setData(null);
 	}
 	
+	private void toastMessage(int msg) {
+		Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+	}
+	
+	private static final boolean DEBUG = true;
+	private static final String TAG = IssueListFragment.class.getSimpleName();
+	private static void logW(String msg) {
+		if(DEBUG) {
+		android.util.Log.d(TAG, msg);
+		}
+	}
 	
 }

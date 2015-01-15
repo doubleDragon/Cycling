@@ -30,6 +30,12 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 	}
 	
 	private void createTriggers(SQLiteDatabase db) {
+		db.execSQL("CREATE TRIGGER IF NOT EXISTS delete_photo_when_delete_issue " +
+				"AFTER DELETE ON " + Tables.ISSUE + " " +
+				"BEGIN " +
+					"DELETE FROM " + Tables.PHOTO + " " +
+					"WHERE " + PhotoColumns.ISSUE_ID + "=old._id;" +
+				"END;");
 	}
 	
 	private void createViews(SQLiteDatabase db) {
@@ -44,6 +50,7 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				+ Issue.TYPE + ","
 				+ Issue.DESCRIPTION + ","
 				+ Issue.DATE + ","
+				+ Issue.SERVER_ID + ","
 				+ Photo.URI //Photo table uri
 				+ " FROM " + Tables.ISSUE 
 				+ " LEFT OUTER JOIN " + Tables.PHOTO + " ON("
@@ -62,7 +69,8 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				IssueColumns.PRICE + " TEXT NOT NULL," +
 				IssueColumns.TYPE + " INTEGER NOT NULL DEFAULT 0," +
 				IssueColumns.DESCRIPTION + " TEXT NOT NULL," +
-				IssueColumns.DATE + " INTEGER NOT NULL" +
+				IssueColumns.DATE + " INTEGER NOT NULL," +
+				IssueColumns.SERVER_ID + " TEXT NOT NULL" +
 		");");
 		db.execSQL("CREATE TABLE " + Tables.PHOTO + " (" +
 				PhotoColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

@@ -31,6 +31,7 @@ public class CyclingProvider extends ContentProvider{
             .add(Issue.PRICE)
             .add(Issue.DESCRIPTION)
             .add(Issue.DATE)
+            .add(Issue.SERVER_ID)
             .add(Photo.URI)
             .build();
 	
@@ -161,7 +162,24 @@ public class CyclingProvider extends ContentProvider{
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		return 0;
+		final int match = sUriMatcher.match(uri);
+		int count;
+		switch(match) {
+		case ISSUES:
+			count = deleteIssue(uri, selection, selectionArgs);
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown URI " + uri);
+		}
+		if(count > 0) {
+			notifyChange(-1);
+		}
+		return count;
+	}
+	
+	private int deleteIssue(Uri uri, String whereClause, String[] whereArgs) {
+		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		return db.delete(Tables.ISSUE, whereClause, whereArgs);
 	}
 
 	@Override

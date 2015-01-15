@@ -2,21 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="10dip"
-    android:paddingRight="10dip"
-    android:paddingTop="6dip"
-    android:paddingBottom="6dip"
     android:background="@drawable/activity_header_bg"
     >
     
-    <ImageView
+<!--     android:src="@drawable/back"  -->
+    <Button
         android:id="@+id/back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@null"
-        android:src="@drawable/back" />
+        android:text="返回"
+        android:textSize="40sp"
+        android:background="#a1a1a1"
+        />
 
 <!--     <LinearLayout -->
 <!--         android:id="@+id/backContainer" -->

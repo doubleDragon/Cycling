@@ -56,6 +56,7 @@
     <string name="price_label">"商品价格:"</string>
     <string name="picture">"图片"</string>
     <string name="registe">"注册"</string>
+    <string name="sending">"发送中&#8230;"</string>
     <string name="type_all">"[整车出售]"</string>
     <string name="type_parts">"[散件出售]"</string>
     <string name="type_buy">"[求购]"</string>

@@ -8,6 +8,9 @@ import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
+import com.android.cycling.data.ServerIssue;
+import com.android.cycling.secondhand.IssueManager.CallBackObj;
+import com.android.cycling.secondhand.IssueManager.SaveIssueResult;
 import com.android.cycling.util.DateUtils;
 import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.widget.MultiCheck;
@@ -15,6 +18,7 @@ import com.android.cycling.widget.SimpleGridView;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +32,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -37,6 +42,7 @@ public class IssueEditorFragment extends Fragment {
 	private static final String TAG = IssueEditorFragment.class.getSimpleName();
 	
 	private final String ADD_PHOTO_URI = "assets://addPhoto.png";
+	private static final String FILE_URI_PREFIX = "file://";
 	
 	private ContentResolver mContentResolver;
 	private Context mContext;
@@ -49,7 +55,7 @@ public class IssueEditorFragment extends Fragment {
 	private EditText mPrice;//商品价格
 	private EditText mPhone;//联系方式
 	private EditText mDescription;//商品描述
-	private ImageView mBack;
+	private Button mBack;
 	private ImageView mConfirm;
 	private MultiCheck mType;//交易类型
 	private SimpleGridView mPhotoList;//商品图片
@@ -57,14 +63,55 @@ public class IssueEditorFragment extends Fragment {
 	
 	private IssueManager mIssueManager;
 	
+	private ProgressDialog mDisplayDialog;
+	
 	private final IssueManager.Listener mListener = new IssueManager.Listener() {
 
 		@Override
-		public void onComplete(boolean result) {
-			
+		public void onComplete(SaveIssueResult callBackObj) {
+			stopDialog();
+			if (!callBackObj.isSuccess()) {
+				toastMessage("发贴失败");
+			} else {
+				// 本地保存issue
+				toastMessage("发贴成功");
+				// Add prefiex to file path
+//				addPrefiexToPicturePath(callBackObj.pictures);
+				ServerIssue issue = callBackObj.serverIssue;//save web photo path
+				android.util.Log.d(TAG, "onComplete serverIssue: " + issue);
+				
+				List<String> webPathList = callBackObj.getPictureWebPathList();
+				String[] pictures;
+				if(hasPictures(webPathList)) {
+					pictures = webPathList.toArray(new String[0]);
+				} else {
+					pictures = null;
+				}
+				
+				Intent service = CycingSaveService.createSaveIssueIntent(
+						mContext, issue.getName(), issue.getLevel(),
+						issue.getPrice(), issue.getDescription(),
+						issue.getDate(), issue.getPhone(), issue.getType(),
+						issue.getObjectId(), pictures);
+				mContext.startService(service);
+			}
+			finishActivity();
 		}
 		
 	};
+	
+	private boolean hasPictures(List<String> webPathList) {
+		if(webPathList == null || webPathList.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	private void addPrefiexToPicturePath(String[] pictures) {
+		for(int i=0; i<pictures.length; i++) {
+			pictures[i] = FILE_URI_PREFIX + pictures[i];
+		}
+	}
 	
 	public void setContentResolver(ContentResolver contentResolver) {
 		mContentResolver = contentResolver;
@@ -169,13 +216,9 @@ public class IssueEditorFragment extends Fragment {
 		int type = mType.getType();
 		String[] pictures = mAdapter.getAllData();
 		long date = DateUtils.getCurrentTime();
-		
+
+		startDialog();
 		mIssueManager.saveIssueToServer(name, level, price, description, date, phone, type, pictures);
-		
-//		Intent service = CycingSaveService.createSaveIssueIntent(mContext, name, level, price,
-//				description, date, phone, type, pictures);
-//		mContext.startService(service);
-//		finishActivity();
 	}
 	
 	@Override
@@ -196,7 +239,7 @@ public class IssueEditorFragment extends Fragment {
 			
 		});
 		
-		mBack = (ImageView) root.findViewById(R.id.back);
+		mBack = (Button) root.findViewById(R.id.back);
 		mBack.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -249,6 +292,24 @@ public class IssueEditorFragment extends Fragment {
 	
 	private void onRestoreInstanceState(Bundle state) {
 		
+	}
+	
+	private void startDialog() {
+		if(mDisplayDialog != null) {
+			mDisplayDialog.cancel();
+			mDisplayDialog = null;
+		}
+		mDisplayDialog = new ProgressDialog(mContext);
+		mDisplayDialog.setCancelable(false);
+		mDisplayDialog.setCanceledOnTouchOutside(false);
+		mDisplayDialog.setMessage(mContext.getResources().getString(R.string.sending));
+		mDisplayDialog.show();
+	}
+	
+	private void stopDialog() {
+		if (mDisplayDialog != null) {
+			mDisplayDialog.dismiss();
+		}
 	}
 	
 	private void toastMessage(String msg) {

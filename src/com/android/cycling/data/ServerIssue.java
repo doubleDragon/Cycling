@@ -2,6 +2,7 @@ package com.android.cycling.data;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobRelation;
 
 public class ServerIssue extends BmobObject{
 	
@@ -14,6 +15,8 @@ public class ServerIssue extends BmobObject{
 	private String description;
 	private long date;
 	private int type;
+	
+	private BmobRelation relation;
 	
 	public String getName() {
 		return name;
@@ -57,4 +60,11 @@ public class ServerIssue extends BmobObject{
 	public void setType(int type) {
 		this.type = type;
 	}
+	public BmobRelation getRelation() {
+		return relation;
+	}
+	public void setRelation(BmobRelation relation) {
+		this.relation = relation;
+	}
+	
 }

@@ -1,10 +1,17 @@
 package com.android.cycling;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
+
+import com.android.cycling.data.ServerIssuePicture;
 import com.android.cycling.provider.CyclingConstants;
 import com.android.cycling.provider.CyclingConstants.Issue;
 import com.android.cycling.provider.CyclingConstants.Photo;
+import com.android.cycling.secondhand.IssueListFragment;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
@@ -20,6 +27,8 @@ public class CycingSaveService extends IntentService{
 	
 	private static final String TAG = CycingSaveService.class.getSimpleName();
 	
+	private static final String ACTION_SYNC_ISSUE = "syncIssue";//from bmob server
+	
 	private static final String ACTION_SAVE_ISSUE = "saveIssue";
 	private static final String EXTRA_ISSUE_NAME = "issueName";
 	private static final String EXTRA_ISSUE_LEVEL = "issueLevel";
@@ -29,6 +38,7 @@ public class CycingSaveService extends IntentService{
 	private static final String EXTRA_ISSUE_TYPE = "issueType";
 	private static final String EXTRA_ISSUE_DESCRIPTION = "issueDescription";
 	private static final String EXTRA_ISSUE_DATE = "date";
+	private static final String EXTRA_ISSUE_SERVER_ID = "issueServerId";
 
 	public CycingSaveService() {
 		super(TAG);
@@ -39,9 +49,54 @@ public class CycingSaveService extends IntentService{
 		final String action = intent.getAction();
 		if(action.equals(ACTION_SAVE_ISSUE)) {
 			saveIssue(intent);
+		} else if(action.equals(ACTION_SYNC_ISSUE)) {
+			syncIssue(intent);
 		}
 	}
 	
+	public static Intent createSyncIssueIntent(Context context) {
+		Intent i = new Intent(context, CycingSaveService.class);
+		i.setAction(ACTION_SYNC_ISSUE);
+		
+		return i;
+	}
+	
+	private void syncIssue(Intent intent) {
+		BmobQuery<ServerIssuePicture> query = new BmobQuery<ServerIssuePicture>();
+		query.include("serverissue");
+		query.findObjects(this, new FindListener<ServerIssuePicture>() {
+			
+			@Override
+			public void onSuccess(List<ServerIssuePicture> arg0) {
+				logW("query success---result: " + arg0);
+				syncContinue(arg0);
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				logW("query failed error: " + arg1);
+			}
+		});
+	}
+	
+	/**
+	 * First reconstruct issue object
+	 * then delete locale data,last insert server data
+	 * @param objects
+	 */
+	private void syncContinue(List<ServerIssuePicture> objects) {
+		if(objects == null || objects.isEmpty()) {
+			return;
+		}
+		
+		getContentResolver().delete(CyclingConstants.Issue.CONTENT_URI, null, null);
+		insertServerIssueToDb();
+	}
+	
+	private void insertServerIssueToDb() {
+		// TODO Auto-generated method stub
+	}
+
 	private void saveIssue(Intent intent) {
 		String name = intent.getStringExtra(EXTRA_ISSUE_NAME);
 		String level = intent.getStringExtra(EXTRA_ISSUE_LEVEL);
@@ -53,6 +108,7 @@ public class CycingSaveService extends IntentService{
 			date = System.currentTimeMillis();
 		}
 		int type = intent.getIntExtra(EXTRA_ISSUE_TYPE, 0);
+		String serverId = intent.getStringExtra(EXTRA_ISSUE_SERVER_ID);//server issue id
 		String[] pictures = intent.getStringArrayExtra(EXTRA_ISSUE_PHOTO);
 		
 		if(pictures != null && pictures.length > 0) {
@@ -66,6 +122,7 @@ public class CycingSaveService extends IntentService{
 					.withValue(Issue.TYPE, type)
 					.withValue(Issue.DESCRIPTION, description)
 					.withValue(Issue.DATE, date)
+					.withValue(Issue.SERVER_ID, serverId)
 					.build();
 			operations.add(op);
 			for(String pic : pictures) {
@@ -96,13 +153,14 @@ public class CycingSaveService extends IntentService{
 			values.put(Issue.TYPE, type);
 			values.put(Issue.DESCRIPTION, description);
 			values.put(Issue.DATE, date);
+			values.put(Issue.SERVER_ID, serverId);
 			getContentResolver().insert(Issue.CONTENT_URI, values);
 		}
 	}
 	
 	public static Intent createSaveIssueIntent(Context context, String name, 
 			String level, String price, String description, long date, String phone, 
-			int type, String[] pictures) {
+			int type, String serverId, String[] pictures) {
 		Intent i = new Intent(context, CycingSaveService.class);
 		i.setAction(ACTION_SAVE_ISSUE);
 		i.putExtra(EXTRA_ISSUE_NAME, name);
@@ -112,10 +170,18 @@ public class CycingSaveService extends IntentService{
 		i.putExtra(EXTRA_ISSUE_TYPE, type);
 		i.putExtra(EXTRA_ISSUE_DESCRIPTION, description);
 		i.putExtra(EXTRA_ISSUE_DATE, date);
+		i.putExtra(EXTRA_ISSUE_SERVER_ID, serverId);
 		if(pictures != null && pictures.length >= 0) {
 			i.putExtra(EXTRA_ISSUE_PHOTO, pictures);
 		}
 		return i;
+	}
+	
+	private static final boolean DEBUG = true;
+	private static void logW(String msg) {
+		if(DEBUG) {
+		android.util.Log.d(TAG, msg);
+		}
 	}
 
 }

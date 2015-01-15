@@ -26,7 +26,8 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 	private static final int ISSUE_TYPE = 5;
 	private static final int ISSUE_DESCRIPTION = 6;
 	private static final int ISSUE_DATE = 7;
-	private static final int ISSUE_PHOTO = 8;
+	private static final int ISSUE_SERVER_ID = 8;
+	private static final int ISSUE_PHOTO = 9;
 	
 	private ArrayList<Result> mResults;
 	
@@ -39,6 +40,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 		public int type;
 		public String description;
 		public long date;
+		public String serverId;
 		public ArrayList<String> photoList;
 		
 	}
@@ -52,6 +54,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 		Issue.TYPE,
 		Issue.DESCRIPTION,
 		Issue.DATE,
+		Issue.SERVER_ID,
 		Photo.URI
 	};
 	
@@ -147,6 +150,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 					result.type = c.getInt(ISSUE_TYPE);
 					result.description = c.getString(ISSUE_DESCRIPTION);
 					result.date = c.getLong(ISSUE_DATE);
+					result.serverId = c.getString(ISSUE_SERVER_ID);
 					
 					if (!TextUtils.isEmpty(photo)) {
 						result.photoList = new ArrayList<String>();

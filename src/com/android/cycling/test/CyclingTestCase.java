@@ -130,6 +130,30 @@ public class CyclingTestCase extends AndroidTestCase{
 		});
 	}
 	
+//	public void testSaveIssueAndPictureToServer() {
+//		ServerIssue issue = new ServerIssue();
+//		issue.setName("bmc");
+//		issue.setLevel("8新");
+//		issue.setPrice("16800");
+//		issue.setDescription("随便看看把");
+//		issue.setPhone("18600000000");
+//		issue.setType(0);
+//
+//		issue.save(getContext(), new SaveListener() {
+//
+//			@Override
+//			public void onFailure(int arg0, String arg1) {
+//				logW("save issue failed");
+//			}
+//
+//			@Override
+//			public void onSuccess() {
+//				logW("save issue success");
+//			}
+//
+//		});
+//	}
+	
 	private static void logW(String msg) {
 		Log.d(TAG, msg);
 	}
