@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	
 	private static final int LOAD_ISSUES = 1000;
 	
-	private ImageView mPost;
+	private ImageButton mPost;
 	private TextView mTitle;
 	private TextView mEmptyView;
 	private AutoScrollListView mListView;
@@ -112,7 +113,8 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 			}
 			
 		});
-		mPost = (ImageView) rootView.findViewById(R.id.post);
+		mPost = (ImageButton) rootView.findViewById(R.id.post);
+		mPost.setImageResource(R.drawable.sign_add_48);
 		mPost.setOnClickListener(new OnClickListener() {
 			
 			@Override
