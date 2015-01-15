@@ -30,4 +30,8 @@
 	<drawable name="multicheck_selected">#00b3f0</drawable>
 	<drawable name="multicheck_unselected">#ffffff</drawable>
 	
+	<color name="actionbar_separator">#00b3f0</color>
+    <color name="actionbar_background_start">#00b3f0</color>
+    <color name="actionbar_background_end">#009ed4</color>
+	
 </resources>

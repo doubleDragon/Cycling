@@ -9,12 +9,13 @@ import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
 import com.android.cycling.data.ServerIssue;
-import com.android.cycling.secondhand.IssueManager.CallBackObj;
 import com.android.cycling.secondhand.IssueManager.SaveIssueResult;
 import com.android.cycling.util.DateUtils;
 import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.widget.MultiCheck;
 import com.android.cycling.widget.SimpleGridView;
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.Action;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -28,7 +29,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -229,25 +229,58 @@ public class IssueEditorFragment extends Fragment {
 			throw new IllegalStateException("Content view not yet created");
 		}
 		
-		mConfirm  = (ImageView) root.findViewById(R.id.confirm);
-		mConfirm.setOnClickListener(new OnClickListener() {
+//		mConfirm  = (ImageView) root.findViewById(R.id.confirm);
+//		mConfirm.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				saveIssue();
+//			}
+//			
+//		});
+//		
+//		mBack = (Button) root.findViewById(R.id.back);
+//		mBack.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				finishActivity();
+//			}
+//			
+//		});
+		
+		ActionBar actionBar = (ActionBar) root.findViewById(R.id.actionbar);
+		// You can also assign the title programmatically by passing a
+		// CharSequence or resource id.
+		actionBar.setTitle(R.string.issue);
+		actionBar.setHomeAction(new Action() {
+			
+			@Override
+			public void performAction(View view) {
+				finishActivity();
+			}
+			
+			@Override
+			public int getDrawable() {
+				// TODO Auto-generated method stub
+				return R.drawable.back_indicator;
+			}
+		});
+		actionBar.addAction(new Action() {
 
 			@Override
-			public void onClick(View v) {
+			public int getDrawable() {
+				return R.drawable.confirm_indicator;
+			}
+
+			@Override
+			public void performAction(View view) {
 				saveIssue();
 			}
 			
 		});
-		
-		mBack = (Button) root.findViewById(R.id.back);
-		mBack.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				finishActivity();
-			}
-			
-		});
+		
 		mName = (EditText) root.findViewById(R.id.name);
 		mLevel = (EditText) root.findViewById(R.id.level);
 		mPrice = (EditText) root.findViewById(R.id.price);

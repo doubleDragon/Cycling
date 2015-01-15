@@ -7,8 +7,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
+        
+        <com.markupartist.android.widget.ActionBar
+            android:id="@+id/actionbar"
+            style="@style/ActionBar"
+            />
 
-        <include layout="@layout/issue_editor_fragment_head" />
+<!--         <include layout="@layout/issue_editor_fragment_head" /> -->
 
         <LinearLayout
             android:layout_width="match_parent"
