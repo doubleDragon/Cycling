@@ -4,6 +4,19 @@ Cycling
 It's a app about cycling.People can make friends with those like bikes,touch some informations about used things waiting for sale.
 Start!
 
+Used lib
+=======
+
+universal-image-loader from nostra13
+android-actionbar from johannilsson
+bmob background server
+
+Config project
+=======
+add 
+    universal-image-loader.jar
+    bmob_sdk.jar
+    android-actionbar(lib project)
 
 License
 ============
