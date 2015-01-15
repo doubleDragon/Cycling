@@ -26,15 +26,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 public class IssueEditorFragment extends Fragment {
@@ -55,8 +52,6 @@ public class IssueEditorFragment extends Fragment {
 	private EditText mPrice;//商品价格
 	private EditText mPhone;//联系方式
 	private EditText mDescription;//商品描述
-	private Button mBack;
-	private ImageView mConfirm;
 	private MultiCheck mType;//交易类型
 	private SimpleGridView mPhotoList;//商品图片
 	private IssueEditorPhotoListAdapter mAdapter;
@@ -228,26 +223,6 @@ public class IssueEditorFragment extends Fragment {
 		if(root == null) {
 			throw new IllegalStateException("Content view not yet created");
 		}
-		
-//		mConfirm  = (ImageView) root.findViewById(R.id.confirm);
-//		mConfirm.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				saveIssue();
-//			}
-//			
-//		});
-//		
-//		mBack = (Button) root.findViewById(R.id.back);
-//		mBack.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				finishActivity();
-//			}
-//			
-//		});
 		
 		ActionBar actionBar = (ActionBar) root.findViewById(R.id.actionbar);
 		// You can also assign the title programmatically by passing a
