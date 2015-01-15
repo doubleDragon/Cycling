@@ -7,16 +7,16 @@ Start!
 Used lib
 =======
 
-universal-image-loader from nostra13
-android-actionbar from johannilsson
-bmob background server
+universal-image-loader from nostra13<br/>
+android-actionbar from johannilsson<br/>
+bmob background server<br/>
 
 Config project
 =======
-add 
-    universal-image-loader.jar
-    bmob_sdk.jar
-    android-actionbar(lib project)
+add<br/> 
+    universal-image-loader.jar<br/>
+    bmob_sdk.jar<br/>
+    android-actionbar(lib project)<br/>
 
 License
 ============
