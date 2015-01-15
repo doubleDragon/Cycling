@@ -1,3 +1,0 @@
-[submodule "actionbar_lib"]
-	path = actionbar_lib
-	url = https://github.com/johannilsson/android-actionbar.git
