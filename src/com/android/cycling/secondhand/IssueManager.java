@@ -13,6 +13,7 @@ import cn.bmob.v3.listener.UploadBatchListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import com.android.cycling.data.ServerIssue;
+import com.android.cycling.util.UserUtils;
 
 public class IssueManager {
 	
@@ -54,6 +55,7 @@ public class IssueManager {
 		issue.setPhone(phone);
 		issue.setType(type);
 		issue.setDate(date);
+		issue.setUser(UserUtils.getCurrentUser(mContext));
 		
 		mCallBackResult = new SaveIssueResult(issue);
 		

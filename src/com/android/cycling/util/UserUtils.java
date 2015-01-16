@@ -20,6 +20,10 @@ public final class UserUtils {
 		return false;
 	}
 	
+	public static BmobUser getCurrentUser(Context context) {
+		return BmobUser.getCurrentUser(context);
+	}
+	
 	public static void intentToLogin(Context context) {
 		Intent i = new Intent(context, LoginActivity.class);
 		context.startActivity(i);

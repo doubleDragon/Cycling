@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobUser;
 
 /**
  * web picture path stored in column urls
@@ -14,6 +15,7 @@ public class ServerIssue extends BmobObject{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private BmobUser user;
 	
 	private String name;
 	private String level;
@@ -69,6 +71,13 @@ public class ServerIssue extends BmobObject{
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	
+	public BmobUser getUser() {
+		return user;
+	}
+	public void setUser(BmobUser user) {
+		this.user = user;
 	}
 	
 	public void addPicture(String url) {
