@@ -4,6 +4,8 @@ import cn.bmob.v3.BmobUser;
 
 public class ServerUser extends BmobUser{
 
+	private static final long serialVersionUID = 1L;
+	
 	//sex
 	private boolean isMale;
 	//path of head picture

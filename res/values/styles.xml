@@ -36,5 +36,27 @@
         <item name="android:background">@drawable/issue_editor_fragment_edittext</item>
         <item name="android:padding">6dip</item>
     </style>
+    
+    <style name="HeaderLayout">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/headerlayout_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/headerlayout_background</item>
+    </style>
+    
+    <style name="HeaderLayoutItem">
+        <item name="android:layout_width">@dimen/headerlayout_item_width</item>
+        <item name="android:layout_height">@dimen/headerlayout_height</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginLeft">1px</item>
+    </style>
+    <style name="HeaderLayoutHomeItem" parent="HeaderLayoutItem">
+        <item name="android:layout_marginRight">1px</item>
+        <item name="android:layout_marginLeft">0px</item>
+    </style>
+    <style name="HeaderLayoutHomeLogo">
+        <item name="android:layout_marginRight">1px</item>
+        <item name="android:layout_marginLeft">0px</item>
+    </style>
 
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/actionbar_height"
-    android:background="@drawable/actionbar_background"
+    android:layout_height="@dimen/headerlayout_height"
+    android:background="@drawable/headerlayout_background"
     >
         
     <TextView
@@ -16,11 +16,11 @@
     
     <ImageButton
         android:id="@+id/post"
-        android:layout_width="@dimen/actionbar_item_width"
-        android:layout_height="@dimen/actionbar_height"
+        android:layout_width="@dimen/headerlayout_item_width"
+        android:layout_height="@dimen/headerlayout_height"
         android:layout_gravity="center_vertical|end"
         android:padding="5dp"
-        android:background="@drawable/actionbar_btn"
+        android:background="@drawable/headerlayout_btn"
         android:contentDescription="@null"
         />
     

@@ -30,10 +30,19 @@
 	<drawable name="multicheck_selected">#00b3f0</drawable>
 	<drawable name="multicheck_unselected">#ffffff</drawable>
 	
+	<drawable name="login_btn_bg">#ffffff</drawable>
+	
 	<color name="actionbar_separator">#00b3f0</color>
     <color name="actionbar_background_start">#00b3f0</color>
     <color name="actionbar_background_end">#009ed4</color>
     <color name="actionbar_background_item_pressed_start">#009ed4</color>
     <color name="actionbar_background_item_pressed_end">#009ed4</color>
-	
+    
+    <color name="headerlayout_separator">#00b3f0</color>
+    <color name="headerlayout_title">#FFFFFF</color>
+    <color name="headerlayout_background_start">#00b3f0</color>
+    <color name="headerlayout_background_end">#009ed4</color>
+    <color name="headerlayout_background_item_pressed_start">#009ed4</color>
+    <color name="headerlayout_background_item_pressed_end">#009ed4</color>
+    
 </resources>

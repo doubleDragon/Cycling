@@ -8,9 +8,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
         
-        <com.markupartist.android.widget.ActionBar
-            android:id="@+id/actionbar"
-            style="@style/ActionBar"
+        <com.android.cycling.widget.HeaderLayout
+            android:id="@+id/header_layout"
+            style="@style/HeaderLayout"
             />
 
         <LinearLayout

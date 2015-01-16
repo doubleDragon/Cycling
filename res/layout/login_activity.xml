@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <com.android.cycling.widget.HeaderLayout
+        android:id="@+id/header_layout"
+            style="@style/HeaderLayout"
+        />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dip"
+        android:orientation="horizontal"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        >
+        
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dip"
+            android:paddingBottom="15dip"
+            android:hint="@string/input_email"
+            />
+
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        >
+        
+        <EditText
+            android:id="@+id/pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dip"
+            android:paddingBottom="15dip"
+            android:inputType="textPassword"
+            android:hint="@string/input_login_passward"
+            />
+
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/registe"
+            android:onClick="intentToRegiste"
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:text="@string/registe" />
+    </RelativeLayout>
+
+</LinearLayout>

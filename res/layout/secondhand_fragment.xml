@@ -4,8 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <include 
-        layout="@layout/secondhand_fragment_head"/>
+<!--     <include  -->
+<!--         layout="@layout/secondhand_fragment_head"/> -->
+
+	<com.android.cycling.widget.HeaderLayout
+	    android:id="@+id/header_layout"
+	    style="@style/HeaderLayout" />
     
     <view
         android:id="@+id/list"

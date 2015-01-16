@@ -4,8 +4,10 @@
     android:layout_height="match_parent" 
     android:orientation="vertical">
     
-    <include 
-        layout="@layout/registe_layout_header"/>
+    <com.android.cycling.widget.HeaderLayout
+        android:id="@+id/header_layout"
+            style="@style/HeaderLayout"
+        />
     
     <ImageView
         android:layout_width="wrap_content"

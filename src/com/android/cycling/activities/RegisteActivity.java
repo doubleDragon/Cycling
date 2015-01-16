@@ -4,18 +4,17 @@ import cn.bmob.v3.listener.SaveListener;
 
 import com.android.cycling.R;
 import com.android.cycling.data.ServerUser;
-import com.android.cycling.util.NetworkUtils;
+import com.android.cycling.widget.HeaderLayout;
+import com.android.cycling.widget.HeaderLayout.Action;
 
 import android.app.Activity;
-import android.os.AsyncTask;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
 
 /**
  * 
@@ -29,8 +28,6 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 	private static final String TAG = RegisteActivity.class.getSimpleName();
 	private static final boolean DEBUG = false;
 	
-	private Button mConfirmRegiste;
-	private Button mBack;
 	private EditText mEmail;
 	private EditText mNameAlias;
 	private EditText mLoginPassward;
@@ -39,6 +36,8 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 	private ImageView mFemaleIndicate;
 	
 	private boolean mIsMale;
+	
+	private ProgressDialog mDisplayDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +52,25 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 		mIsMale = true;
 	}
 	
+	private void startDialog() {
+		if(mDisplayDialog != null) {
+			mDisplayDialog.cancel();
+			mDisplayDialog = null;
+		}
+		mDisplayDialog = new ProgressDialog(this);
+		mDisplayDialog.setCancelable(false);
+		mDisplayDialog.setCanceledOnTouchOutside(false);
+		mDisplayDialog.setMessage(getResources().getString(R.string.sending));
+		mDisplayDialog.show();
+	}
+	
+	private void stopDialog() {
+		if (mDisplayDialog != null) {
+			mDisplayDialog.dismiss();
+		}
+	}
+	
 	private void initViews() {
-		mConfirmRegiste = (Button) findViewById(R.id.confirm);
-		mBack = (Button) findViewById(R.id.back);
-		mConfirmRegiste.setOnClickListener(this);
-		mBack.setOnClickListener(this);
 		
 		mMaleIndicate = (ImageView) findViewById(R.id.male);
 		mFemaleIndicate = (ImageView) findViewById(R.id.female);
@@ -68,6 +81,36 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 		mNameAlias = (EditText) findViewById(R.id.nickname);
 		mLoginPassward = (EditText) findViewById(R.id.pwd);
 		mLoginPasswardConfirm = (EditText) findViewById(R.id.pwdConfirm);
+		
+		HeaderLayout headerLayout = (HeaderLayout) findViewById(R.id.header_layout);
+		headerLayout.setTitle(R.string.registe);
+		
+		headerLayout.setHomeAction(new Action() {
+			
+			@Override
+			public void performAction(View view) {
+				finish();
+			}
+			
+			@Override
+			public int getDrawable() {
+				// TODO Auto-generated method stub
+				return R.drawable.back_indicator;
+			}
+		});
+		headerLayout.addAction(new Action() {
+
+			@Override
+			public int getDrawable() {
+				return R.drawable.confirm_indicator;
+			}
+
+			@Override
+			public void performAction(View view) {
+				readyToRegiste();
+			}
+			
+		});
 		
 	}
 	
@@ -85,6 +128,8 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 		if(!pwd.equals(pwdConfirm)) {
 			toastToUser(R.string.confirm_pwd_wrong);
 		}
+
+		startDialog();
 		
 		ServerUser user = new ServerUser();
 		user.setUsername(email);
@@ -97,12 +142,18 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 			
 			@Override
 			public void onSuccess() {
+				stopDialog();
 				logW("registe success");
+				toastToUser("注册成功");
+				finish();
 			}
 			
 			@Override
 			public void onFailure(int arg0, String arg1) {
+				stopDialog();
 				logW("registe failed");
+				toastToUser("注册失败:" + arg1);
+				
 			}
 		});
 		
@@ -113,12 +164,6 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
-		case R.id.confirm:
-			readyToRegiste();
-			break;
-		case R.id.back:
-			finish();
-			break;
 		case R.id.male:
 			mIsMale = true;
 			updateSexIndicator();
@@ -141,6 +186,10 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 	}
 	
 	private void toastToUser(int textResId) {
+		Toast.makeText(this, textResId, Toast.LENGTH_SHORT).show();
+	}
+	
+	private void toastToUser(String textResId) {
 		Toast.makeText(this, textResId, Toast.LENGTH_SHORT).show();
 	}
 	

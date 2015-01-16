@@ -46,6 +46,11 @@
         </activity>
         
         <activity 
+            android:label="@string/registe"
+        	android:name=".activities.LoginActivity" >
+        </activity>
+        
+        <activity 
         	android:name=".activities.IssueEditorActivity">
         </activity>
         <activity 

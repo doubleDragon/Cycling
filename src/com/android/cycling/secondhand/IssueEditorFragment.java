@@ -12,10 +12,10 @@ import com.android.cycling.data.ServerIssue;
 import com.android.cycling.secondhand.IssueManager.SaveIssueResult;
 import com.android.cycling.util.DateUtils;
 import com.android.cycling.util.NetworkUtils;
+import com.android.cycling.widget.HeaderLayout.Action;
 import com.android.cycling.widget.MultiCheck;
 import com.android.cycling.widget.SimpleGridView;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.Action;
+import com.android.cycling.widget.HeaderLayout;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -224,7 +224,7 @@ public class IssueEditorFragment extends Fragment {
 			throw new IllegalStateException("Content view not yet created");
 		}
 		
-		ActionBar actionBar = (ActionBar) root.findViewById(R.id.actionbar);
+		HeaderLayout actionBar = (HeaderLayout) root.findViewById(R.id.header_layout);
 		// You can also assign the title programmatically by passing a
 		// CharSequence or resource id.
 		actionBar.setTitle(R.string.issue);

@@ -1,13 +1,15 @@
 package com.android.cycling.secondhand;
 
-import cn.volley.Network;
 
 import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.secondhand.IssueListLoader.Result;
 import com.android.cycling.util.NetworkUtils;
+import com.android.cycling.util.UserUtils;
 import com.android.cycling.widget.AutoScrollListView;
+import com.android.cycling.widget.HeaderLayout;
+import com.android.cycling.widget.HeaderLayout.Action;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -21,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,12 +86,6 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 		logW("onResume");
 	}
 
-	private void showIssueType() {
-		if(mDisplayType == null) {
-			mDisplayType = new PopupWindow(mContext);
-		}
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -104,26 +99,28 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 		mListView.setAdapter(mAdapter);
 		mListView.setEmptyView(mEmptyView);
 		
-		mTitle = (TextView) rootView.findViewById(R.id.title);
-		mTitle.setOnClickListener(new OnClickListener() {
+		HeaderLayout actionBar = (HeaderLayout) rootView.findViewById(R.id.header_layout);
+		// You can also assign the title programmatically by passing a
+		// CharSequence or resource id.
+		actionBar.setTitle(R.string.indicator_title_index0);
+		actionBar.addAction(new Action() {
 
 			@Override
-			public void onClick(View v) {
-				//showIssueType();
+			public int getDrawable() {
+				return R.drawable.sign_add_48;
 			}
-			
-		});
-		mPost = (ImageButton) rootView.findViewById(R.id.post);
-		mPost.setImageResource(R.drawable.sign_add_48);
-		mPost.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
-			public void onClick(View v) {
-				//Check login state
+			public void performAction(View view) {
+				if(UserUtils.isNeedLogin(mContext)) {
+					UserUtils.intentToLogin(mContext);
+					return;
+				}
 				Intent i = new Intent(getActivity(), IssueEditorActivity.class);
 				i.setAction(Intent.ACTION_INSERT);
 				startActivity(i);
 			}
+			
 		});
 		
 		return rootView;
