@@ -1,17 +1,15 @@
 package com.android.cycling;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-import com.android.cycling.data.ServerIssuePicture;
+import com.android.cycling.data.ServerIssue;
 import com.android.cycling.provider.CyclingConstants;
 import com.android.cycling.provider.CyclingConstants.Issue;
 import com.android.cycling.provider.CyclingConstants.Photo;
-import com.android.cycling.secondhand.IssueListFragment;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
@@ -62,12 +60,11 @@ public class CycingSaveService extends IntentService{
 	}
 	
 	private void syncIssue(Intent intent) {
-		BmobQuery<ServerIssuePicture> query = new BmobQuery<ServerIssuePicture>();
-		query.include("serverissue");
-		query.findObjects(this, new FindListener<ServerIssuePicture>() {
+		BmobQuery<ServerIssue> query = new BmobQuery<ServerIssue>();
+		query.findObjects(this, new FindListener<ServerIssue>() {
 			
 			@Override
-			public void onSuccess(List<ServerIssuePicture> arg0) {
+			public void onSuccess(List<ServerIssue> arg0) {
 				logW("query success---result: " + arg0);
 				syncContinue(arg0);
 			}
@@ -84,17 +81,72 @@ public class CycingSaveService extends IntentService{
 	 * then delete locale data,last insert server data
 	 * @param objects
 	 */
-	private void syncContinue(List<ServerIssuePicture> objects) {
+	private void syncContinue(List<ServerIssue> objects) {
 		if(objects == null || objects.isEmpty()) {
 			return;
 		}
 		
 		getContentResolver().delete(CyclingConstants.Issue.CONTENT_URI, null, null);
-		insertServerIssueToDb();
+		insertServerIssueToDb(objects);
 	}
 	
-	private void insertServerIssueToDb() {
-		// TODO Auto-generated method stub
+	private void insertServerIssueToDb(List<ServerIssue> objects) {
+		for(ServerIssue issue : objects){
+			String name = issue.getName();
+			String level = issue.getLevel();
+			String price = issue.getPrice();
+			String phone = issue.getPhone();
+			int type = issue.getType();
+			String description = issue.getDescription();
+			String serverId = issue.getObjectId();
+			long date = issue.getDate();
+			
+			if(issue.hasPictures()) {
+				ArrayList<ContentProviderOperation> operations = new  ArrayList<ContentProviderOperation>();
+				ContentProviderOperation op;
+				op = ContentProviderOperation.newInsert(Issue.CONTENT_URI)
+						.withValue(Issue.NAME, name)
+						.withValue(Issue.LEVEL, level)
+						.withValue(Issue.PRICE, price)
+						.withValue(Issue.PHONE, phone)
+						.withValue(Issue.TYPE, type)
+						.withValue(Issue.DESCRIPTION, description)
+						.withValue(Issue.DATE, date)
+						.withValue(Issue.SERVER_ID, serverId)
+						.build();
+				operations.add(op);
+				for(String pic : issue.getPictures()) {
+					op = ContentProviderOperation.newInsert(Photo.CONTENT_URI)
+							.withValueBackReference(Photo.ISSUE_ID, 0)
+							.withValue(Photo.URI, pic)
+							.build();
+					operations.add(op);
+				}
+				try {
+					ContentProviderResult[] results = getContentResolver()
+							.applyBatch(CyclingConstants.AUTHORITY, operations);
+					for (ContentProviderResult result : results) {
+		                Log.i(TAG, result.uri.toString());
+		            }
+				} catch (RemoteException e) {
+					Log.e(TAG, "Problem persisting user edits", e);
+				} catch (OperationApplicationException e) {
+					Log.e(TAG, "Insert fails", e);
+				}
+				operations.clear();
+			} else {
+				ContentValues values = new ContentValues();
+				values.put(Issue.NAME, name);
+				values.put(Issue.LEVEL, level);
+				values.put(Issue.PRICE, price);
+				values.put(Issue.PHONE, phone);
+				values.put(Issue.TYPE, type);
+				values.put(Issue.DESCRIPTION, description);
+				values.put(Issue.DATE, date);
+				values.put(Issue.SERVER_ID, serverId);
+				getContentResolver().insert(Issue.CONTENT_URI, values);
+			}
+		}
 	}
 
 	private void saveIssue(Intent intent) {

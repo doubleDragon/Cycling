@@ -1,6 +1,9 @@
 package com.android.cycling.test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
@@ -106,6 +109,10 @@ public class CyclingTestCase extends AndroidTestCase{
 	}
 	
 	public void testSaveIssueToServer() {
+		
+		List<String> urls = new ArrayList<String>();
+		urls.add("test1");
+		urls.add("test2");
 
 		ServerIssue issue = new ServerIssue();
 		issue.setName("bmc");
@@ -114,6 +121,7 @@ public class CyclingTestCase extends AndroidTestCase{
 		issue.setDescription("随便看看把");
 		issue.setPhone("18600000000");
 		issue.setType(0);
+		issue.addPictures(urls);
 
 		issue.save(getContext(), new SaveListener() {
 

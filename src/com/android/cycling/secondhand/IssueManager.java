@@ -1,22 +1,18 @@
 package com.android.cycling.secondhand;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadBatchListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import com.android.cycling.data.ServerIssue;
-import com.android.cycling.data.ServerIssuePicture;
 
 public class IssueManager {
 	
@@ -58,30 +54,19 @@ public class IssueManager {
 		issue.setPhone(phone);
 		issue.setType(type);
 		issue.setDate(date);
-		issue.setRelation(new BmobRelation());
 		
 		mCallBackResult = new SaveIssueResult(issue);
 		
-		saveServerIssue(issue, pictures);
+		final boolean needToUploadPhoto = isNeedToUploadPhoto(pictures);
+		if(needToUploadPhoto) {
+			uploadFiles(pictures, issue);
+		} else {
+			saveServerIssue(issue);
+		}
 	}
 	
-	private void saveServerIssue(ServerIssue issue, String[] pictures) {
-		issue.save(mContext, new IssueSaveListener(issue, pictures));
-	}
-	
-	private void updateServerIssue(ServerIssue issue) {
-		issue.update(mContext, new IssueUpdateListener());
-
-
-			
-	}
-	
-	private void saveIssuePicture(ServerIssuePicture issuePicture) {
-		issuePicture.save(mContext, new IssuePictureSaveListener(issuePicture));
-	}
-	
-	private void saveIssuePictureBatch(List<BmobObject> list, ServerIssue issue) {
-		new BmobObject().insertBatch(mContext, list, new IssuePictureBatchSaveListener(list, issue));
+	private void saveServerIssue(ServerIssue issue) {
+		issue.save(mContext, new IssueSaveListener(issue));
 	}
 	
 	private void uploadFiles(final String[] pictStrings,  ServerIssue issue) {
@@ -177,16 +162,9 @@ public class IssueManager {
 				return;
 			}
 			mCallBackResult.setPictureWebPathList(arg1);
-			List<BmobObject> issuePictures = new ArrayList<BmobObject>();
-			for(BmobFile file : arg0) {
-				ServerIssuePicture issuePicture = new ServerIssuePicture();
-				issuePicture.setServerIssue(serverIssue);
-				issuePicture.setPicture(file);
-				
-				issuePictures.add(issuePicture);
-			}
 			
-			saveIssuePictureBatch(issuePictures, serverIssue);
+			serverIssue.addPictures(arg1);
+			saveServerIssue(serverIssue);
 		}
 		
 	}
@@ -211,13 +189,11 @@ public class IssueManager {
 
 		@Override
 		public void onSuccess() {
-			logW("PictureUploadFileListener---success");
-			
-			ServerIssuePicture issuePicture = new ServerIssuePicture();
-			issuePicture.setPicture(bmobFile);
-			issuePicture.setServerIssue(serverIssue);
-			saveIssuePicture(issuePicture);
-			
+			String url = bmobFile.getFileUrl(mContext);
+			logW("PictureUploadFileListener---success---url: " + url);
+			mCallBackResult.setPictureWebPathList(Arrays.asList(url));
+			serverIssue.addPicture(url);
+			saveServerIssue(serverIssue);
 		}
 
 		@Override
@@ -229,12 +205,10 @@ public class IssueManager {
 	private class IssueSaveListener extends SaveListener {
 		
 		public final ServerIssue serverIssue;
-		public final String[] pictures;
 
-		public IssueSaveListener(ServerIssue serverIssue, String[] pictures) {
+		public IssueSaveListener(ServerIssue serverIssue) {
 			super();
 			this.serverIssue = serverIssue;
-			this.pictures = pictures;
 		}
 
 		@Override
@@ -247,90 +221,9 @@ public class IssueManager {
 		@Override
 		public void onSuccess() {
 			logW("IssueSaveListener---save issue" + serverIssue + " success");
-			final boolean needToUploadPhoto = isNeedToUploadPhoto(pictures);
-			if(needToUploadPhoto) {
-				uploadFiles(pictures, serverIssue);
-			} else {
-				mCallBackResult.setSuccess(true);
-				callbackIssueResult();
-			}
-		}
-	}
-	
-	private class IssueUpdateListener extends UpdateListener {
-
-		@Override
-		public void onFailure(int arg0, String arg1) {
-			logW("IssueUpdateListener---failed arg1:" + arg1);
-			mCallBackResult.setSuccess(false);
-			callbackIssueResult();
-		}
-
-		@Override
-		public void onSuccess() {
-			logW("IssueUpdateListener---success");
 			mCallBackResult.setSuccess(true);
 			callbackIssueResult();
 		}
-		
-	}
-	
-	private class IssuePictureSaveListener extends SaveListener {
-		
-		private final ServerIssuePicture issuePicture;
-
-		public IssuePictureSaveListener(ServerIssuePicture issuePicture) {
-			super();
-			this.issuePicture = issuePicture;
-		}
-
-		@Override
-		public void onFailure(int arg0, String arg1) {
-			logW("IssuePictureSaveListener---save issuePicture failed---error:" + arg1);
-			mCallBackResult.setSuccess(false);
-			callbackIssueResult();
-		}
-
-		@Override
-		public void onSuccess() {
-			logW("IssuePictureSaveListener---save issuePicture success");
-			ServerIssue issue = issuePicture.getServerIssue();
-			issue.getRelation().add(issuePicture);
-			updateServerIssue(issue);
-		}
-		
-	}
-	
-	private class IssuePictureBatchSaveListener extends SaveListener {
-		
-		private final ServerIssue serverIssue;
-		private final List<BmobObject> serverIssueList;
-		
-
-		public IssuePictureBatchSaveListener(List<BmobObject> list, ServerIssue serverIssue) {
-			super();
-			this.serverIssueList = list;
-			this.serverIssue = serverIssue;
-		}
-
-		@Override
-		public void onFailure(int arg0, String arg1) {
-			logW("IssuePictureBatchSaveListener---save issuePicture failed---error:" + arg1);
-			mCallBackResult.setSuccess(false);
-		}
-
-		@Override
-		public void onSuccess() {
-			//update relation ship
-			for(BmobObject object : serverIssueList) {
-				serverIssue.getRelation().add(object);
-//				BmobRelation relation = new BmobRelation();
-//				relation.add(object);
-//				serverIssue.setRelation(relation);
-			}
-			updateServerIssue(serverIssue);
-		}
-		
 	}
 	
 	public static class SaveIssueResult {

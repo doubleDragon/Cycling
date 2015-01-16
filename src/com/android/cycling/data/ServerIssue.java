@@ -1,12 +1,19 @@
 package com.android.cycling.data;
 
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.datatype.BmobRelation;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import cn.bmob.v3.BmobObject;
+
+/**
+ * web picture path stored in column urls
+ * @author wsl
+ *
+ */
 public class ServerIssue extends BmobObject{
 	
 	private static final long serialVersionUID = 1L;
+	
 	
 	private String name;
 	private String level;
@@ -15,9 +22,12 @@ public class ServerIssue extends BmobObject{
 	private String description;
 	private long date;
 	private int type;
+	private ArrayList<String> urls;
 	
-	private BmobRelation relation;
-	
+	public ServerIssue() {
+		super();
+		urls = new ArrayList<String>();
+	}
 	public String getName() {
 		return name;
 	}
@@ -60,11 +70,42 @@ public class ServerIssue extends BmobObject{
 	public void setType(int type) {
 		this.type = type;
 	}
-	public BmobRelation getRelation() {
-		return relation;
+	
+	public void addPicture(String url) {
+//		int index = urls.indexOf(url);
+//		if(index == -1) {
+//			urls.add(url);
+//		}
+		urls.add(url);
 	}
-	public void setRelation(BmobRelation relation) {
-		this.relation = relation;
+	
+	public void addPictures(Collection<String> urls) {
+		urls.addAll(urls);
 	}
+	
+	public ArrayList<String> getPictures() {
+		return urls;
+	}
+	
+	public boolean hasPictures() {
+		if(urls == null || urls.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "["
+				+ "name: " + name + "\n"
+				+ "level: " + level+ "\n"
+				+ "price: " + price + "\n"
+				+ "phone: " + phone + "\n"
+				+ "description: " + description + "\n"
+				+ "date: " + date + "\n"
+				+ "type: " + type + "]"
+				;
+	}
+	
 	
 }
