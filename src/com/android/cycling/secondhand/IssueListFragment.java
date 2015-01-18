@@ -4,7 +4,7 @@ package com.android.cycling.secondhand;
 import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
-import com.android.cycling.secondhand.IssueListLoader.Result;
+import com.android.cycling.secondhand.IssueListLoader.IssueResult;
 import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.util.UserUtils;
 import com.android.cycling.widget.AutoScrollListView;
@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class IssueListFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<IssueListLoader.Result>>{
+public class IssueListFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<IssueListLoader.IssueResult>>{
 	
 	private static final int LOAD_ISSUES = 1000;
 	
@@ -149,13 +149,13 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	}
 
 	@Override
-	public Loader<ArrayList<Result>> onCreateLoader(int id, Bundle args) {
+	public Loader<ArrayList<IssueResult>> onCreateLoader(int id, Bundle args) {
 		return new IssueListLoader(mContext);
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<Result>> loader,
-			ArrayList<Result> data) {
+	public void onLoadFinished(Loader<ArrayList<IssueResult>> loader,
+			ArrayList<IssueResult> data) {
 		if (mAdapter != null) {
             mAdapter.notifyDataSetInvalidated();
         }
@@ -174,7 +174,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<Result>> loader) {
+	public void onLoaderReset(Loader<ArrayList<IssueResult>> loader) {
 		mAdapter.setData(null);
 	}
 	

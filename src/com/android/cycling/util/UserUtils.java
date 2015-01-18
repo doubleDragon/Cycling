@@ -1,6 +1,7 @@
 package com.android.cycling.util;
 
 import com.android.cycling.activities.LoginActivity;
+import com.android.cycling.data.ServerUser;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +21,8 @@ public final class UserUtils {
 		return false;
 	}
 	
-	public static BmobUser getCurrentUser(Context context) {
-		return BmobUser.getCurrentUser(context);
+	public static ServerUser getCurrentUser(Context context) {
+		return ServerUser.getCurrentUser(context, ServerUser.class);
 	}
 	
 	public static void intentToLogin(Context context) {

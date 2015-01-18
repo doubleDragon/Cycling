@@ -2,6 +2,7 @@ package com.android.cycling.provider;
 
 import com.android.cycling.provider.CyclingConstants.Issue;
 import com.android.cycling.provider.CyclingConstants.Photo;
+import com.android.cycling.provider.CyclingConstants.User;
 import com.android.cycling.provider.CyclingDatabase.Tables;
 import com.android.cycling.provider.CyclingDatabase.Views;
 
@@ -13,6 +14,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 public class CyclingProvider extends ContentProvider{
 	
@@ -21,6 +23,8 @@ public class CyclingProvider extends ContentProvider{
 	private static final int ISSUES_ID = 2;
 	private static final int PHOTO = 3;
 	private static final int PHOTO_ID = 4;
+	private static final int USER = 5;
+	private static final int USER_ID = 6;
 	
 	private static final ProjectionMap sIssuesProjectionMap = ProjectionMap.builder()
             .add(Issue._ID)
@@ -33,11 +37,22 @@ public class CyclingProvider extends ContentProvider{
             .add(Issue.DATE)
             .add(Issue.SERVER_ID)
             .add(Photo.URI)
+            .add(User.AVATAR)
+            .add(User.USERNAME)
+            .add(User.EMAIL)
             .build();
 	
 	private static final ProjectionMap sPhotoProjectionMap = ProjectionMap.builder()
 			.add(Photo._ID)
 			.add(Photo.URI)
+			.build();
+	
+	private static final ProjectionMap sUserProjectionMap = ProjectionMap.builder()
+			.add(User._ID)
+			.add(User.AVATAR)
+			.add(User.USERNAME)
+			.add(User.EMAIL)
+			.add(User.SERVER_ID)
 			.build();
 	
 	private CyclingDatabase mOpenHelper;
@@ -48,6 +63,8 @@ public class CyclingProvider extends ContentProvider{
 		sUriMatcher.addURI(CyclingConstants.AUTHORITY, "issues/#", ISSUES_ID);
 		sUriMatcher.addURI(CyclingConstants.AUTHORITY, "photo", PHOTO);
 		sUriMatcher.addURI(CyclingConstants.AUTHORITY, "photo/#", PHOTO_ID);
+		sUriMatcher.addURI(CyclingConstants.AUTHORITY, "user", USER);
+		sUriMatcher.addURI(CyclingConstants.AUTHORITY, "user/#", USER_ID);
 	}
 
 	@Override
@@ -71,7 +88,7 @@ public class CyclingProvider extends ContentProvider{
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		String groupBy = null;
         String having = null;
-//        String limit = null;
+        String limit = null;
 		
 		final int match = sUriMatcher.match(uri);
 		switch(match) {
@@ -94,12 +111,25 @@ public class CyclingProvider extends ContentProvider{
 			selectionArgs = insertSelectionArg(selectionArgs, String.valueOf(photoId));
 			qb.appendWhere(Photo._ID + "=?");
 			break;
+		case USER:
+			qb.setTables(Tables.USER);
+			qb.setProjectionMap(sUserProjectionMap);
+			break;
+		case USER_ID:
+			long userId = ContentUris.parseId(uri);
+			qb.setTables(Tables.USER);
+			qb.setProjectionMap(sUserProjectionMap);
+			selectionArgs = insertSelectionArg(selectionArgs, String.valueOf(userId));
+			qb.appendWhere(User._ID + "=?");
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 		qb.setStrict(true);
 		
 		SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+		String temp = qb.buildQuery(projection, selection, groupBy, having, sortOrder, limit);
+		Log.d("wsl", "query temp: " + temp);
 		Cursor c = qb.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
 		if (c != null) {
             c.setNotificationUri(getContext().getContentResolver(), CyclingConstants.AUTHORITY_URI);
@@ -116,13 +146,18 @@ public class CyclingProvider extends ContentProvider{
 	}
 	
 	private long insertIssue(SQLiteDatabase db, ContentValues values) {
-		long issueId = db.insert(Tables.ISSUE, Issue._ID, values);
+		long issueId = db.insert(Tables.ISSUE, Issue.PHONE, values);
 		return issueId;
 	}
 	
 	private long insertPhoto(SQLiteDatabase db, ContentValues values) {
-		long photoId = db.insert(Tables.PHOTO, Photo._ID, values);
+		long photoId = db.insert(Tables.PHOTO, null, values);
 		return photoId;
+	}
+	
+	private long insertUser(SQLiteDatabase db, ContentValues values) {
+		long userId = db.replace(Tables.USER, User.AVATAR, values);
+		return userId;
 	}
 
 	@Override
@@ -137,6 +172,9 @@ public class CyclingProvider extends ContentProvider{
 		case PHOTO:
 			id = insertPhoto(db, values);
 			break;
+		case USER:
+			id = insertUser(db, values);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -148,16 +186,17 @@ public class CyclingProvider extends ContentProvider{
 	}
 	
 	private void notifyChange(int match) {
-		Uri uri;
-		switch(match) {
-		case ISSUES:
-			uri = Issue.CONTENT_URI;
-			break;
-		default:
-			uri = CyclingConstants.AUTHORITY_URI;
-			break;
-		}
-		getContext().getContentResolver().notifyChange(uri, null);
+//		Uri uri;
+//		switch(match) {
+//		case ISSUES:
+//			uri = Issue.CONTENT_URI;
+//			break;
+//		default:
+//			uri = CyclingConstants.AUTHORITY_URI;
+//			break;
+//		}
+//		getContext().getContentResolver().notifyChange(uri, null);
+		getContext().getContentResolver().notifyChange(CyclingConstants.AUTHORITY_URI, null);
 	}
 
 	@Override

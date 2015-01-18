@@ -15,7 +15,7 @@ public class ServerIssue extends BmobObject{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private BmobUser user;
+	private ServerUser user;
 	
 	private String name;
 	private String level;
@@ -73,10 +73,10 @@ public class ServerIssue extends BmobObject{
 		this.type = type;
 	}
 	
-	public BmobUser getUser() {
+	public ServerUser getUser() {
 		return user;
 	}
-	public void setUser(BmobUser user) {
+	public void setUser(ServerUser user) {
 		this.user = user;
 	}
 	
@@ -112,7 +112,10 @@ public class ServerIssue extends BmobObject{
 				+ "phone: " + phone + "\n"
 				+ "description: " + description + "\n"
 				+ "date: " + date + "\n"
-				+ "type: " + type + "]"
+				+ "type: " + type 
+				+ "url: " + urls.toString()
+				+ "user: " + user
+				+ "]"
 				;
 	}
 	

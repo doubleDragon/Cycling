@@ -34,15 +34,32 @@ public final class CyclingConstants {
 		public static final String PRICE = "price";
 		public static final String DESCRIPTION = "description";
 		public static final String DATE = "date";
+		public static final String USER_ID = "user_id";
 		public static final String SERVER_ID = "server_id";
 		
 		public static final String CONCRETE_ID = Tables.ISSUE + "." + _ID;
+		public static final String CONCRETE_SERVER_ID = Tables.ISSUE + "." + SERVER_ID;
 	}
 	
 	public static class Issue implements IssueColumns {
 		private Issue() {};
 		
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "issues");
+	}
+	public interface UserColumns {
+		public static final String _ID = BaseColumns._ID;
+		public static final String AVATAR = "avatar";
+		public static final String USERNAME = "username";
+		public static final String EMAIL = "email";
+		public static final String SERVER_ID = "server_id";
+		
+		public static final String CONCRETE_ID = Tables.USER + "." + _ID;
+	}
+	
+	public static class User implements UserColumns {
+		private User() {};
+		
+		public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "user");
 	}
 
 }

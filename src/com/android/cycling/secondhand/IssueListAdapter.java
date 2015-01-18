@@ -1,12 +1,10 @@
 package com.android.cycling.secondhand;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import com.android.cycling.R;
-import com.android.cycling.secondhand.IssueListLoader.Result;
+import com.android.cycling.secondhand.IssueListLoader.IssueResult;
 import com.android.cycling.util.DateUtils;
 import com.android.cycling.widget.SimpleGridView;
 
@@ -18,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class IssueListAdapter extends ArrayAdapter<Result>{
+public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 	
 	private static final String TAG = IssueListAdapter.class.getSimpleName();
 	
@@ -38,7 +36,7 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
 		mDescriptionPrefix = mContext.getString(R.string.description);
 	}
 	
-	public void setData(ArrayList<Result> items) {
+	public void setData(ArrayList<IssueResult> items) {
 		clear();
 
         if (items == null) return;
@@ -46,13 +44,13 @@ public class IssueListAdapter extends ArrayAdapter<Result>{
 	}
 	
 	@Override
-    public Result getItem(int position) {
+    public IssueResult getItem(int position) {
         return super.getItem(position);
     }
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Result item = getItem(position);
+		IssueResult item = getItem(position);
         View result;
         IssueListItemViewCache viewCache;
         if (convertView != null) {

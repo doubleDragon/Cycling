@@ -1,24 +1,30 @@
 package com.android.cycling;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 
 import com.android.cycling.data.ServerIssue;
+import com.android.cycling.data.ServerUser;
 import com.android.cycling.provider.CyclingConstants;
 import com.android.cycling.provider.CyclingConstants.Issue;
 import com.android.cycling.provider.CyclingConstants.Photo;
+import com.android.cycling.provider.CyclingConstants.User;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class CycingSaveService extends IntentService{
@@ -61,6 +67,7 @@ public class CycingSaveService extends IntentService{
 	
 	private void syncIssue(Intent intent) {
 		BmobQuery<ServerIssue> query = new BmobQuery<ServerIssue>();
+		query.include("user");
 		query.findObjects(this, new FindListener<ServerIssue>() {
 			
 			@Override
@@ -91,6 +98,8 @@ public class CycingSaveService extends IntentService{
 	}
 	
 	private void insertServerIssueToDb(List<ServerIssue> objects) {
+		final ContentResolver resolver = getContentResolver();
+		HashMap<String, ServerUser> userMap = new HashMap<String, ServerUser>();
 		for(ServerIssue issue : objects){
 			String name = issue.getName();
 			String level = issue.getLevel();
@@ -100,6 +109,20 @@ public class CycingSaveService extends IntentService{
 			String description = issue.getDescription();
 			String serverId = issue.getObjectId();
 			long date = issue.getDate();
+			
+			ServerUser user = issue.getUser();
+			String userId = user.getObjectId();
+			if(!userMap.containsKey(userId)) {
+				ContentValues values = new ContentValues();
+				values.put(User.AVATAR, user.getAvatar());
+				values.put(User.USERNAME, user.getUsername());
+				values.put(User.EMAIL, user.getEmail());
+				values.put(User.SERVER_ID, user.getObjectId());
+//				if (!TextUtils.isEmpty(avatar)) {
+//					values.put(User.AVATAR, avatar);
+//				}
+				resolver.insert(User.CONTENT_URI, values);
+			}
 			
 			if(issue.hasPictures()) {
 				ArrayList<ContentProviderOperation> operations = new  ArrayList<ContentProviderOperation>();
@@ -113,6 +136,7 @@ public class CycingSaveService extends IntentService{
 						.withValue(Issue.DESCRIPTION, description)
 						.withValue(Issue.DATE, date)
 						.withValue(Issue.SERVER_ID, serverId)
+						.withValue(Issue.USER_ID, userId)
 						.build();
 				operations.add(op);
 				for(String pic : issue.getPictures()) {
@@ -123,7 +147,7 @@ public class CycingSaveService extends IntentService{
 					operations.add(op);
 				}
 				try {
-					ContentProviderResult[] results = getContentResolver()
+					ContentProviderResult[] results = resolver
 							.applyBatch(CyclingConstants.AUTHORITY, operations);
 					for (ContentProviderResult result : results) {
 		                Log.i(TAG, result.uri.toString());
@@ -144,7 +168,8 @@ public class CycingSaveService extends IntentService{
 				values.put(Issue.DESCRIPTION, description);
 				values.put(Issue.DATE, date);
 				values.put(Issue.SERVER_ID, serverId);
-				getContentResolver().insert(Issue.CONTENT_URI, values);
+				values.put(Issue.USER_ID, userId);
+				resolver.insert(Issue.CONTENT_URI, values);
 			}
 		}
 	}

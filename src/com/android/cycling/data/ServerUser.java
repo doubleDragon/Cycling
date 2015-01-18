@@ -22,6 +22,14 @@ public class ServerUser extends BmobUser{
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	
+	@Override
+	public String toString() {
+		return super.toString() + "["
+				+ "username：" + getUsername()
+				+ "email: " + getEmail()
+				+ "isMale: " + isMale
+				+ "avatar: " + avatar
+				+ "]";
+	}
 	
 }

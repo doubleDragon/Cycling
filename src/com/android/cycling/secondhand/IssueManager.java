@@ -13,6 +13,7 @@ import cn.bmob.v3.listener.UploadBatchListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import com.android.cycling.data.ServerIssue;
+import com.android.cycling.data.ServerUser;
 import com.android.cycling.util.UserUtils;
 
 public class IssueManager {

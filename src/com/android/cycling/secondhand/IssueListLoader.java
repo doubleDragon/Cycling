@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import com.android.cycling.provider.CyclingConstants.Issue;
 import com.android.cycling.provider.CyclingConstants.Photo;
+import com.android.cycling.provider.CyclingConstants.User;
 
 import android.os.Handler;
 import android.text.TextUtils;
@@ -16,7 +17,7 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 
-public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.Result>>{
+public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.IssueResult>>{
 	
 	private static final int ISSUE_ID = 0;
 	private static final int ISSUE_NAME = 1;
@@ -28,10 +29,11 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 	private static final int ISSUE_DATE = 7;
 	private static final int ISSUE_SERVER_ID = 8;
 	private static final int ISSUE_PHOTO = 9;
+	private static final int ISSUE_USER_AVATAR = 10;
 	
-	private ArrayList<Result> mResults;
+	private ArrayList<IssueResult> mResults;
 	
-	public static class Result {
+	public static class IssueResult {
 		public long _id;
 		public String name;
 		public String level;
@@ -43,6 +45,11 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 		public String serverId;
 		public ArrayList<String> photoList;
 		
+		public UserResult user;
+	}
+	
+	public static class UserResult {
+		public String avatar;
 	}
 	
 	public static final String[] PROJECTION = new String[] {
@@ -55,7 +62,8 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 		Issue.DESCRIPTION,
 		Issue.DATE,
 		Issue.SERVER_ID,
-		Photo.URI
+		Photo.URI,
+		User.AVATAR
 	};
 	
 	private DataObserver mObserver;
@@ -65,7 +73,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 	}
 	
 	@Override
-    public void deliverResult(ArrayList<Result> results) {
+    public void deliverResult(ArrayList<IssueResult> results) {
         mResults = results;
         if (isStarted()) {
             // If the Loader is started, immediately deliver its results.
@@ -112,19 +120,19 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
     }
 
 	@Override
-	public ArrayList<Result> loadInBackground() {
-		ArrayList<Result> issues = getIssues();
+	public ArrayList<IssueResult> loadInBackground() {
+		ArrayList<IssueResult> issues = getIssues();
 		return issues;
 	}
 	
-	public ArrayList<Result> getIssues() {
+	public ArrayList<IssueResult> getIssues() {
 		ContentResolver resolver = getContext().getContentResolver();
 		Cursor c = resolver.query(Issue.CONTENT_URI, PROJECTION, null, null, Issue._ID + " ASC");
-		ArrayList<Result> results = new ArrayList<Result>();
+		ArrayList<IssueResult> results = new ArrayList<IssueResult>();
 		String photo;
 		long id;
-		Result result;
-		HashMap<Long, IssueListLoader.Result> issuesMap = new HashMap<Long, IssueListLoader.Result>();
+		IssueResult result;
+		HashMap<Long, IssueListLoader.IssueResult> issuesMap = new HashMap<Long, IssueListLoader.IssueResult>();
 		try {
 			c.moveToPosition(-1);
 			while(c.moveToNext()) {
@@ -141,7 +149,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 					}
 					result.photoList.add(photo);
 				} else {
-					result = new Result();
+					result = new IssueResult();
 					result._id = id;
 					result.name = c.getString(ISSUE_NAME);
 					result.level = c.getString(ISSUE_LEVEL);
@@ -155,6 +163,13 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.R
 					if (!TextUtils.isEmpty(photo)) {
 						result.photoList = new ArrayList<String>();
 						result.photoList.add(photo);
+					}
+					
+					final String avatar = c.getString(ISSUE_USER_AVATAR);
+					if(!TextUtils.isEmpty(avatar)) {
+						UserResult user = new UserResult();
+						user.avatar = avatar;
+						result.user = user;
 					}
 					
 					results.add(result);
