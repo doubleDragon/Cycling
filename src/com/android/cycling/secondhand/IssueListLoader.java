@@ -215,5 +215,13 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 		}
 
 	}
+	
+	private static final boolean DEBUG = true;
+	private static final String TAG = IssueListLoader.class.getSimpleName();
+	private static void logW(String msg) {
+		if(DEBUG) {
+		android.util.Log.d(TAG, msg);
+		}
+	}
 
 }

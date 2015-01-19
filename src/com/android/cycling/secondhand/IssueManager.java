@@ -1,6 +1,7 @@
 package com.android.cycling.secondhand;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,13 +14,12 @@ import cn.bmob.v3.listener.UploadBatchListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import com.android.cycling.data.ServerIssue;
-import com.android.cycling.data.ServerUser;
 import com.android.cycling.util.UserUtils;
 
 public class IssueManager {
 	
 	public static interface Listener {
-		void onComplete(SaveIssueResult callBackObj);
+		void onComplete(boolean success);
 	}
 	
 	private static final String TAG = IssueManager.class.getSimpleName();
@@ -27,8 +27,8 @@ public class IssueManager {
 	
 	private Context mContext;
 	private Listener mListener;
+	private boolean mResult;
 	
-	private SaveIssueResult mCallBackResult;
 	
 	public void setListener(Listener listener) {
 		mListener = listener;
@@ -57,8 +57,6 @@ public class IssueManager {
 		issue.setType(type);
 		issue.setDate(date);
 		issue.setUser(UserUtils.getCurrentUser(mContext));
-		
-		mCallBackResult = new SaveIssueResult(issue);
 		
 		final boolean needToUploadPhoto = isNeedToUploadPhoto(pictures);
 		if(needToUploadPhoto) {
@@ -96,7 +94,7 @@ public class IssueManager {
 		File file = new File(picPath);
 		if(!file.exists()) {
 			//文件不存在
-			mCallBackResult.setSuccess(false);
+			mResult = false;
 			callbackIssueResult();
 		}
 		BmobFile bmobFile = new BmobFile(file);
@@ -105,27 +103,7 @@ public class IssueManager {
 	
 	private void callbackIssueResult() {
 		if(mListener != null) {
-			mListener.onComplete(mCallBackResult);
-		}
-	}
-	
-	public class CallBackObj {
-		
-		public final String[] pictures;
-		
-		public final ServerIssue issue;
-		
-		public CallBackObj(ServerIssue issue, String[] pictures) {
-			this.issue = issue;
-			this.pictures = pictures;
-		}
-
-		public boolean mResult;
-		public void setCallbackResult(boolean result) {
-			mResult = result;
-		}
-		public boolean getCallbackResult() {
-			return mResult;
+			mListener.onComplete(mResult);
 		}
 	}
 	
@@ -143,7 +121,7 @@ public class IssueManager {
 		@Override
 		public void onError(int arg0, String arg1) {
 			logW("PictureUploadBatchListener---failed arg1:" + arg1);
-			mCallBackResult.setSuccess(false);
+			mResult = false;
 			callbackIssueResult();
 		}
 
@@ -164,9 +142,9 @@ public class IssueManager {
 				//Is't not last uploaded file,just return
 				return;
 			}
-			mCallBackResult.setPictureWebPathList(arg1);
 			
-			serverIssue.addPictures(arg1);
+			serverIssue.addPictures(new ArrayList<String>(arg1));
+			logW("PictureUploadBatchListener---onSuccess hasPictures:" + serverIssue.hasPictures());
 			saveServerIssue(serverIssue);
 		}
 		
@@ -186,7 +164,7 @@ public class IssueManager {
 		@Override
 		public void onFailure(int arg0, String arg1) {
 			logW("PictureUploadFileListener---failed arg1:" + arg1);
-			mCallBackResult.setSuccess(false);
+			mResult = false;
 			callbackIssueResult();
 		}
 
@@ -194,7 +172,6 @@ public class IssueManager {
 		public void onSuccess() {
 			String url = bmobFile.getFileUrl(mContext);
 			logW("PictureUploadFileListener---success---url: " + url);
-			mCallBackResult.setPictureWebPathList(Arrays.asList(url));
 			serverIssue.addPicture(url);
 			saveServerIssue(serverIssue);
 		}
@@ -217,45 +194,16 @@ public class IssueManager {
 		@Override
 		public void onFailure(int arg0, String arg1) {
 			logW("IssueSaveListener---save issue" + serverIssue + " failed---error:" + arg1);
-			mCallBackResult.setSuccess(false);
+			mResult = false;
 			callbackIssueResult();
 		}
 
 		@Override
 		public void onSuccess() {
 			logW("IssueSaveListener---save issue" + serverIssue + " success");
-			mCallBackResult.setSuccess(true);
+			mResult = true;
 			callbackIssueResult();
 		}
-	}
-	
-	public static class SaveIssueResult {
-		
-		public final ServerIssue serverIssue;
-		private boolean success;
-		private List<String> webPicturePathList;
-		
-		public SaveIssueResult(ServerIssue serverIssue) {
-			super();
-			this.serverIssue = serverIssue;
-		}
-
-		public boolean isSuccess() {
-			return success;
-		}
-
-		public void setSuccess(boolean success) {
-			this.success = success;
-		}
-		
-		public void setPictureWebPathList(List<String> webPicturePathList) {
-			this.webPicturePathList = webPicturePathList;
-		}
-		
-		public List<String> getPictureWebPathList() {
-			return webPicturePathList;
-		}
-		
 	}
 	
 	private static void logW(String msg) {

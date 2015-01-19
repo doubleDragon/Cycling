@@ -25,6 +25,7 @@ public class ServerUser extends BmobUser{
 	@Override
 	public String toString() {
 		return super.toString() + "["
+				+ "id: " + getObjectId() 
 				+ "username：" + getUsername()
 				+ "email: " + getEmail()
 				+ "isMale: " + isMale

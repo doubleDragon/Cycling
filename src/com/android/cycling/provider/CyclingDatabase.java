@@ -60,10 +60,10 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				+ userColumns + ","
 				+ Photo.URI //Photo table uri
 				+ " FROM " + Tables.ISSUE
-				+ " JOIN " + Tables.USER + " ON("
-					+ Issue.USER_ID + "=" + UserColumns.CONCRETE_ID + ")" 
-				+ " LEFT OUTER JOIN " + Tables.PHOTO + " ON("
-					+ Issue.CONCRETE_ID + "=" + Photo.CONCRETE_ISSUE_ID + ")";
+				+ " JOIN " + Tables.USER + " ON ("
+					+ IssueColumns.USER_ID + "=" + UserColumns.CONCRETE_SERVER_ID + ")" 
+				+ " LEFT OUTER JOIN " + Tables.PHOTO + " ON ("
+					+ IssueColumns.CONCRETE_ID + "=" + Photo.CONCRETE_ISSUE_ID + ")";
 				
 		db.execSQL("CREATE VIEW " + Views.ISSUE + " AS " + issueSelect);
 	}
@@ -79,7 +79,7 @@ public class CyclingDatabase extends SQLiteOpenHelper{
 				IssueColumns.TYPE + " INTEGER NOT NULL DEFAULT 0," +
 				IssueColumns.DESCRIPTION + " TEXT NOT NULL," +
 				IssueColumns.DATE + " INTEGER NOT NULL," +
-				IssueColumns.USER_ID + " INTEGER NOT NULL," +
+				IssueColumns.USER_ID + " TEXT NOT NULL," +
 				IssueColumns.SERVER_ID + " TEXT NOT NULL" +
 		");");
 		db.execSQL("CREATE TABLE " + Tables.PHOTO + " (" +

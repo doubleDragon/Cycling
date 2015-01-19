@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.activities.SelectPicturesActivity;
-import com.android.cycling.data.ServerIssue;
-import com.android.cycling.secondhand.IssueManager.SaveIssueResult;
+import com.android.cycling.util.DataUtils;
 import com.android.cycling.util.DateUtils;
 import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.widget.HeaderLayout.Action;
@@ -63,50 +61,19 @@ public class IssueEditorFragment extends Fragment {
 	private final IssueManager.Listener mListener = new IssueManager.Listener() {
 
 		@Override
-		public void onComplete(SaveIssueResult callBackObj) {
+		public void onComplete(boolean success) {
 			stopDialog();
-			if (!callBackObj.isSuccess()) {
+			if (!success) {
 				toastMessage("发贴失败");
 			} else {
 				// 本地保存issue
 				toastMessage("发贴成功");
-				// Add prefiex to file path
-//				addPrefiexToPicturePath(callBackObj.pictures);
-				ServerIssue issue = callBackObj.serverIssue;//save web photo path
-				android.util.Log.d(TAG, "onComplete serverIssue: " + issue);
-				
-				List<String> webPathList = callBackObj.getPictureWebPathList();
-				String[] pictures;
-				if(hasPictures(webPathList)) {
-					pictures = webPathList.toArray(new String[0]);
-				} else {
-					pictures = null;
-				}
-				
-				Intent service = CycingSaveService.createSaveIssueIntent(
-						mContext, issue.getName(), issue.getLevel(),
-						issue.getPrice(), issue.getDescription(),
-						issue.getDate(), issue.getPhone(), issue.getType(),
-						issue.getObjectId(), pictures);
-				mContext.startService(service);
+				DataUtils.syncIssueFromServer(mContext);
 			}
 			finishActivity();
 		}
 		
 	};
-	
-	private boolean hasPictures(List<String> webPathList) {
-		if(webPathList == null || webPathList.isEmpty()) {
-			return false;
-		}
-		return true;
-	}
-	
-	private void addPrefiexToPicturePath(String[] pictures) {
-		for(int i=0; i<pictures.length; i++) {
-			pictures[i] = FILE_URI_PREFIX + pictures[i];
-		}
-	}
 	
 	public void setContentResolver(ContentResolver contentResolver) {
 		mContentResolver = contentResolver;

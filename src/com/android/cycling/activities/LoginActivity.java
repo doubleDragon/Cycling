@@ -77,8 +77,9 @@ public class LoginActivity extends Activity {
 		}
 		
 		ServerUser user = new ServerUser();
-		user.setUsername("lucky");
-		user.setPassword("123456");
+		user.setUsername(email);
+		user.setEmail(email);
+		user.setPassword(pwd);
 		user.login(this, new SaveListener() {
 			@Override
 			public void onSuccess() {

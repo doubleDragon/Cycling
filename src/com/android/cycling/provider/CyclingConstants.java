@@ -39,6 +39,7 @@ public final class CyclingConstants {
 		
 		public static final String CONCRETE_ID = Tables.ISSUE + "." + _ID;
 		public static final String CONCRETE_SERVER_ID = Tables.ISSUE + "." + SERVER_ID;
+		public static final String CONCRETE_USER_ID = Tables.ISSUE + "." + USER_ID;
 	}
 	
 	public static class Issue implements IssueColumns {
@@ -54,6 +55,7 @@ public final class CyclingConstants {
 		public static final String SERVER_ID = "server_id";
 		
 		public static final String CONCRETE_ID = Tables.USER + "." + _ID;
+		public static final String CONCRETE_SERVER_ID = Tables.USER + "." + SERVER_ID;
 	}
 	
 	public static class User implements UserColumns {

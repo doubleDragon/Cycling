@@ -5,6 +5,7 @@ import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.secondhand.IssueListLoader.IssueResult;
+import com.android.cycling.util.DataUtils;
 import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.util.UserUtils;
 import com.android.cycling.widget.AutoScrollListView;
@@ -58,32 +59,24 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		logW("onCreate");
 		
 		//Check the network,display toast
 		if(NetworkUtils.isNetworkConnected(mContext)) {
-			syncIssueFromServer();
+			DataUtils.syncIssueFromServer(mContext);
 		} else {
 			toastMessage(R.string.no_network);
 		}
-	}
-	
-	private void syncIssueFromServer() {
-		Intent i = CycingSaveService.createSyncIssueIntent(mContext);
-		mContext.startService(i);
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		logW("onStart");
 		getLoaderManager().restartLoader(LOAD_ISSUES, null, this);
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		logW("onResume");
 	}
 
 	@Override
@@ -130,19 +123,16 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		logW("onPause");
 	}
 
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		logW("onStop");
 	}
 
 	@Override
 	public void onDestroy() {
-		logW("onDestroy");
 		mListView = null;
         mEmptyView = null;
 		super.onDestroy();

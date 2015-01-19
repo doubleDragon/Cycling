@@ -2,9 +2,9 @@ package com.android.cycling.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.BmobUser;
 
 /**
  * web picture path stored in column urls
@@ -89,7 +89,7 @@ public class ServerIssue extends BmobObject{
 	}
 	
 	public void addPictures(Collection<String> urls) {
-		urls.addAll(urls);
+		this.urls.addAll(urls);
 	}
 	
 	public ArrayList<String> getPictures() {

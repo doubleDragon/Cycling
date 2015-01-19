@@ -114,7 +114,7 @@ public class CyclingTestCase extends AndroidTestCase{
 		urls.add("test1");
 		urls.add("test2");
 
-		ServerIssue issue = new ServerIssue();
+		final ServerIssue issue = new ServerIssue();
 		issue.setName("bmc");
 		issue.setLevel("8新");
 		issue.setPrice("16800");
@@ -132,7 +132,8 @@ public class CyclingTestCase extends AndroidTestCase{
 
 			@Override
 			public void onSuccess() {
-				logW("save issue success");
+				logW("save issue success---updateTime: " + issue.getUpdatedAt());
+				
 			}
 
 		});
