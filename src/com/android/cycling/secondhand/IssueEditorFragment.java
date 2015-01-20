@@ -177,10 +177,9 @@ public class IssueEditorFragment extends Fragment {
 		final String phone = mPhone.getEditableText().toString();
 		int type = mType.getType();
 		String[] pictures = mAdapter.getAllData();
-		long date = DateUtils.getCurrentTime();
 
 		startDialog();
-		mIssueManager.saveIssueToServer(name, level, price, description, date, phone, type, pictures);
+		mIssueManager.saveIssueToServer(name, level, price, description, phone, type, pictures);
 	}
 	
 	@Override

@@ -1,6 +1,9 @@
 package com.android.cycling;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class CycingSaveService extends IntentService{
@@ -94,6 +98,22 @@ public class CycingSaveService extends IntentService{
 		saveIssue(objects);
 	}
 	
+	private long convertServerUpdateTime(String time) {
+		long currentTime = System.currentTimeMillis();
+		if(TextUtils.isEmpty(time)) {
+			return currentTime;
+		}
+		
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			Date date = f.parse(time);
+			return date.getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return currentTime;
+		}
+	}
+	
 	private void saveIssue(List<ServerIssue> objects) {
 		final ContentResolver resolver = getContentResolver();
 		HashMap<String, ServerUser> userMap = new HashMap<String, ServerUser>();
@@ -105,7 +125,8 @@ public class CycingSaveService extends IntentService{
 			int type = issue.getType();
 			String description = issue.getDescription();
 			String serverId = issue.getObjectId();
-			long date = issue.getDate();
+			long date = convertServerUpdateTime(issue.getUpdatedAt());
+			Log.e("tag", "server date:" + date);
 			
 			ServerUser user = issue.getUser();
 			String userId = user.getObjectId();

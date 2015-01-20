@@ -46,7 +46,7 @@ public class IssueManager {
 	}
 	
 	public void saveIssueToServer(String name, String level, 
-			String price, String description, long date, String phone, 
+			String price, String description, String phone, 
 			int type, final String[] pictures) {
 		ServerIssue issue = new ServerIssue();
 		issue.setName(name);
@@ -55,7 +55,6 @@ public class IssueManager {
 		issue.setDescription(description);
 		issue.setPhone(phone);
 		issue.setType(type);
-		issue.setDate(date);
 		issue.setUser(UserUtils.getCurrentUser(mContext));
 		
 		final boolean needToUploadPhoto = isNeedToUploadPhoto(pictures);

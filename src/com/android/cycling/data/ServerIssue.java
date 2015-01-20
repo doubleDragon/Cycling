@@ -22,7 +22,7 @@ public class ServerIssue extends BmobObject{
 	private String price;
 	private String phone;
 	private String description;
-	private long date;
+//	private long date;
 	private int type;
 	private ArrayList<String> urls;
 	
@@ -60,12 +60,12 @@ public class ServerIssue extends BmobObject{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public long getDate() {
-		return date;
-	}
-	public void setDate(long date) {
-		this.date = date;
-	}
+//	public long getDate() {
+//		return date;
+//	}
+//	public void setDate(long date) {
+//		this.date = date;
+//	}
 	public int getType() {
 		return type;
 	}
@@ -111,7 +111,7 @@ public class ServerIssue extends BmobObject{
 				+ "price: " + price + "\n"
 				+ "phone: " + phone + "\n"
 				+ "description: " + description + "\n"
-				+ "date: " + date + "\n"
+				+ "updateTime: " + getUpdatedAt() + "\n"
 				+ "type: " + type 
 				+ "url: " + urls.toString()
 				+ "user: " + user
