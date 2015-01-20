@@ -47,4 +47,6 @@
     
     <color name="avatar_border">#FFFFFF</color>
     
+    <color name="textview_age_color">#ffffff</color>
+    
 </resources>
