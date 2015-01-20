@@ -51,6 +51,11 @@
         </activity>
         
         <activity 
+            android:label="@string/user_edit"
+        	android:name=".activities.UserEditorActivity" >
+        </activity>
+        
+        <activity 
         	android:name=".activities.IssueEditorActivity">
         </activity>
         <activity 

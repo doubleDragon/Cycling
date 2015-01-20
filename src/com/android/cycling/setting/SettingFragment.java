@@ -5,25 +5,24 @@ import cn.bmob.v3.BmobUser;
 import com.android.cycling.R;
 import com.android.cycling.activities.LoginActivity;
 import com.android.cycling.data.ServerUser;
-import com.android.cycling.widget.HeaderLayout;
-import com.android.cycling.widget.HeaderLayout.Action;
-import com.android.cycling.widget.RoundedImageView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
-public class SettingFragment extends Fragment implements OnClickListener{
+public class SettingFragment extends Fragment{
 
 	private static final String TAG = SettingFragment.class.getSimpleName();
 	
@@ -31,52 +30,43 @@ public class SettingFragment extends Fragment implements OnClickListener{
 	private Context mContext;
 	private ServerUser mSelfUser;
 	private boolean isNeedLogin;
+	private boolean isNeedSwitch;
 	
-	private RoundedImageView mAvatar;
-	private Button mAlertBtn;
+	private SettingContentFragment mContentFragment;
+	private UnavailableFragment mUnavailableFragment;
 	
-	private DisplayImageOptions options;
-
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mContext = activity;
 	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(R.drawable.ic_stub)
-				.showImageForEmptyUri(R.drawable.ic_launcher)
-				.showImageOnFail(R.drawable.ic_launcher).cacheInMemory(true)
-				.cacheOnDisk(true).considerExifParams(true)
-				.bitmapConfig(Bitmap.Config.RGB_565).build();
-		
-		//load self user data from server
-		mSelfUser = BmobUser.getCurrentUser(mContext, ServerUser.class);
-		if(mSelfUser == null) {
-			isNeedLogin = true;
-		}
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
+	
 	@Override
 	public void onDetach() {
 		mContext = null;
 		super.onDetach();
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if(savedInstanceState == null) {
+			isNeedSwitch = true;
+		} else {
+			isNeedSwitch = false;
+		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		mSelfUser = BmobUser.getCurrentUser(mContext, ServerUser.class);
+		if(mSelfUser == null) {
+			isNeedLogin = true;
+		} else {
+			isNeedLogin = false;
+		}
+		displayFragment();
 	}
 
 	@Override
@@ -88,70 +78,68 @@ public class SettingFragment extends Fragment implements OnClickListener{
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		
-		View root = getView();
-		if(root == null) {
-			throw new IllegalStateException("Content view not yet created");
+	}
+	
+	private void displayFragment() {
+		if(!isNeedSwitch) {
+			return;
 		}
-		HeaderLayout headerLayout = (HeaderLayout) root.findViewById(R.id.header_layout);
-		headerLayout.setTitle(R.string.indicator_title_index4);
 		
-		headerLayout.addAction(new Action() {
-
-			@Override
-			public int getDrawable() {
-				return R.drawable.editor;
-			}
-
-			@Override
-			public void performAction(View view) {
-//				intentToEdite();
-			}
-			
-		});
+		FragmentManager fm = getFragmentManager();
 		
-		View infoContainer = root.findViewById(R.id.infoContainer);
-		mAvatar = (RoundedImageView) root.findViewById(R.id.avatar);
-		mAvatar.setOnClickListener(this);
+		FragmentTransaction transaction = fm.beginTransaction();
+		mUnavailableFragment = (UnavailableFragment)fm.findFragmentByTag("unavail_fragment");
+		mContentFragment = (SettingContentFragment)fm.findFragmentByTag("content_fragment");
 		
-		mAlertBtn = (Button) root.findViewById(R.id.alertBtn);
-		mAlertBtn.setOnClickListener(this);
+		if(mUnavailableFragment == null) {
+			mUnavailableFragment = new UnavailableFragment();
+			transaction.add(R.id.content_frame, mUnavailableFragment, "unavail_fragment");
+		}
+		if(mContentFragment == null) {
+			mContentFragment = new SettingContentFragment();
+			transaction.add(R.id.content_frame, mContentFragment, "content_fragment");
+		}
+		mContentFragment.setSelfUser(mSelfUser);
 		
-		if(isNeedLogin) {
-			mAlertBtn.setVisibility(View.VISIBLE);
-			infoContainer.setVisibility(View.GONE);
+		transaction.hide(mUnavailableFragment);
+		transaction.hide(mContentFragment);
+		
+		
+		if(!isNeedLogin) {
+			transaction.show(mContentFragment);
 		} else {
-			mAlertBtn.setVisibility(View.GONE);
-			infoContainer.setVisibility(View.VISIBLE);
-			bindAvatar();
+			transaction.show(mUnavailableFragment);
+		}
+		transaction.commit();
+	}
+	
+	private static class UnavailableFragment extends Fragment {
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			Button text = new Button(getActivity());
+			text.setGravity(Gravity.CENTER);
+			text.setText(R.string.login);
+			text.setTextSize(20 * getResources().getDisplayMetrics().density);
+			text.setPadding(20, 20, 20, 20);
+			text.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent i =  new Intent(getActivity(), LoginActivity.class);
+					getActivity().startActivity(i);
+				}
+				
+			});
+
+			LinearLayout layout = new LinearLayout(getActivity());
+			layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT));
+			layout.setGravity(Gravity.CENTER);
+			layout.addView(text);
+
+			return layout;
 		}
 	}
-	
-	private void bindAvatar() {
-		String uriPath = mSelfUser.getAvatar();
-		ImageLoader.getInstance().displayImage(uriPath, mAvatar,
-				options);
-	}
-	
-	private void intentToActivity(Class<? extends Activity> aClass) {
-		Intent i =  new Intent(mContext, aClass);
-		mContext.startActivity(i);
-	}
-	
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()) {
-		case R.id.avatar:
-			//setting self avatar
-			break;
-		case R.id.alertBtn:
-//			Intent i =  new Intent(mContext, LoginActivity.class);
-//			mContext.startActivity(i);
-			intentToActivity(LoginActivity.class);
-			break;
-		default:
-			break;
-		}
-		
-	}
+
 }

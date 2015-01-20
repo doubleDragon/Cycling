@@ -32,6 +32,8 @@
     <string name="indicator_title_index3">"联系人"</string>
     <string name="indicator_title_index4">"设置"</string>
     
+    <string name="information_editor">"资料编辑"</string>
+    
     <string name="input_email">"请输入邮箱&#8230;"</string>
     <string name="input_name_alias">"请输入用户昵称&#8230;"</string>
     <string name="input_login_passward">"请输入登录密码&#8230;"</string>
@@ -41,6 +43,7 @@
     <string name="limit_char_count">"最多50个字&#8230;"</string>
     <string name="limit_picture_select_max_count">"只能选择6张图片"</string>
     <string name="login">"登录"</string>
+    <string name="my_photo">"个性相册"</string>
     <string name="no_issue_description">"商品描诉不能为空"</string>
     <string name="no_issue_level">"新旧程度不能为空"</string>
     <string name="no_issue_name">"名称不能为空"</string>
@@ -62,7 +65,7 @@
     <string name="type_parts">"[散件出售]"</string>
     <string name="type_buy">"[求购]"</string>
     <string name="upload_photo">"上传图片:"</string>
-    
+    <string name="user_edit">"用户资料编辑:"</string>
     
 </resources>
 

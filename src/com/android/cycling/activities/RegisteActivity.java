@@ -132,7 +132,7 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 		startDialog();
 		
 		ServerUser user = new ServerUser();
-		user.setUsername(email);
+		user.setUsername(nameAlias);
 		user.setPassword(pwd);
 		user.setEmail(email);
 		user.setEmailVerified(true);
