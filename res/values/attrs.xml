@@ -4,4 +4,9 @@
     <attr name="indicatorBarTabStyle" format="reference" />
     <attr name="indicatorTabBarStyle" format="reference" />
     <attr name="indicatorBarTabTextStyle" format="reference"/>
+    
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
 </resources>

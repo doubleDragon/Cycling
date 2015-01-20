@@ -1,39 +1,133 @@
 package com.android.cycling.setting;
 
-import com.android.cycling.R;
-import com.android.cycling.around.AroundFragment;
+import cn.bmob.v3.BmobUser;
 
+import com.android.cycling.R;
+import com.android.cycling.data.ServerUser;
+import com.android.cycling.widget.HeaderLayout;
+import com.android.cycling.widget.HeaderLayout.Action;
+import com.android.cycling.widget.RoundedImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.Button;
 
 public class SettingFragment extends Fragment {
 
+	private static final String TAG = SettingFragment.class.getSimpleName();
 	
-	//index 4
-	private static final String TAG = AroundFragment.class.getSimpleName();
+	
+	private Context mContext;
+	private ServerUser mSelfUser;
+	private boolean isNeedLogin;
+	
+	private RoundedImageView mAvatar;
+	private Button mAlertBtn;
+	
+	private DisplayImageOptions options;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mContext = activity;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.ic_stub)
+				.showImageForEmptyUri(R.drawable.ic_launcher)
+				.showImageOnFail(R.drawable.ic_launcher).cacheInMemory(true)
+				.cacheOnDisk(true).considerExifParams(true)
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
+		
+		//load self user data from server
+		mSelfUser = BmobUser.getCurrentUser(mContext, ServerUser.class);
+		if(mSelfUser == null) {
+			isNeedLogin = true;
+		}
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		mContext = null;
+		super.onDetach();
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		TextView text = new TextView(getActivity());
-		text.setGravity(Gravity.CENTER);
-		text.setText(R.string.indicator_title_index4);
-		text.setTextSize(20 * getResources().getDisplayMetrics().density);
-		text.setPadding(20, 20, 20, 20);
+		return inflater.inflate(R.layout.setting_fragment, container, false);
+	}
 
-		LinearLayout layout = new LinearLayout(getActivity());
-		layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
-		layout.setGravity(Gravity.CENTER);
-		layout.addView(text);
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		
+		View root = getView();
+		if(root == null) {
+			throw new IllegalStateException("Content view not yet created");
+		}
+		HeaderLayout headerLayout = (HeaderLayout) root.findViewById(R.id.header_layout);
+		headerLayout.setTitle(R.string.registe);
+		
+		headerLayout.addAction(new Action() {
 
-		return layout;
+			@Override
+			public int getDrawable() {
+				return R.drawable.editor;
+			}
+
+			@Override
+			public void performAction(View view) {
+				intentToEdite();
+			}
+			
+		});
+		
+		View infoContainer = root.findViewById(R.id.infoContainer);
+		mAvatar = (RoundedImageView) root.findViewById(R.id.avatar);
+		
+		mAlertBtn = (Button) root.findViewById(R.id.alertBtn);
+		if(isNeedLogin) {
+			mAlertBtn.setVisibility(View.VISIBLE);
+			infoContainer.setVisibility(View.GONE);
+		} else {
+			mAlertBtn.setVisibility(View.GONE);
+			infoContainer.setVisibility(View.VISIBLE);
+			bindAvatar();
+		}
+	}
+	
+	private void bindAvatar() {
+		String uriPath = mSelfUser.getAvatar();
+		ImageLoader.getInstance().displayImage(uriPath, mAvatar,
+				options);
+	}
+	
+	private void intentToEdite() {
+		
 	}
 }

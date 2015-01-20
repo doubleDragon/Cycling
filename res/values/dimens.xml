@@ -12,5 +12,11 @@
     <dimen name="headerlayout_height">48dip</dimen>
     <dimen name="headerlayout_item_height">48dip</dimen>
     <dimen name="headerlayout_item_width">48dip</dimen>
+    
+    <!-- about avatar -->
+    <dimen name="avatar_round_border_size">2dip</dimen>
+    <dimen name="avatar_square_border_size">2dip</dimen>
+    <dimen name="avatar_width">64dip</dimen>
+    <dimen name="avatar_height">64dip</dimen>
 
 </resources>

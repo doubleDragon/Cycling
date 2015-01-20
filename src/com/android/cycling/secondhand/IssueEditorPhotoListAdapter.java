@@ -3,7 +3,6 @@ package com.android.cycling.secondhand;
 import java.util.List;
 
 import com.android.cycling.R;
-import com.android.cycling.widget.AddPhotoView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
