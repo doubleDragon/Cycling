@@ -17,8 +17,8 @@
 
         <com.android.cycling.widget.RoundedImageView
             android:id="@+id/avatar"
-            android:layout_width="@dimen/avatar_width"
-            android:layout_height="@dimen/avatar_height"
+            android:layout_width="@dimen/avatar_width_setting_fragment"
+            android:layout_height="@dimen/avatar_height_setting_fragment"
             android:scaleType="center"
             app:border_color="#FFFFFFFF"
             app:border_thickness="2dp" />

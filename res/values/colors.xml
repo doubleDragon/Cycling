@@ -32,6 +32,7 @@
 	<drawable name="multicheck_unselected">#ffffff</drawable>
 	
 	<drawable name="login_btn_bg">#ffffff</drawable>
+	<drawable name="rounded_imageview_border_color">#00b3f0</drawable>
 	
 	<color name="actionbar_separator">#00b3f0</color>
     <color name="actionbar_background_start">#00b3f0</color>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.android.cycling"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/issue_list_item_bg"
@@ -11,22 +12,23 @@
         android:padding="6dip"
         >
         
-        <ImageView
-            android:id="@+id/header_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/head_now"
+        <com.android.cycling.widget.RoundedCornerImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar_width_issue_list"
+            android:layout_height="@dimen/avatar_height_issue_list"
             android:contentDescription="@null"
+            app:cornerRadius="10dip"
             />
         
         <TextView
-            android:id="@+id/contact_name"
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/header_photo"
+            android:layout_toRightOf="@id/avatar"
             android:layout_marginLeft="4dip"
             android:layout_centerVertical="true"
-            android:text="Gusony"/>
+            style="@style/IssueListTextStyle"
+            android:text="7.89"/>
         
         <TextView
             android:id="@+id/date"
@@ -34,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:textColor="#b1b1b1"
             android:text="24分钟前"/>
         
         <TextView
@@ -42,6 +45,7 @@
             android:layout_toLeftOf="@id/date"
             android:layout_centerVertical="true"
             android:layout_marginRight="2dip"
+            android:textColor="#b1b1b1"
             android:text="7.89KM |"/>
         
     </RelativeLayout>
@@ -52,9 +56,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dip"
         android:layout_marginLeft="6dip"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:maxLines="2"
         android:ellipsize="end"
+        style="@style/IssueListTextStyle"
+        android:textColor="#666666"
+        android:textSize="20sp"
         android:text="秒价出佳能戴尔潮流法华寺的法定诵佛阿斯顿哦发短分发哦发发发的阿迪分附加的金发的" />
     
     <LinearLayout
@@ -66,7 +72,7 @@
         android:paddingRight="6dip" >
 
         <TextView
-            style="@style/EditorActivityTextStyle"
+            style="@style/IssueListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4.5dip"
@@ -75,7 +81,7 @@
 
         <TextView
             android:id="@+id/level"
-            style="@style/EditorActivityTextStyle"
+            style="@style/IssueListTextStyle"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="4.5dip"
@@ -92,7 +98,7 @@
         android:paddingRight="6dip" >
 
         <TextView
-            style="@style/EditorActivityTextStyle"
+            style="@style/IssueListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4.5dip"
@@ -101,7 +107,7 @@
 
         <TextView
             android:id="@+id/price"
-            style="@style/EditorActivityTextStyle"
+            style="@style/IssueListTextStyle"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="4.5dip"
@@ -112,7 +118,7 @@
     
     <TextView
         android:id="@+id/description"
-        style="@style/EditorActivityTextStyle"
+        style="@style/IssueListTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dip"
@@ -139,7 +145,7 @@
 
         <TextView
             android:id="@+id/type"
-            style="@style/EditorActivityTextStyle"
+            style="@style/IssueListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

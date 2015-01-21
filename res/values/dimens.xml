@@ -16,7 +16,10 @@
     <!-- about avatar -->
     <dimen name="avatar_round_border_size">2dip</dimen>
     <dimen name="avatar_square_border_size">2dip</dimen>
-    <dimen name="avatar_width">64dip</dimen>
-    <dimen name="avatar_height">64dip</dimen>
+    <dimen name="avatar_width_issue_list">48dip</dimen>
+    <dimen name="avatar_height_issue_list">48dip</dimen>
+    
+    <dimen name="avatar_width_setting_fragment">64dip</dimen>
+    <dimen name="avatar_height_setting_fragment">64dip</dimen>
 
 </resources>

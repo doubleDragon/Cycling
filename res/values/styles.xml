@@ -37,6 +37,11 @@
         <item name="android:padding">6dip</item>
     </style>
     
+    <style name="IssueListTextStyle">
+        <item name="android:textColor">#b1b1b1</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+    
     <style name="HeaderLayout">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/headerlayout_height</item>

@@ -30,6 +30,8 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 	private static final int ISSUE_SERVER_ID = 8;
 	private static final int ISSUE_PHOTO = 9;
 	private static final int ISSUE_USER_AVATAR = 10;
+	private static final int ISSUE_USER_NAME = 11;
+	
 	
 	private ArrayList<IssueResult> mResults;
 	
@@ -50,6 +52,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 	
 	public static class UserResult {
 		public String avatar;
+		public String username;
 	}
 	
 	public static final String[] PROJECTION = new String[] {
@@ -63,7 +66,8 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 		Issue.DATE,
 		Issue.SERVER_ID,
 		Photo.URI,
-		User.AVATAR
+		User.AVATAR,
+		User.USERNAME
 	};
 	
 	private DataObserver mObserver;
@@ -166,11 +170,11 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 					}
 					
 					final String avatar = c.getString(ISSUE_USER_AVATAR);
-					if(!TextUtils.isEmpty(avatar)) {
-						UserResult user = new UserResult();
-						user.avatar = avatar;
-						result.user = user;
-					}
+					final String username = c.getString(ISSUE_USER_NAME);
+					UserResult user = new UserResult();
+					user.avatar = avatar;
+					user.username = username;
+					result.user = user;
 					
 					results.add(result);
 					issuesMap.put(id, result);

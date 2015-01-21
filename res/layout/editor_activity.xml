@@ -24,8 +24,8 @@
         
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="@dimen/avatar_width"
-            android:layout_height="@dimen/avatar_height"
+            android:layout_width="@dimen/avatar_width_setting_fragment"
+            android:layout_height="@dimen/avatar_height_setting_fragment"
             android:layout_alignParentRight="true"
             android:contentDescription="@null"
             android:src="@drawable/head_now" />

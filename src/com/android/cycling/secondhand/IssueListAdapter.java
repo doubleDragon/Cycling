@@ -5,10 +5,16 @@ import java.util.HashMap;
 
 import com.android.cycling.R;
 import com.android.cycling.secondhand.IssueListLoader.IssueResult;
+import com.android.cycling.secondhand.IssueListLoader.UserResult;
 import com.android.cycling.util.DateUtils;
+import com.android.cycling.widget.RoundedCornerImageView;
+import com.android.cycling.widget.RoundedImageView;
 import com.android.cycling.widget.SimpleGridView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +34,21 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 	private HashMap<Integer, IssueListPhotoAdapter> mAdapterMap = 
 			new HashMap<Integer, IssueListPhotoAdapter>();
 	
+	private DisplayImageOptions options;
+	
 	public IssueListAdapter(Context context) {
 		super(context, R.layout.issue_list_item);
 		mContext = context;
 		mLayoutInflater = LayoutInflater.from(context);
 		
 		mDescriptionPrefix = mContext.getString(R.string.description);
+		
+		options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.ic_launcher)
+				.showImageForEmptyUri(R.drawable.ic_launcher)
+				.showImageOnFail(R.drawable.ic_error).cacheInMemory(true)
+				.cacheOnDisk(true).considerExifParams(true)
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
 	}
 	
 	public void setData(ArrayList<IssueResult> items) {
@@ -61,7 +76,11 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
             viewCache = new IssueListItemViewCache(result);
             result.setTag(viewCache);
         }
-        
+        UserResult user = item.user;
+        if(user != null) {
+        	viewCache.username.setText(user.username);
+        	ImageLoader.getInstance().displayImage(user.avatar, viewCache.avatar, options);
+        }
         viewCache.issueName.setText(item.name);
         viewCache.level.setText(item.level);
         viewCache.price.setText(item.price);
@@ -138,6 +157,8 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
      */
     public static class IssueListItemViewCache {
     	
+    	private final RoundedCornerImageView avatar;
+    	private final TextView username;
     	private final TextView issueName;
     	private final TextView level;
     	private final TextView price;
@@ -148,7 +169,9 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 
 
         public IssueListItemViewCache(View view) {
+        	avatar = (RoundedCornerImageView) view.findViewById(R.id.avatar);
         	issueName = (TextView) view.findViewById(R.id.issue_name);
+        	username = (TextView) view.findViewById(R.id.username);
         	level = (TextView) view.findViewById(R.id.level);
         	price = (TextView) view.findViewById(R.id.price);
         	description = (TextView) view.findViewById(R.id.description);
