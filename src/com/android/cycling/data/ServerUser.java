@@ -1,5 +1,8 @@
 package com.android.cycling.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import cn.bmob.v3.BmobUser;
 
 public class ServerUser extends BmobUser{
@@ -13,6 +16,13 @@ public class ServerUser extends BmobUser{
 	private String age;
 	private String signature;
 	private String location;
+	
+	private ArrayList<String> gallery;
+	
+	public ServerUser() {
+		super();
+		gallery = new ArrayList<String>();
+	}
 	public boolean isMale() {
 		return isMale;
 	}
@@ -43,6 +53,26 @@ public class ServerUser extends BmobUser{
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
+	public void addGalleryPhoto(String url) {
+		gallery.add(url);
+	}
+	
+	public void addGalleryPhotos(Collection<String> urls) {
+		this.gallery.addAll(urls);
+	}
+	
+	public ArrayList<String> getGallery() {
+		return gallery;
+	}
+	
+	public boolean hasPhotoInGallery() {
+		if(gallery == null || gallery.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString() + "["

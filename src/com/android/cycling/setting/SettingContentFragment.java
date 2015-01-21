@@ -3,9 +3,11 @@ package com.android.cycling.setting;
 import com.android.cycling.R;
 import com.android.cycling.activities.UserEditorActivity;
 import com.android.cycling.data.ServerUser;
+import com.android.cycling.secondhand.IssueListPhotoAdapter;
 import com.android.cycling.widget.HeaderLayout;
 import com.android.cycling.widget.RoundedImageView;
 import com.android.cycling.widget.HeaderLayout.Action;
+import com.android.cycling.widget.SimpleGridView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -15,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +34,11 @@ public class SettingContentFragment extends Fragment implements OnClickListener{
 	private TextView mName;
 	private TextView mAge;
 	private TextView mLocation;
+	private TextView mSignatue;
 	private ImageView mSex;
+	
+	private SimpleGridView mPhotos;
+	private SettingPhotoListAdapter mPhotoAdapter;
 	
 	private DisplayImageOptions options;
 	
@@ -105,11 +112,9 @@ public class SettingContentFragment extends Fragment implements OnClickListener{
 		mAge = (TextView) root.findViewById(R.id.age);
 		mLocation = (TextView) root.findViewById(R.id.location);
 		mSex = (ImageView) root.findViewById(R.id.sex);
-	}
-	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+		mSignatue = (TextView) root.findViewById(R.id.signatue_content);
+		
+		mPhotos = (SimpleGridView) root.findViewById(R.id.photos);
 	}
 	
 	private void bindData() {
@@ -124,6 +129,24 @@ public class SettingContentFragment extends Fragment implements OnClickListener{
 			resId = R.drawable.female_little_icon;
 		}
 		mSex.setImageResource(resId);
+		
+		final String sig = mSelfUser.getSignature();
+		if(TextUtils.isEmpty(sig)) {
+			mSignatue.setText("您还没添加签名信息");
+		} else {
+			mSignatue.setText(sig);
+		}
+		if(mSelfUser.hasPhotoInGallery()) {
+			showGallery();
+		}
+	}
+	
+	private void showGallery() {
+		if(mPhotoAdapter == null) {
+			mPhotoAdapter = new SettingPhotoListAdapter(mContext);
+			mPhotos.setAdapter(mPhotoAdapter);
+		}
+		mPhotoAdapter.setData(mSelfUser.getGallery());
 	}
 
 	private void updateAvatar() {

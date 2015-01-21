@@ -3,49 +3,23 @@ package com.android.cycling.secondhand;
 import java.util.List;
 
 import com.android.cycling.R;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
+import com.android.cycling.pictures.SimpleGridViewListAdapter;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 
-public class IssueEditorPhotoListAdapter extends ArrayAdapter<String>{
-	
-	private LayoutInflater mInflater;
-	
-	private Context mContext;
-	private DisplayImageOptions options;
+public class IssueEditorPhotoListAdapter extends SimpleGridViewListAdapter{
 	
 	private List<String> mData;
 
 	public IssueEditorPhotoListAdapter(Context context) {
 		super(context, R.layout.photo_list_item);
-		mContext = context;
-		mInflater = LayoutInflater.from(context);
-		
-		options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(R.drawable.ic_stub)
-				.showImageForEmptyUri(R.drawable.ic_empty)
-				.showImageOnFail(R.drawable.ic_error)
-				.cacheInMemory(true)
-				.cacheOnDisk(true)
-				.considerExifParams(true)
-				.bitmapConfig(Bitmap.Config.RGB_565)
-				.build();
 	}
 	
+	@Override
 	public void setData(List<String> data) {
-		clear();
-		if(data == null) return;
-		addAll(data);
+		super.setData(data);
 		mData = data;
 	}
-	
+
 	/**
 	 * return all picture path,not uri path
 	 */
@@ -75,31 +49,11 @@ public class IssueEditorPhotoListAdapter extends ArrayAdapter<String>{
 		}
 	}
 	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		final String uriPath = getItem(position);
-		View result;
-		PhotoListItemViewCache viewCache;
-		if (convertView == null) {
-			result = mInflater.inflate(R.layout.photo_list_item, parent, false);
-			viewCache = new PhotoListItemViewCache(result);
-			result.setTag(viewCache);
-		} else {
-			result = convertView;
-			viewCache = (PhotoListItemViewCache) result.getTag();
+	public boolean hasPictures() {
+		final String[] temp = getAllData();
+		if(temp == null || temp.length == 0) {
+			return false;
 		}
-		// Using Android-Universal-Image-Loader do display image
-		ImageLoader.getInstance().displayImage(uriPath, viewCache.photo,
-				options);
-		return result;
+		return true;
 	}
-	
-	public static class PhotoListItemViewCache {
-		public final ImageView photo;
-		
-		public PhotoListItemViewCache(View v) {
-			photo = (ImageView) v.findViewById(R.id.id_item_image);
-		}
-	}
-
 }

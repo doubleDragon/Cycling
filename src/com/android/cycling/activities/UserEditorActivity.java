@@ -1,18 +1,15 @@
 package com.android.cycling.activities;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
 
 import com.android.cycling.R;
 import com.android.cycling.data.ServerUser;
 import com.android.cycling.secondhand.IssueEditorPhotoListAdapter;
+import com.android.cycling.setting.SettingManager;
 import com.android.cycling.util.DataUtils;
 import com.android.cycling.widget.HeaderLayout;
 import com.android.cycling.widget.HeaderLayout.Action;
@@ -25,7 +22,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class UserEditorActivity extends Activity implements OnClickListener{
+public class UserEditorActivity extends Activity implements OnClickListener, SettingManager.Listener{
 	
 	public static final int REQUEST_SELECT_PICTURE = 1001;
 	public static final int REQUEST_SELECT_AVATAR = 1002;
@@ -52,11 +48,12 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 	private IssueEditorPhotoListAdapter mAdapter;
 	
 	private String mAvatarUriString;
-	private String mAvatarWebPath;
 	
 	private ServerUser mSelfUser;
 	
 	private DisplayImageOptions options;
+	
+	private SettingManager mSettingManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +66,9 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 		
 		initViews();
 		initData();
+		
+		mSettingManager = new SettingManager(this);
+		mSettingManager.setListener(this);
 	}
 
 	private void initImageLoader() {
@@ -105,7 +105,6 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 
 			@Override
 			public int getDrawable() {
-				// TODO Auto-generated method stub
 				return R.drawable.back_indicator;
 			}
 
@@ -138,7 +137,7 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 		mSignature = (EditText) findViewById(R.id.signature);
 		mLocation = (EditText) findViewById(R.id.location);
 		
-		mAdapter = new IssueEditorPhotoListAdapter(this);
+		
 		mGridView = (SimpleGridView) findViewById(R.id.pictureList);
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -152,6 +151,7 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 			}
 			
 		});
+		mAdapter = new IssueEditorPhotoListAdapter(this);
 		mGridView.setAdapter(mAdapter);
 		setEmptyPicturesData();
 	}
@@ -168,10 +168,10 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 	
 	private void intentToSelectPicture() {
 		Intent i =  new Intent(this, SelectPicturesActivity.class);
-		startActivityForResult(i, IssueEditorActivity.REQUEST_SELECT_PICTURE);
+		startActivityForResult(i, REQUEST_SELECT_PICTURE);
 	}
 	
-	public void setAdapterData(String[] uriPathArray) {
+	private void setAdapterData(String[] uriPathArray) {
 		if(uriPathArray == null || uriPathArray.length < 1) return;
 		
 		List<String> data = new ArrayList<String>(Arrays.asList(uriPathArray));
@@ -179,7 +179,6 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 			data.add(ADD_PHOTO_URI);
 		}
 		mAdapter.setData(data);
-		mAdapter.notifyDataSetChanged();
 	}
 	
 	@Override
@@ -209,93 +208,39 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 				options);
 	}
 	
-	private void readToSave() {
-		if(mAvatarUriString != null) {
-			uploadAvatar(mAvatarUriString);
+	@Override
+	public void onComplete(boolean success) {
+		// TODO Auto-generated method stub
+		if(success) {
+			toastMessage("修改成功");
 		} else {
-			updateUserInfo();
+			toastMessage("修改失败");
 		}
+		finishActivity();
 	}
 	
-	private void updateUserInfo() {
+	/**
+	 * First upload avatar, then upload gallery picture
+	 * last update other info, such as age sex etc...
+	 */
+	private void readToSave() {
 		final String name = mName.getEditableText().toString();
 		final String age = mAge.getEditableText().toString();
 		final String sex = mSex.getEditableText().toString();
 		final String location = mLocation.getEditableText().toString();
 		final String signature = mSignature.getEditableText().toString();
-		if(mAvatarWebPath != null) {
-			mSelfUser.setAvatar(mAvatarWebPath);
-		}
-		if(!TextUtils.isEmpty(name)) {
-			mSelfUser.setUsername(name);
-		}
-		if(!TextUtils.isEmpty(age)) {
-			mSelfUser.setAge(age);
-		}
-		if(!TextUtils.isEmpty(sex)) {
-			if(sex.equals("男")) {
-				mSelfUser.setMale(true);
-			} else if(sex.equals("女")){
-				mSelfUser.setMale(false);	
-			}
-		}
-		if(!TextUtils.isEmpty(location)) {
-			mSelfUser.setLocation(location);
-		}
-		if(!TextUtils.isEmpty(signature)) {
-			mSelfUser.setSignature(signature);
-		}
-		mSelfUser.update(this, new UpdateListener() {
-			
-			@Override
-			public void onSuccess() {
-				toastMessage("修改成功");
-				finishActivity();
-				logW("update user success");
-			}
-			
-			@Override
-			public void onFailure(int arg0, String arg1) {
-				// TODO Auto-generated method stub
-				toastMessage("修改失败 error：" + arg1);
-				finishActivity();
-				logW("update user failed---error:" + arg1);
-			}
-		});
+		
+		final String[] galleryPhotoArray = mAdapter.getAllData();
+		
+		mSettingManager.updateUserInfo(mSelfUser, mAvatarUriString, name, age, 
+				sex, location, signature, galleryPhotoArray);
+
 	}
 	
 	private void finishActivity() {
 		finish();
 	}
 	
-	private void uploadAvatar(String uriPath) {
-		File file = new File(uriPath);
-		if(!file.exists()) {
-			toastMessage("保存失败 erro:" + uriPath + "文件不存在");
-			logW("uploadAvatar failed---error: 文件不存在");
-			finishActivity();
-			return;
-		}
-		final BmobFile bmobFile = new BmobFile(file);
-		bmobFile.uploadblock(this, new UploadFileListener() {
-
-			@Override
-			public void onFailure(int arg0, String arg1) {
-				logW("uploadAvatar failed---error: " + arg1);
-				toastMessage("保存失败 erro:" + arg1);
-				finishActivity();
-			}
-
-			@Override
-			public void onSuccess() {
-				logW("uploadAvatar success");
-				mAvatarWebPath = bmobFile.getFileUrl(UserEditorActivity.this);
-				updateUserInfo();
-			}
-
-		});
-	}
-
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
@@ -326,4 +271,6 @@ public class UserEditorActivity extends Activity implements OnClickListener{
 			Log.d(TAG, msg);
 		}
 	}
+
+	
 }

@@ -20,7 +20,7 @@ public class DateUtils {
 		if(hours > 24) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(oldTime);
-			int month = calendar.get(Calendar.MONTH);
+			int month = calendar.get(Calendar.MONTH) + 1;//0-11,所以要加1
 			int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
 			return month + "-" + dayOfYear;
 		} else if(hours > 1 && hours <= 24) {

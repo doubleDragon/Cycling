@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res/com.android.cycling"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -12,8 +12,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dip"
-        android:paddingTop="15dip" >
+        android:padding="10dip"
+        >
 
         <com.android.cycling.widget.RoundedImageView
             android:id="@+id/avatar"
@@ -27,7 +27,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dip"
+            android:layout_marginLeft="10dip"
             android:layout_toRightOf="@id/avatar"
             android:text="name"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -75,5 +75,83 @@
             android:text="北京朝阳"
             android:textSize="16sp" />
     </RelativeLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/editor_activity_divide" />
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        >
+        <TextView
+            android:id="@+id/signatue_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个性签名"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            style="@style/EditorActivityTextStyle"
+            />
+        
+        
+        <TextView
+            android:id="@+id/signatue_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/signatue_label"
+            android:layout_marginLeft="10dip"
+            android:text="心平气和"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_toRightOf="@id/signatue_label"
+            android:layout_below="@id/signatue_content"
+            android:layout_alignLeft="@id/signatue_content"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/editor_activity_divide" />
+        
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:orientation="horizontal"
+        >
 
+        <TextView
+            style="@style/EditorActivityTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dip"
+            android:text="@string/my_photo" />
+
+        <com.android.cycling.widget.SimpleGridView
+            android:id="@+id/photos"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dip"
+            android:cacheColorHint="@android:color/transparent"
+            android:gravity="center"
+            android:horizontalSpacing="3dip"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="3dip" />
+    </LinearLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dip"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/editor_activity_divide" />
+    
 </LinearLayout>

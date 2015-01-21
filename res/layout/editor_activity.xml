@@ -189,31 +189,29 @@
         android:background="@drawable/editor_activity_divide" />
     
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/EditorActivityTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dip"
+            android:text="@string/my_photo" />
+
+        <com.android.cycling.widget.SimpleGridView
+            android:id="@+id/pictureList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dip"
-            >
-
-            <TextView
-                style="@style/EditorActivityTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="4dip"
-                android:text="@string/my_photo" />
-
-            <com.android.cycling.widget.SimpleGridView
-                android:id="@+id/pictureList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dip"
-                android:cacheColorHint="@android:color/transparent"
-                android:gravity="center"
-                android:horizontalSpacing="3dip"
-                android:listSelector="@android:color/transparent"
-                android:numColumns="3"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="3dip" />
-        </LinearLayout>
-
+            android:layout_marginLeft="4dip"
+            android:cacheColorHint="@android:color/transparent"
+            android:gravity="center"
+            android:horizontalSpacing="3dip"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="3dip" />
+    </LinearLayout>
 </LinearLayout>

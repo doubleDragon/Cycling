@@ -1,27 +1,19 @@
-package com.android.cycling.secondhand;
+package com.android.cycling.setting;
 
 import java.util.Iterator;
 import java.util.List;
 
-import com.android.cycling.R;
-import com.android.cycling.pictures.SimpleGridViewListAdapter;
 import android.content.Context;
 
-public class IssueListPhotoAdapter extends SimpleGridViewListAdapter{
-	
-	public IssueListPhotoAdapter(Context context) {
-		super(context, R.layout.issue_list_photo_list_item);
+import com.android.cycling.R;
+import com.android.cycling.pictures.SimpleGridViewListAdapter;
+
+public class SettingPhotoListAdapter extends SimpleGridViewListAdapter{
+
+	public SettingPhotoListAdapter(Context context) {
+		super(context, R.layout.setting_photo_list_item);
 	}
-	
-	public void setData(List<String> data) {
-		clear();
-		if(data == null) return;
-		ensureDataLenght(data);
-		addAll(data);
-		
-		notifyDataSetChanged();
-	}
-	
+
 	/**
 	 *  Max length is 3 in horizontal
 	 */
@@ -38,4 +30,5 @@ public class IssueListPhotoAdapter extends SimpleGridViewListAdapter{
 		}
 	}
 	
+
 }
