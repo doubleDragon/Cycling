@@ -7,7 +7,7 @@ import cn.bmob.v3.BmobUser;
 
 public class ServerUser extends BmobUser{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 65536l;
 	
 	//sex
 	private boolean isMale;
@@ -76,12 +76,13 @@ public class ServerUser extends BmobUser{
 	@Override
 	public String toString() {
 		return super.toString() + "["
-				+ "id: " + getObjectId() 
-				+ "username：" + getUsername()
-				+ "email: " + getEmail()
-				+ "isMale: " + isMale
-				+ "avatar: " + avatar
-				+ "age: " + age
+				+ "id: " + getObjectId() + "\n"
+				+ "username：" + getUsername() + "\n"
+				+ "email: " + getEmail() + "\n"
+				+ "isMale: " + isMale + "\n"
+				+ "avatar: " + avatar + "\n"
+				+ "age: " + age + "\n"
+				+ "gallery: " + gallery + "\n"
 				+ "]";
 	}
 	

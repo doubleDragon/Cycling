@@ -13,7 +13,7 @@ import cn.bmob.v3.BmobObject;
  */
 public class ServerIssue extends BmobObject{
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 65535l;
 	
 	private ServerUser user;
 	

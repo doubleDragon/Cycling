@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,6 +23,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+
+import com.android.cycling.CyclingConfig;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -107,6 +113,60 @@ public class NetworkUtils {
         } finally {
             Log.v(TAG, "getAuthtoken completing");
         }
+    }
+    
+    /**
+     * 查询数据例子
+     * @see <a target=_blank href="http://docs.bmob.cn/restful/developdoc/index.html?menukey=develop_doc&key=develop_restful#index_查询数据">例子</a>
+     * */
+    public static String getUserFromBmobServer() {
+    	String result = null;
+    	HttpsURLConnection con = null;
+    	BufferedReader reader = null;
+    	try {
+    		URL postUrl = new URL("https://api.bmob.cn/1/users");
+			con = (HttpsURLConnection) postUrl.openConnection();
+			con.setRequestMethod("GET");
+			con.setDoInput(true);
+			con.setInstanceFollowRedirects(true);
+
+			//add header
+			con.setRequestProperty("X-Bmob-Application-Id", CyclingConfig.BMOB_APPLICATION_ID);
+			con.setRequestProperty("X-Bmob-REST-API-Key", CyclingConfig.BMOB_REST_API_ID);
+			con.setRequestProperty("Content-Type", "application/json");
+
+			//receive data
+			reader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+			String line;
+			StringBuffer responseText = new StringBuffer();
+			while ((line = reader.readLine()) != null) {
+				responseText.append(line).append("\r\n");
+			}
+			
+			result = responseText.toString();
+			return result;
+		} catch (ProtocolException e) {
+			Log.e("tag", "getUserForJson ProtocolException error: " + e.getMessage());
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			Log.e("tag", "getUserForJson UnsupportedEncodingException error: " + e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e("tag", "getUserForJson IOException error: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if(reader != null)
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(con != null) {
+				con.disconnect();
+			}
+		}
+		
+    	return result;
     }
 	
 	public static  boolean isNetworkConnected(Context context) {

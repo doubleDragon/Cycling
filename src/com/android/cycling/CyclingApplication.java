@@ -11,15 +11,13 @@ import android.app.Application;
 import android.content.Context;
 
 public class CyclingApplication extends Application{
-	
-	private static final String BMOB_APPLICATION_ID = "a3c7367cdf57ff8e563048a2c4f4fe5a";
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		
 		initImageLoader(getApplicationContext());
-		Bmob.initialize(this, BMOB_APPLICATION_ID);
+		Bmob.initialize(this, CyclingConfig.BMOB_APPLICATION_ID);
 	}
 	
 	public static void initImageLoader(Context context) {
