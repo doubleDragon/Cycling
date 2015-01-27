@@ -11,6 +11,7 @@ import com.android.cycling.data.ServerUser;
 import com.android.cycling.secondhand.IssueEditorPhotoListAdapter;
 import com.android.cycling.setting.SettingManager;
 import com.android.cycling.util.DataUtils;
+import com.android.cycling.util.ImageUtils;
 import com.android.cycling.widget.HeaderLayout;
 import com.android.cycling.widget.HeaderLayout.Action;
 import com.android.cycling.widget.SimpleGridView;
@@ -194,7 +195,7 @@ public class UserEditorActivity extends Activity implements OnClickListener, Set
 		case REQUEST_SELECT_AVATAR:
 			Uri avatarUri = data.getData();
 			if(avatarUri != null) {
-				mAvatarUriString = DataUtils.convertUri(this, avatarUri);
+				mAvatarUriString = ImageUtils.getPath(this, avatarUri);
 				updateAvatar(DataUtils.FILE_URI_PREFIX + mAvatarUriString);
 			}
 			break;
