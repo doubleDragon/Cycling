@@ -12,7 +12,7 @@
         android:padding="6dip"
         >
         
-        <com.android.cycling.widget.RoundedCornerImageView
+        <com.android.cycling.widget.RoundedImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/avatar_width_issue_list"
             android:layout_height="@dimen/avatar_height_issue_list"

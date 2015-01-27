@@ -179,7 +179,7 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
      */
     public static class IssueListItemViewCache {
     	
-    	private final RoundedCornerImageView avatar;
+    	private final RoundedImageView avatar;
     	private final TextView username;
     	private final TextView issueName;
     	private final TextView level;
@@ -191,7 +191,7 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 
 
         public IssueListItemViewCache(View view) {
-        	avatar = (RoundedCornerImageView) view.findViewById(R.id.avatar);
+        	avatar = (RoundedImageView) view.findViewById(R.id.avatar);
         	issueName = (TextView) view.findViewById(R.id.issue_name);
         	username = (TextView) view.findViewById(R.id.username);
         	level = (TextView) view.findViewById(R.id.level);
