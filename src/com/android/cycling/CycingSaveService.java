@@ -34,17 +34,6 @@ public class CycingSaveService extends IntentService{
 	private static final String TAG = CycingSaveService.class.getSimpleName();
 	
 	private static final String ACTION_SYNC_ISSUE = "syncIssue";//from bmob server
-	
-//	private static final String EXTRA_ISSUE_NAME = "issueName";
-//	private static final String EXTRA_ISSUE_LEVEL = "issueLevel";
-//	private static final String EXTRA_ISSUE_PRICE = "issuePrice";
-//	private static final String EXTRA_ISSUE_PHONE = "issuePhone";
-//	private static final String EXTRA_ISSUE_PHOTO = "issuePhoto";
-//	private static final String EXTRA_ISSUE_TYPE = "issueType";
-//	private static final String EXTRA_ISSUE_DESCRIPTION = "issueDescription";
-//	private static final String EXTRA_ISSUE_DATE = "date";
-//	private static final String EXTRA_ISSUE_SERVER_ID = "issueServerId";
-//	private static final String EXTRA_ISSUE_USER_ID = "issueUserId";
 
 	public CycingSaveService() {
 		super(TAG);
@@ -132,10 +121,10 @@ public class CycingSaveService extends IntentService{
 			String userId = user.getObjectId();
 			if(!userMap.containsKey(userId)) {
 				ContentValues values = new ContentValues();
+				values.put(User._ID, user.getObjectId());
 				values.put(User.AVATAR, user.getAvatar());
 				values.put(User.USERNAME, user.getUsername());
 				values.put(User.EMAIL, user.getEmail());
-				values.put(User.SERVER_ID, user.getObjectId());
 				resolver.insert(User.CONTENT_URI, values);
 			}
 			
@@ -143,6 +132,7 @@ public class CycingSaveService extends IntentService{
 				ArrayList<ContentProviderOperation> operations = new  ArrayList<ContentProviderOperation>();
 				ContentProviderOperation op;
 				op = ContentProviderOperation.newInsert(Issue.CONTENT_URI)
+						.withValue(Issue._ID, serverId)
 						.withValue(Issue.NAME, name)
 						.withValue(Issue.LEVEL, level)
 						.withValue(Issue.PRICE, price)
@@ -150,13 +140,12 @@ public class CycingSaveService extends IntentService{
 						.withValue(Issue.TYPE, type)
 						.withValue(Issue.DESCRIPTION, description)
 						.withValue(Issue.DATE, date)
-						.withValue(Issue.SERVER_ID, serverId)
 						.withValue(Issue.USER_ID, userId)
 						.build();
 				operations.add(op);
 				for(String pic : issue.getPictures()) {
 					op = ContentProviderOperation.newInsert(Photo.CONTENT_URI)
-							.withValueBackReference(Photo.ISSUE_ID, 0)
+							.withValue(Photo.ISSUE_ID, issue.getObjectId())
 							.withValue(Photo.URI, pic)
 							.build();
 					operations.add(op);
@@ -175,6 +164,7 @@ public class CycingSaveService extends IntentService{
 				operations.clear();
 			} else {
 				ContentValues values = new ContentValues();
+				values.put(Issue._ID, serverId);
 				values.put(Issue.NAME, name);
 				values.put(Issue.LEVEL, level);
 				values.put(Issue.PRICE, price);
@@ -182,7 +172,6 @@ public class CycingSaveService extends IntentService{
 				values.put(Issue.TYPE, type);
 				values.put(Issue.DESCRIPTION, description);
 				values.put(Issue.DATE, date);
-				values.put(Issue.SERVER_ID, serverId);
 				values.put(Issue.USER_ID, userId);
 				resolver.insert(Issue.CONTENT_URI, values);
 			}

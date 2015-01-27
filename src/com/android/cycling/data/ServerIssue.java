@@ -112,9 +112,9 @@ public class ServerIssue extends BmobObject{
 				+ "phone: " + phone + "\n"
 				+ "description: " + description + "\n"
 				+ "updateTime: " + getUpdatedAt() + "\n"
-				+ "type: " + type 
-				+ "url: " + urls.toString()
-				+ "user: " + user
+				+ "type: " + type  + "\n"
+				+ "url: " + urls.toString() + "\n"
+				+ "user: " + user + "\n"
 				+ "]"
 				;
 	}

@@ -3,16 +3,14 @@ package com.android.cycling.data;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import cn.bmob.v3.BmobUser;
+import cn.bmob.im.bean.BmobChatUser;
 
-public class ServerUser extends BmobUser{
+public class ServerUser extends BmobChatUser{
 
 	private static final long serialVersionUID = 65536l;
 	
 	//sex
 	private boolean isMale;
-	//path of head picture
-	private String avatar;
 	private String age;
 	private String signature;
 	private String location;
@@ -28,12 +26,6 @@ public class ServerUser extends BmobUser{
 	}
 	public void setMale(boolean isMale) {
 		this.isMale = isMale;
-	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
 	}
 	public String getAge() {
 		return age;
@@ -80,7 +72,7 @@ public class ServerUser extends BmobUser{
 				+ "username：" + getUsername() + "\n"
 				+ "email: " + getEmail() + "\n"
 				+ "isMale: " + isMale + "\n"
-				+ "avatar: " + avatar + "\n"
+				+ "avatar: " + getAvatar() + "\n"
 				+ "age: " + age + "\n"
 				+ "gallery: " + gallery + "\n"
 				+ "]";

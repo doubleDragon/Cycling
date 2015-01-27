@@ -27,7 +27,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 	private static final int ISSUE_TYPE = 5;
 	private static final int ISSUE_DESCRIPTION = 6;
 	private static final int ISSUE_DATE = 7;
-	private static final int ISSUE_SERVER_ID = 8;
+	private static final int ISSUE_USER_ID = 8;
 	private static final int ISSUE_PHOTO = 9;
 	private static final int ISSUE_USER_AVATAR = 10;
 	private static final int ISSUE_USER_NAME = 11;
@@ -36,7 +36,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 	private ArrayList<IssueResult> mResults;
 	
 	public static class IssueResult {
-		public long _id;
+		public String _id;
 		public String name;
 		public String level;
 		public String price;
@@ -44,7 +44,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 		public int type;
 		public String description;
 		public long date;
-		public String serverId;
+		
 		public ArrayList<String> photoList;
 		
 		public UserResult user;
@@ -53,6 +53,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 	public static class UserResult {
 		public String avatar;
 		public String username;
+		public String _id;
 	}
 	
 	public static final String[] PROJECTION = new String[] {
@@ -64,10 +65,10 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 		Issue.TYPE,
 		Issue.DESCRIPTION,
 		Issue.DATE,
-		Issue.SERVER_ID,
+		Issue.USER_ID,
 		Photo.URI,
 		User.AVATAR,
-		User.USERNAME
+		User.USERNAME,
 	};
 	
 	private DataObserver mObserver;
@@ -134,13 +135,13 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 		Cursor c = resolver.query(Issue.CONTENT_URI, PROJECTION, null, null, Issue._ID + " ASC");
 		ArrayList<IssueResult> results = new ArrayList<IssueResult>();
 		String photo;
-		long id;
+		String id;
 		IssueResult result;
-		HashMap<Long, IssueListLoader.IssueResult> issuesMap = new HashMap<Long, IssueListLoader.IssueResult>();
+		HashMap<String, IssueListLoader.IssueResult> issuesMap = new HashMap<String, IssueListLoader.IssueResult>();
 		try {
 			c.moveToPosition(-1);
 			while(c.moveToNext()) {
-				id = c.getInt(ISSUE_ID);
+				id = c.getString(ISSUE_ID);
 				photo = c.getString(ISSUE_PHOTO);
 				if(issuesMap.containsKey(id)){
 					if (TextUtils.isEmpty(photo)) {
@@ -162,7 +163,6 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 					result.type = c.getInt(ISSUE_TYPE);
 					result.description = c.getString(ISSUE_DESCRIPTION);
 					result.date = c.getLong(ISSUE_DATE);
-					result.serverId = c.getString(ISSUE_SERVER_ID);
 					
 					if (!TextUtils.isEmpty(photo)) {
 						result.photoList = new ArrayList<String>();
@@ -171,9 +171,11 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 					
 					final String avatar = c.getString(ISSUE_USER_AVATAR);
 					final String username = c.getString(ISSUE_USER_NAME);
+					final String userId = c.getString(ISSUE_USER_ID); 
 					UserResult user = new UserResult();
 					user.avatar = avatar;
 					user.username = username;
+					user._id = userId;
 					result.user = user;
 					
 					results.add(result);

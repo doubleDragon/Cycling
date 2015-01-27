@@ -66,6 +66,13 @@
         	android:windowSoftInputMode="stateHidden"
         	>
         </activity>
+        
+        <activity 
+        	android:name=".activities.ContactEditorActivity"
+        	android:windowSoftInputMode="stateHidden"
+        	>
+        </activity>
+        
         <activity 
         	android:name=".activities.SelectPicturesActivity">
         </activity>

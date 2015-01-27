@@ -35,8 +35,8 @@ public class CyclingProvider extends ContentProvider{
             .add(Issue.PRICE)
             .add(Issue.DESCRIPTION)
             .add(Issue.DATE)
-            .add(Issue.SERVER_ID)
             .add(Photo.URI)
+            .add(Issue.USER_ID)//ServerUser id
             .add(User.AVATAR)
             .add(User.USERNAME)
             .add(User.EMAIL)
@@ -52,7 +52,6 @@ public class CyclingProvider extends ContentProvider{
 			.add(User.AVATAR)
 			.add(User.USERNAME)
 			.add(User.EMAIL)
-			.add(User.SERVER_ID)
 			.build();
 	
 	private CyclingDatabase mOpenHelper;

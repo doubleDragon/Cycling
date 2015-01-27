@@ -1,7 +1,6 @@
 package com.android.cycling.secondhand;
 
 
-import com.android.cycling.CycingSaveService;
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
 import com.android.cycling.secondhand.IssueListLoader.IssueResult;
@@ -21,7 +20,6 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;

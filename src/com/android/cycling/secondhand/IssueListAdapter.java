@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.android.cycling.R;
+import com.android.cycling.activities.ContactEditorActivity;
 import com.android.cycling.secondhand.IssueListLoader.IssueResult;
 import com.android.cycling.secondhand.IssueListLoader.UserResult;
 import com.android.cycling.util.DateUtils;
@@ -14,10 +15,12 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -79,6 +82,7 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
         UserResult user = item.user;
         if(user != null) {
         	viewCache.username.setText(user.username);
+        	viewCache.avatar.setOnClickListener(new AvatarClickListener(user._id));
         	ImageLoader.getInstance().displayImage(user.avatar, viewCache.avatar, options);
         }
         viewCache.issueName.setText(item.name);
@@ -150,6 +154,24 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 		sb.append(" ");
 		sb.append(description);
 		return sb.toString();
+	}
+	
+	private class AvatarClickListener implements OnClickListener {
+		
+		private final String userServerId;
+		
+		public AvatarClickListener(String userServerId) {
+			this.userServerId = userServerId;
+		}
+
+		@Override
+		public void onClick(View v) {
+			//intent to ContactEditorActivity
+			Intent i = new Intent(mContext, ContactEditorActivity.class);
+			i.putExtra(ContactEditorActivity.EXTRA_SERVER_ID, userServerId);
+			mContext.startActivity(i);
+		}
+		
 	}
 	
 	/**
