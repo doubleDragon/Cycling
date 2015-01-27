@@ -1,8 +1,7 @@
 package com.android.cycling.activities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
+import com.android.cycling.CyclingActivity;
 import com.android.cycling.R;
 import com.android.cycling.secondhand.IssueEditorFragment;
 
@@ -10,10 +9,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 
-public class IssueEditorActivity extends Activity {
+public class IssueEditorActivity extends CyclingActivity implements IssueEditorFragment.Listener{
 	
 	private static final String TAG = IssueEditorActivity.class.getSimpleName();
 	
@@ -31,7 +29,7 @@ public class IssueEditorActivity extends Activity {
 		setContentView(R.layout.issue_editor_activity);
 		
 		mFragment = (IssueEditorFragment) getFragmentManager().findFragmentById(R.id.issue_editor_fragment);
-		mFragment.setContentResolver(getContentResolver());
+		mFragment.setListener(this);
 		
 		if(savedInstanceState == null) {
 			Uri uri = Intent.ACTION_EDIT.equals(action) ? getIntent().getData() : null;
@@ -53,6 +51,16 @@ public class IssueEditorActivity extends Activity {
 			break;
 		}
 		
+	}
+
+	@Override
+	public void start() {
+		startDialog(R.string.sending);
+	}
+
+	@Override
+	public void stop() {
+		stopDialog();
 	}
 	
 }

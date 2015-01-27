@@ -2,6 +2,7 @@ package com.android.cycling.activities;
 
 import cn.bmob.v3.listener.SaveListener;
 
+import com.android.cycling.CyclingActivity;
 import com.android.cycling.R;
 import com.android.cycling.data.ServerUser;
 import com.android.cycling.widget.HeaderLayout;
@@ -23,7 +24,7 @@ import android.view.View;
  * @author wsl
  */
 
-public class RegisteActivity extends Activity implements View.OnClickListener{
+public class RegisteActivity extends CyclingActivity implements View.OnClickListener{
 	
 	private static final String TAG = RegisteActivity.class.getSimpleName();
 	private static final boolean DEBUG = false;
@@ -37,8 +38,6 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 	
 	private boolean mIsMale;
 	
-	private ProgressDialog mDisplayDialog;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,24 +49,6 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 	
 	private void initData() {
 		mIsMale = true;
-	}
-	
-	private void startDialog() {
-		if(mDisplayDialog != null) {
-			mDisplayDialog.cancel();
-			mDisplayDialog = null;
-		}
-		mDisplayDialog = new ProgressDialog(this);
-		mDisplayDialog.setCancelable(false);
-		mDisplayDialog.setCanceledOnTouchOutside(false);
-		mDisplayDialog.setMessage(getResources().getString(R.string.sending));
-		mDisplayDialog.show();
-	}
-	
-	private void stopDialog() {
-		if (mDisplayDialog != null) {
-			mDisplayDialog.dismiss();
-		}
 	}
 	
 	private void initViews() {
@@ -129,7 +110,7 @@ public class RegisteActivity extends Activity implements View.OnClickListener{
 			toastToUser(R.string.confirm_pwd_wrong);
 		}
 
-		startDialog();
+		startDialog(R.string.sending);
 		
 		ServerUser user = new ServerUser();
 		user.setUsername(nameAlias);

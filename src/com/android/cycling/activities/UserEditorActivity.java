@@ -6,6 +6,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 
+import com.android.cycling.CyclingActivity;
 import com.android.cycling.R;
 import com.android.cycling.data.ServerUser;
 import com.android.cycling.secondhand.IssueEditorPhotoListAdapter;
@@ -14,6 +15,7 @@ import com.android.cycling.util.DataUtils;
 import com.android.cycling.util.ImageUtils;
 import com.android.cycling.widget.HeaderLayout;
 import com.android.cycling.widget.HeaderLayout.Action;
+import com.android.cycling.widget.RoundedImageView;
 import com.android.cycling.widget.SimpleGridView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -32,13 +34,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class UserEditorActivity extends Activity implements OnClickListener, SettingManager.Listener{
+public class UserEditorActivity extends CyclingActivity implements OnClickListener, SettingManager.Listener{
 	
 	public static final int REQUEST_SELECT_PICTURE = 1001;
 	public static final int REQUEST_SELECT_AVATAR = 1002;
 	private final String ADD_PHOTO_URI = "assets://addPhoto.png";
 	
-	private ImageView mAvatar;
+	private RoundedImageView mAvatar;
 	private EditText mName;
 	private EditText mSex;
 	private EditText mAge;
@@ -130,7 +132,7 @@ public class UserEditorActivity extends Activity implements OnClickListener, Set
 
         });
 		
-		mAvatar = (ImageView) findViewById(R.id.avatar);
+		mAvatar = (RoundedImageView) findViewById(R.id.avatar);
 		mAvatar.setOnClickListener(this);
 		mName = (EditText) findViewById(R.id.name);
 		mSex = (EditText) findViewById(R.id.sex);
@@ -193,6 +195,7 @@ public class UserEditorActivity extends Activity implements OnClickListener, Set
 			}
 			break;
 		case REQUEST_SELECT_AVATAR:
+			if(data == null) return;
 			Uri avatarUri = data.getData();
 			if(avatarUri != null) {
 				mAvatarUriString = ImageUtils.getPath(this, avatarUri);
@@ -211,7 +214,7 @@ public class UserEditorActivity extends Activity implements OnClickListener, Set
 	
 	@Override
 	public void onComplete(boolean success) {
-		// TODO Auto-generated method stub
+		stopDialog();
 		if(success) {
 			toastMessage("修改成功");
 		} else {
@@ -225,6 +228,8 @@ public class UserEditorActivity extends Activity implements OnClickListener, Set
 	 * last update other info, such as age sex etc...
 	 */
 	private void readToSave() {
+		startDialog(R.string.sending);
+		
 		final String name = mName.getEditableText().toString();
 		final String age = mAge.getEditableText().toString();
 		final String sex = mSex.getEditableText().toString();

@@ -34,16 +34,19 @@ import android.widget.Toast;
 
 public class IssueEditorFragment extends Fragment {
 	
+	public static interface Listener {
+		void start();
+		void stop();
+	}
+	
 	private static final String TAG = IssueEditorFragment.class.getSimpleName();
 	
 	private final String ADD_PHOTO_URI = "assets://addPhoto.png";
 	private static final String FILE_URI_PREFIX = "file://";
 	
-	private ContentResolver mContentResolver;
 	private Context mContext;
 	
 	private String mAction;
-	private Uri mUri;
 	
 	private EditText mName;//商品名称
 	private EditText mLevel;//新旧程度
@@ -58,11 +61,16 @@ public class IssueEditorFragment extends Fragment {
 	
 	private ProgressDialog mDisplayDialog;
 	
+	private IssueEditorFragment.Listener mFragmentListener;
+	
 	private final IssueManager.Listener mListener = new IssueManager.Listener() {
 
 		@Override
 		public void onComplete(boolean success) {
-			stopDialog();
+			if(mFragmentListener != null) {
+				mFragmentListener.stop();
+			}
+				
 			if (!success) {
 				toastMessage("发贴失败");
 			} else {
@@ -75,13 +83,12 @@ public class IssueEditorFragment extends Fragment {
 		
 	};
 	
-	public void setContentResolver(ContentResolver contentResolver) {
-		mContentResolver = contentResolver;
+	public void setListener(IssueEditorFragment.Listener listener) {
+		mFragmentListener = listener;
 	}
 	
 	public void load(String action, Uri uri, Bundle extras) {
 		mAction = action;
-		mUri = uri;
 	}
 	
 	private void startIssueDataLoader() {
@@ -178,7 +185,9 @@ public class IssueEditorFragment extends Fragment {
 		int type = mType.getType();
 		String[] pictures = mAdapter.getAllData();
 
-		startDialog();
+		if(mFragmentListener != null) {
+			mFragmentListener.start();
+		}
 		mIssueManager.saveIssueToServer(name, level, price, description, phone, type, pictures);
 	}
 	
@@ -266,24 +275,6 @@ public class IssueEditorFragment extends Fragment {
 	
 	private void onRestoreInstanceState(Bundle state) {
 		
-	}
-	
-	private void startDialog() {
-		if(mDisplayDialog != null) {
-			mDisplayDialog.cancel();
-			mDisplayDialog = null;
-		}
-		mDisplayDialog = new ProgressDialog(mContext);
-		mDisplayDialog.setCancelable(false);
-		mDisplayDialog.setCanceledOnTouchOutside(false);
-		mDisplayDialog.setMessage(mContext.getResources().getString(R.string.sending));
-		mDisplayDialog.show();
-	}
-	
-	private void stopDialog() {
-		if (mDisplayDialog != null) {
-			mDisplayDialog.dismiss();
-		}
 	}
 	
 	private void toastMessage(String msg) {

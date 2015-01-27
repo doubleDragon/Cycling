@@ -22,7 +22,7 @@
             android:text="头像"
             style="@style/EditorActivityTextStyle"/>
         
-        <ImageView
+        <com.android.cycling.widget.RoundedImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/avatar_width_setting_fragment"
             android:layout_height="@dimen/avatar_height_setting_fragment"
