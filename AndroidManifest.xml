@@ -14,8 +14,11 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     
     <!-- Push SDK权限 -->
-    <permission android:protectionLevel="normal" android:name="cn.bmob.permission.push"></permission>
-    <uses-permission android:name="cn.bmob.permission.push"/><!-- 添加自定义的权限-->
+    <permission
+        android:name="cn.bmob.permission.push"
+        android:protectionLevel="normal" >
+    </permission>
+    <uses-permission android:name="cn.bmob.permission.push" /> <!-- 添加自定义的权限 -->
 
     <uses-sdk
         android:minSdkVersion="14"

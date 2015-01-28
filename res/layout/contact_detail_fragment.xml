@@ -126,6 +126,7 @@
     </RelativeLayout>
     
     <RelativeLayout
+        android:id="@+id/photoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/signatureContainer"
@@ -154,16 +155,16 @@
             android:numColumns="3"
             android:stretchMode="columnWidth"
             android:verticalSpacing="3dip" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:layout_toRightOf="@id/my_photo_label"
-            android:layout_below="@id/photos"
-            android:layout_alignLeft="@id/photos"
-            android:layout_marginTop="10dip"
-            android:background="@drawable/editor_activity_divide" />
+        
 
     </RelativeLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/photoContainer"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/editor_activity_divide" />
     
     <RelativeLayout
         android:layout_width="match_parent"
