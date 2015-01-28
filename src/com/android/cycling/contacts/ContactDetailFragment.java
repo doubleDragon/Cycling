@@ -1,5 +1,9 @@
 package com.android.cycling.contacts;
 
+import cn.bmob.im.BmobChatManager;
+import cn.bmob.im.inteface.MsgTag;
+import cn.bmob.v3.listener.PushListener;
+
 import com.android.cycling.R;
 import com.android.cycling.data.ServerUser;
 import com.android.cycling.widget.HeaderLayout;
@@ -17,11 +21,18 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ContactEditorFragment extends Fragment{
+public class ContactDetailFragment extends Fragment implements OnClickListener{
+	
+	public static interface Listener {
+		void onAddFriendStop(boolean success);
+		void onAddFriendStart();
+	}
 	
 	private Context mContext;
 	
@@ -32,11 +43,19 @@ public class ContactEditorFragment extends Fragment{
 	private TextView mSignature;
 	private ImageView mSex;
 	private SimpleGridView mPhotos;
-	private ContactEditorPhotoListAdapter mPhotoAdapter;
+	private ContactDetailPhotoListAdapter mPhotoAdapter;
+	
+	private Button mAddFriend;
 	
 	private ServerUser mUser;
 	
 	private DisplayImageOptions options;
+	
+	private Listener mListener;
+	
+	public void setListener(Listener listener) {
+		mListener = listener;
+	}
 	
 	public void setServerUser(ServerUser user) {
 		mUser = user;
@@ -62,7 +81,7 @@ public class ContactEditorFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.contact_editor_fragment, container, false);
+		return inflater.inflate(R.layout.contact_detail_fragment, container, false);
 	}
 
 	@Override
@@ -96,6 +115,8 @@ public class ContactEditorFragment extends Fragment{
 		
 		mPhotos = (SimpleGridView) root.findViewById(R.id.photos);
 		
+		mAddFriend = (Button) root.findViewById(R.id.add_friend);
+		mAddFriend.setOnClickListener(this);
 	}
 
 	@Override
@@ -107,7 +128,13 @@ public class ContactEditorFragment extends Fragment{
 		bindData();
 	}
 	
+	public void notifyDataChanged() {
+		bindData();
+	}
+	
 	private void bindData() {
+		if (mUser == null) return;
+		
 		ImageLoader.getInstance().displayImage(mUser.getAvatar(), mAvatar,
 				options);
 		
@@ -135,7 +162,7 @@ public class ContactEditorFragment extends Fragment{
 	
 	private void showGallery() {
 		if(mPhotoAdapter == null) {
-			mPhotoAdapter = new ContactEditorPhotoListAdapter(mContext);
+			mPhotoAdapter = new ContactDetailPhotoListAdapter(mContext);
 			mPhotos.setAdapter(mPhotoAdapter);
 		}
 		mPhotoAdapter.setData(mUser.getGallery());
@@ -159,6 +186,64 @@ public class ContactEditorFragment extends Fragment{
 	public void onDetach() {
 		mContext = null;
 		super.onDetach();
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.add_friend:
+			addFriend();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	private void callBackStop(boolean success) {
+		if(mListener != null) {
+			mListener.onAddFriendStop(success);
+		}
+	}
+	
+	private void callBackStart() {
+		if(mListener != null) {
+			mListener.onAddFriendStart();
+		}
+	}
+
+	private void addFriend() {
+		if(mUser == null) {
+			//can't add friend
+			callBackStop(false);
+			return;
+		}
+		callBackStart();
+		
+		final String userObjectId = mUser.getObjectId();
+		BmobChatManager.getInstance(mContext).sendTagMessage(
+				MsgTag.ADD_CONTACT, userObjectId, new PushListener() {
+
+					@Override
+					public void onSuccess() {
+						logW("add friend id:" + userObjectId + " success");
+						callBackStop(true);
+					}
+
+					@Override
+					public void onFailure(int arg0, final String arg1) {
+						logW("add friend id:" + userObjectId + " failed error: " + arg1);
+						callBackStop(false);
+					}
+				});
+
+	}
+	
+	private static final String TAG = ContactDetailFragment.class.getSimpleName();
+	private static final boolean DEBUG = true;
+	private static void logW(String msg) {
+		if(DEBUG) {
+			android.util.Log.d(TAG, msg);
+		}
 	}
 
 }

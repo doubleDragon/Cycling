@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.android.cycling.R;
-import com.android.cycling.activities.ContactEditorActivity;
+import com.android.cycling.activities.ContactDetailActivity;
 import com.android.cycling.secondhand.IssueListLoader.IssueResult;
 import com.android.cycling.secondhand.IssueListLoader.UserResult;
 import com.android.cycling.util.DateUtils;
+import com.android.cycling.widget.CircleImageView;
 import com.android.cycling.widget.RoundedCornerImageView;
 import com.android.cycling.widget.RoundedImageView;
 import com.android.cycling.widget.SimpleGridView;
@@ -167,8 +168,8 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 		@Override
 		public void onClick(View v) {
 			//intent to ContactEditorActivity
-			Intent i = new Intent(mContext, ContactEditorActivity.class);
-			i.putExtra(ContactEditorActivity.EXTRA_SERVER_ID, userServerId);
+			Intent i = new Intent(mContext, ContactDetailActivity.class);
+			i.putExtra(ContactDetailActivity.EXTRA_SERVER_ID, userServerId);
 			mContext.startActivity(i);
 		}
 		
@@ -179,7 +180,7 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
      */
     public static class IssueListItemViewCache {
     	
-    	private final RoundedImageView avatar;
+    	private final CircleImageView avatar;
     	private final TextView username;
     	private final TextView issueName;
     	private final TextView level;
@@ -191,7 +192,7 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 
 
         public IssueListItemViewCache(View view) {
-        	avatar = (RoundedImageView) view.findViewById(R.id.avatar);
+        	avatar = (CircleImageView) view.findViewById(R.id.avatar);
         	issueName = (TextView) view.findViewById(R.id.issue_name);
         	username = (TextView) view.findViewById(R.id.username);
         	level = (TextView) view.findViewById(R.id.level);

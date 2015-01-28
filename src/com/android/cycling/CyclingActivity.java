@@ -1,6 +1,7 @@
 package com.android.cycling;
 
 import android.app.ProgressDialog;
+import android.widget.Toast;
 
 import com.android.cycling.activities.TransactionSafeActivity;
 
@@ -25,4 +26,13 @@ public class CyclingActivity extends TransactionSafeActivity {
 			mDisplayDialog.dismiss();
 		}
 	}
+	
+	protected void toastToUser(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+	
+	protected void toastToUser(int resId) {
+        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+    }
+	
 }

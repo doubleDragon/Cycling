@@ -54,7 +54,6 @@ public class SettingContentFragment extends Fragment implements OnClickListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		android.util.Log.d("tag", "SettingContentFragment --- onCreate");
 		super.onCreate(savedInstanceState);
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.ic_stub)

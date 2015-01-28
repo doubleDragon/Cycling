@@ -4,30 +4,30 @@ package com.android.cycling.activities;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.GetListener;
 
+import com.android.cycling.CyclingActivity;
 import com.android.cycling.R;
-import com.android.cycling.contacts.ContactEditorFragment;
+import com.android.cycling.contacts.ContactDetailFragment;
 import com.android.cycling.data.ServerUser;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-public class ContactEditorActivity extends Activity {
+public class ContactDetailActivity extends CyclingActivity implements ContactDetailFragment.Listener{
 	
-	public static final String TAG = ContactEditorActivity.class.getSimpleName();
+	public static final String TAG = ContactDetailActivity.class.getSimpleName();
 	public static final String EXTRA_SERVER_ID = "server_id";
 	
-	private ContactEditorFragment mFragment;
+	private ContactDetailFragment mFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.contacts_editor_activity);
+		setContentView(R.layout.contacts_detail_activity);
 		
-		mFragment = (ContactEditorFragment) getFragmentManager()
+		mFragment = (ContactDetailFragment) getFragmentManager()
 				.findFragmentById(R.id.contact_editor_fragment);
+		mFragment.setListener(this);
 		
 		String serverIdString = getIntent().getStringExtra(EXTRA_SERVER_ID);
 		if(TextUtils.isEmpty(serverIdString)) {
@@ -42,19 +42,30 @@ public class ContactEditorActivity extends Activity {
 			
 			@Override
 			public void onSuccess(ServerUser arg0) {
-				// TODO Auto-generated method stub
 				mFragment.setServerUser(arg0);
+				mFragment.notifyDataChanged();
 			}
 			
 			@Override
 			public void onFailure(int arg0, String arg1) {
-				// TODO Auto-generated method stub
-				Toast.makeText(ContactEditorActivity.this, "获取" + id + "失败", Toast.LENGTH_SHORT).show();
+				toastToUser("获取" + id + "失败");
 				Log.d(TAG, "get server user id: " + id + "failed --- error: " + arg1);
 				finish();
 			}
 		});
 
+	}
+
+	@Override
+	public void onAddFriendStop(boolean success) {
+		toastToUser("添加朋友" + success);
+		stopDialog();
+		finish();
+	}
+
+	@Override
+	public void onAddFriendStart() {
+		startDialog(R.string.sending);
 	}
 
 }

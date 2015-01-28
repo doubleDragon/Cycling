@@ -9,16 +9,26 @@
     <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dip"
         android:padding="6dip"
         >
         
-        <com.android.cycling.widget.RoundedImageView
+<!--         <com.android.cycling.widget.RoundedImageView -->
+<!--             android:id="@+id/avatar" -->
+<!--             android:layout_width="@dimen/avatar_width_issue_list" -->
+<!--             android:layout_height="@dimen/avatar_height_issue_list" -->
+<!--             android:contentDescription="@null" -->
+<!--             android:scaleType="center" -->
+<!--             app:border_color="#FFFFFFFF" -->
+<!--             app:cornerRadius="10dip" -->
+<!--             /> -->
+        
+        <com.android.cycling.widget.CircleImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/avatar_width_issue_list"
-            android:layout_height="@dimen/avatar_height_issue_list"
-            android:contentDescription="@null"
-            app:cornerRadius="10dip"
-            />
+            android:layout_height="@dimen/avatar_width_issue_list"
+            app:border_color_color="#FFb1b1b1"
+            app:border_width="2dp" />
         
         <TextView
             android:id="@+id/username"

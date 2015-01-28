@@ -166,35 +166,10 @@ public class RegisteActivity extends CyclingActivity implements View.OnClickList
 		}
 	}
 	
-	private void toastToUser(int textResId) {
-		Toast.makeText(this, textResId, Toast.LENGTH_SHORT).show();
-	}
-	
-	private void toastToUser(String textResId) {
-		Toast.makeText(this, textResId, Toast.LENGTH_SHORT).show();
-	}
-	
-	
 	private static void logW(String msg) {
 		if(DEBUG) {
 			android.util.Log.d(TAG, msg);
 		}
 	}
-	
-//	private class RegisteTask extends AsyncTask<String, String, String> {
-//
-//		@Override
-//		protected String doInBackground(String... params) {
-//			String result = NetworkUtils.registeToServer(mIsMale, 
-//					params[0], params[1], params[2]);
-//			logW("registe result: " + result);
-//			return result;
-//		}
-//
-//		@Override
-//		protected void onPostExecute(String result) {
-//			super.onPostExecute(result);
-//		}
-//	}
 	
 }

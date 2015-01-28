@@ -1,5 +1,6 @@
 package com.android.cycling.pictures;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.android.cycling.R;
@@ -49,9 +50,19 @@ public class SimpleGridViewListAdapter extends ArrayAdapter<String>{
 	}
 	
 	/**
-	 *  set Max size in horizontal
+	 *  set Max size
+	 *  default is 6
 	 */
 	protected void ensureDataLenght(List<String> data) {
+		Iterator<String> it = data.iterator();
+        int i = 0;
+        while(it.hasNext()) {
+            it.next();
+            if(i > 5) {
+                it.remove();
+            }
+            i++;
+        }
 	}
 	
 	@Override

@@ -69,7 +69,7 @@
         </activity>
         
         <activity 
-        	android:name=".activities.ContactEditorActivity"
+        	android:name=".activities.ContactDetailActivity"
         	android:windowSoftInputMode="stateHidden"
         	>
         </activity>

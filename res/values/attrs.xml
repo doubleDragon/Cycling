@@ -15,4 +15,9 @@
         <!-- Corner radius -->
         <attr name="cornerRadius" format="dimension" />
     </declare-styleable>
+    
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color_color" format="color" />
+    </declare-styleable>
 </resources>
