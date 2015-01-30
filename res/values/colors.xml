@@ -51,4 +51,9 @@
     
     <color name="textview_age_color">#ffffff</color>
     
+    <!-- Bmob about -->
+    <color name="bmob_im_base_bg">#f4f6f6</color>
+    <color name="bmob_color_bottom_text_normal">#9da0a4</color>
+    <!-- end -->
+    
 </resources>

@@ -57,8 +57,15 @@ public class ContactDetailActivity extends CyclingActivity implements ContactDet
 	}
 
 	@Override
-	public void onAddFriendStop(boolean success) {
-		toastToUser("添加朋友" + success);
+	public void onAddFriendSuccess() {
+		toastToUser("添加朋友成功");
+		stopDialog();
+		finish();
+	}
+	
+	@Override
+	public void onAddFriendFailed(String error) {
+		toastToUser("添加朋友失败: " + error);
 		stopDialog();
 		finish();
 	}

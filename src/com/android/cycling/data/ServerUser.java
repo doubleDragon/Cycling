@@ -15,6 +15,8 @@ public class ServerUser extends BmobChatUser{
 	private String signature;
 	private String location;
 	
+	private String sortLetters;
+	
 	private ArrayList<String> gallery;
 	
 	public ServerUser() {
@@ -63,6 +65,13 @@ public class ServerUser extends BmobChatUser{
 			return false;
 		}
 		return true;
+	}
+	
+	public String getSortLetters() {
+		return sortLetters;
+	}
+	public void setSortLetters(String sortLetters) {
+		this.sortLetters = sortLetters;
 	}
 	
 	@Override

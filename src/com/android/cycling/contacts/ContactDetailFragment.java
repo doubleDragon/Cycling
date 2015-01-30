@@ -2,10 +2,12 @@ package com.android.cycling.contacts;
 
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.inteface.MsgTag;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.PushListener;
 
 import com.android.cycling.R;
 import com.android.cycling.data.ServerUser;
+import com.android.cycling.util.UserUtils;
 import com.android.cycling.widget.HeaderLayout;
 import com.android.cycling.widget.RoundedImageView;
 import com.android.cycling.widget.SimpleGridView;
@@ -26,11 +28,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContactDetailFragment extends Fragment implements OnClickListener{
 	
 	public static interface Listener {
-		void onAddFriendStop(boolean success);
+		void onAddFriendSuccess();
+		void onAddFriendFailed(String error);
 		void onAddFriendStart();
 	}
 	
@@ -52,6 +56,7 @@ public class ContactDetailFragment extends Fragment implements OnClickListener{
 	private DisplayImageOptions options;
 	
 	private Listener mListener;
+	private String mErrorMessage;
 	
 	public void setListener(Listener listener) {
 		mListener = listener;
@@ -98,7 +103,7 @@ public class ContactDetailFragment extends Fragment implements OnClickListener{
 			public int getDrawable() {
 				return R.drawable.back_indicator;
 			}
-
+			
 			@Override
 			public void performAction(View view) {
 				getActivity().finish();
@@ -128,7 +133,32 @@ public class ContactDetailFragment extends Fragment implements OnClickListener{
 		bindData();
 	}
 	
+	private boolean currentUserIsMySelf() {
+		BmobUser user = BmobUser.getCurrentUser(mContext);
+		if(user != null) {
+			String myId = user.getObjectId();
+			String currendId = mUser == null ? "" : mUser.getObjectId();
+			if(myId != null && myId.equals(currendId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Maybe is self
+	 * Invisible this button
+	 */
+	private void updateAddFriendButtonIfNeeded() {
+		if(currentUserIsMySelf()) {
+			mAddFriend.setEnabled(false);
+		} else {
+			mAddFriend.setEnabled(true);
+		}
+	}
+	
 	public void notifyDataChanged() {
+		updateAddFriendButtonIfNeeded();
 		bindData();
 	}
 	
@@ -201,7 +231,11 @@ public class ContactDetailFragment extends Fragment implements OnClickListener{
 	
 	private void callBackStop(boolean success) {
 		if(mListener != null) {
-			mListener.onAddFriendStop(success);
+			if(success) {
+				mListener.onAddFriendSuccess();
+			} else {
+				mListener.onAddFriendFailed(mErrorMessage);
+			}
 		}
 	}
 	
@@ -212,8 +246,15 @@ public class ContactDetailFragment extends Fragment implements OnClickListener{
 	}
 
 	private void addFriend() {
+		if(UserUtils.isNeedLogin(mContext)) {
+			mErrorMessage = "请先登录";
+			callBackStop(false);
+			return;
+		}
+		
 		if(mUser == null) {
 			//can't add friend
+			mErrorMessage = "用户信息读取失败";
 			callBackStop(false);
 			return;
 		}
@@ -232,6 +273,7 @@ public class ContactDetailFragment extends Fragment implements OnClickListener{
 					@Override
 					public void onFailure(int arg0, final String arg1) {
 						logW("add friend id:" + userObjectId + " failed error: " + arg1);
+						mErrorMessage = arg1;
 						callBackStop(false);
 					}
 				});

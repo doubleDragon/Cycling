@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <ListView
+        android:id="@+id/list_newfriend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="#00000000"
+        android:descendantFocusability="afterDescendants"
+        android:divider="@drawable/bmob_base_horizontal_line"
+        android:dividerHeight="1dp"
+        android:fastScrollEnabled="false" />
+    
+    <TextView 
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Empty"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+
+</LinearLayout>

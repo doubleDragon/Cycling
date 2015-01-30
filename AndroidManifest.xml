@@ -78,6 +78,12 @@
         </activity>
         
         <activity 
+        	android:name=".activities.NewFriendActivity"
+        	android:windowSoftInputMode="stateHidden"
+        	>
+        </activity>
+        
+        <activity 
         	android:name=".activities.SelectPicturesActivity">
         </activity>
         
@@ -89,6 +95,45 @@
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
+        
+        <!-- IM聊天所需的Push start-->
+        <service
+            android:name="cn.bmob.push.lib.service.PushService"
+            android:exported="true"
+            android:label="PushService"
+            android:permission="cn.bmob.permission.push"
+            android:process="cn.bmob.push" >
+            <intent-filter>
+                <action android:name="cn.bmob.push.lib.service.PushService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="cn.bmob.push.PushReceiver" >
+            <intent-filter android:priority="2147483647" > <!-- 优先级加最高 -->
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 解锁完成后会调用 -->
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <!-- 监听网络连通性 -->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".interactions.CyclingMessageReceiver" 
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.bmob.push.action.MESSAGE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- IM聊天所需的Push end-->
+
+        <!-- 启动定时检测操作 -->
+         <service android:name="cn.bmob.im.poll.BmobPollService">
+            <intent-filter>
+                <action android:name="cn.bmob.im.service.BmobPollService"/>
+            </intent-filter>
+        </service>
+        
     </application>
     
     <instrumentation 

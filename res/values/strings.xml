@@ -65,6 +65,19 @@
     <string name="type_all">"[整车出售]"</string>
     <string name="type_parts">"[散件出售]"</string>
     <string name="type_buy">"[求购]"</string>
+    
+    <!-- Bmob about -->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载&#8230;</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="bmob_message_search_hint">搜索&#8230;</string>
+    <string name="bmob_new_friends">新朋友</string>
+    <string name="bmob_near_people">附近的人</string>
+    <!-- end -->
+    
     <string name="upload_photo">"上传图片:"</string>
     <string name="user_edit">"用户资料编辑:"</string>
     

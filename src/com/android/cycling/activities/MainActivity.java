@@ -1,10 +1,14 @@
 package com.android.cycling.activities;
 
+import cn.bmob.im.BmobChat;
+import cn.bmob.im.bean.BmobInvitation;
+import cn.bmob.im.config.BmobConfig;
+
 import com.android.cycling.CyclingActivity;
 import com.android.cycling.R;
 import com.android.cycling.activities.ActionBarAdapter.TabState;
 import com.android.cycling.around.AroundFragment;
-import com.android.cycling.contacts.ContactsFragment;
+import com.android.cycling.contacts.ContactListFragment;
 import com.android.cycling.messages.MessagesFragment;
 import com.android.cycling.secondhand.IssueListFragment;
 import com.android.cycling.setting.SettingFragment;
@@ -13,6 +17,10 @@ import com.android.cycling.widget.Indicator;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -36,18 +44,52 @@ public class MainActivity extends CyclingActivity {
 	private IssueListFragment mFragment0;
 	private MessagesFragment mFragment1;
 	private AroundFragment mFragment2;
-	private ContactsFragment mFragment3;
+	private ContactListFragment mFragment3;
 	private SettingFragment mFragment4;
+	
+	private NewBroadcastReceiver mNewMessageReceiver;
+	private TagBroadcastReceiver mAddUserReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+		// 开启定时检测服务（单位为秒）-在这里检测后台是否还有未读的消息，有的话就取出来
+		BmobChat.getInstance(this).startPollService(30);
+		initNewMessageBroadCast();
+		initTagMessageBroadCast();
+        
         createViewsAndFragments();
+        mTabPager.getCurrentItem();
     }
     
-    private void createViewsAndFragments() {
+	private void initNewMessageBroadCast() {
+		mNewMessageReceiver = new NewBroadcastReceiver();
+		IntentFilter intentFilter = new IntentFilter(
+				BmobConfig.BROADCAST_NEW_MESSAGE);
+		intentFilter.setPriority(3);
+		registerReceiver(mNewMessageReceiver, intentFilter);
+	}
+    
+	private void initTagMessageBroadCast(){
+		mAddUserReceiver = new TagBroadcastReceiver();
+		IntentFilter intentFilter = new IntentFilter(BmobConfig.BROADCAST_ADD_USER_MESSAGE);
+		intentFilter.setPriority(3);
+		registerReceiver(mAddUserReceiver, intentFilter);
+	}
+	
+    @Override
+	protected void onDestroy() {
+    	BmobChat.getInstance(this).stopPollService();
+    	unregisterReceiver(mNewMessageReceiver);
+    	unregisterReceiver(mAddUserReceiver);
+		super.onDestroy();
+	}
+
+
+
+	private void createViewsAndFragments() {
     	final FragmentManager fragmentManager = getFragmentManager();  
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         
@@ -70,7 +112,7 @@ public class MainActivity extends CyclingActivity {
                 .findFragmentByTag(TAG1);
     	mFragment2 = (AroundFragment) fragmentManager  
                 .findFragmentByTag(TAG2);
-    	mFragment3 = (ContactsFragment) fragmentManager  
+    	mFragment3 = (ContactListFragment) fragmentManager  
                 .findFragmentByTag(TAG3);
     	mFragment4 = (SettingFragment) fragmentManager  
                 .findFragmentByTag(TAG4);
@@ -79,7 +121,7 @@ public class MainActivity extends CyclingActivity {
     		mFragment0 = new IssueListFragment();
         	mFragment1 = new MessagesFragment();
         	mFragment2 = new AroundFragment();
-        	mFragment3 = new ContactsFragment();
+        	mFragment3 = new ContactListFragment();
         	mFragment4 = new SettingFragment();
         	
         	transaction.add(R.id.viewPager, mFragment0, TAG0);
@@ -271,6 +313,32 @@ public class MainActivity extends CyclingActivity {
         @Override
         public void restoreState(Parcelable state, ClassLoader loader) {
         }
+    }
+    
+    private class NewBroadcastReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			logW("NewBroadcastReceiver new message Intent: " + intent);
+//			refreshNewMsg(null);
+			abortBroadcast();
+		}
+	}
+    
+    private class TagBroadcastReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			BmobInvitation message = (BmobInvitation) intent.getSerializableExtra("invite");
+			logW("TagBroadcastReceiver invite message: " + message);
+//			refreshInvite(message);
+			abortBroadcast();
+		}
+	}
+    
+    private static final boolean DEBUG = true;
+    private static void logW(String msg) {
+    	if(DEBUG) {
+    		android.util.Log.d(TAG, "msg");
+    	}
     }
     
 }

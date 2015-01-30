@@ -9,11 +9,10 @@ import com.android.cycling.secondhand.IssueListLoader.IssueResult;
 import com.android.cycling.secondhand.IssueListLoader.UserResult;
 import com.android.cycling.util.DateUtils;
 import com.android.cycling.widget.CircleImageView;
-import com.android.cycling.widget.RoundedCornerImageView;
-import com.android.cycling.widget.RoundedImageView;
 import com.android.cycling.widget.SimpleGridView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -50,9 +49,12 @@ public class IssueListAdapter extends ArrayAdapter<IssueResult>{
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.ic_launcher)
 				.showImageForEmptyUri(R.drawable.ic_launcher)
-				.showImageOnFail(R.drawable.ic_error).cacheInMemory(true)
-				.cacheOnDisk(true).considerExifParams(true)
-				.bitmapConfig(Bitmap.Config.RGB_565).build();
+				.showImageOnFail(R.drawable.ic_error)
+				.cacheInMemory(true)
+				.cacheOnDisk(true)
+				.considerExifParams(true)
+				.bitmapConfig(Bitmap.Config.RGB_565)
+				.build();
 	}
 	
 	public void setData(ArrayList<IssueResult> items) {
