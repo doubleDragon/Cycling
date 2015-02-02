@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme for API 14+. This theme completely replaces
@@ -7,6 +7,7 @@
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!-- API 14 theme customizations can go here. -->
+        <item name="android:windowNoTitle">true</item>
     </style>
     
     <style name="Theme.Default" parent="@android:style/Theme.Holo.Light"></style>

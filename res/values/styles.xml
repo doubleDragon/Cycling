@@ -42,11 +42,12 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
     
+<!--     <item name="android:background">@drawable/headerlayout_background</item> -->
+    
     <style name="HeaderLayout">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/headerlayout_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/headerlayout_background</item>
     </style>
     
     <style name="HeaderLayoutItem">

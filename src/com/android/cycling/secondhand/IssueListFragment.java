@@ -57,7 +57,6 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		//Check the network,display toast
 		if(NetworkUtils.isNetworkConnected(mContext)) {
 			DataUtils.syncIssueFromServer(mContext);

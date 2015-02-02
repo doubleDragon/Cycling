@@ -5,6 +5,7 @@ import cn.bmob.v3.BmobUser;
 import com.android.cycling.R;
 import com.android.cycling.activities.LoginActivity;
 import com.android.cycling.data.ServerUser;
+import com.android.cycling.secondhand.IssueListFragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -139,6 +140,13 @@ public class SettingFragment extends Fragment{
 			layout.addView(text);
 
 			return layout;
+		}
+	}
+	
+	private static final boolean DEBUG = true;
+	private static void logW(String msg) {
+		if(DEBUG) {
+		android.util.Log.d(TAG, msg);
 		}
 	}
 

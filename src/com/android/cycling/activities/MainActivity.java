@@ -1,5 +1,22 @@
 package com.android.cycling.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import cn.bmob.im.BmobChat;
 import cn.bmob.im.bean.BmobInvitation;
 import cn.bmob.im.config.BmobConfig;
@@ -13,24 +30,6 @@ import com.android.cycling.messages.MessagesFragment;
 import com.android.cycling.secondhand.IssueListFragment;
 import com.android.cycling.setting.SettingFragment;
 import com.android.cycling.widget.Indicator;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 
 
 public class MainActivity extends CyclingActivity {
@@ -55,13 +54,15 @@ public class MainActivity extends CyclingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-		// 开启定时检测服务（单位为秒）-在这里检测后台是否还有未读的消息，有的话就取出来
-		BmobChat.getInstance(this).startPollService(30);
-		initNewMessageBroadCast();
-		initTagMessageBroadCast();
+
         
         createViewsAndFragments();
         mTabPager.getCurrentItem();
+        
+		// 开启定时检测服务（单位为秒）-在这里检测后台是否还有未读的消息，有的话就取出来
+		BmobChat.getInstance(this).startPollService(30);
+		// initNewMessageBroadCast();
+		// initTagMessageBroadCast();
     }
     
 	private void initNewMessageBroadCast() {
@@ -82,15 +83,16 @@ public class MainActivity extends CyclingActivity {
     @Override
 	protected void onDestroy() {
     	BmobChat.getInstance(this).stopPollService();
-    	unregisterReceiver(mNewMessageReceiver);
-    	unregisterReceiver(mAddUserReceiver);
+//    	unregisterReceiver(mNewMessageReceiver);
+//    	unregisterReceiver(mAddUserReceiver);
 		super.onDestroy();
+//		android.os.Debug.stopMethodTracing();
 	}
 
 
 
 	private void createViewsAndFragments() {
-    	final FragmentManager fragmentManager = getFragmentManager();  
+    	final FragmentManager fragmentManager = getFragmentManager();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         
     	mPagerAdapter = new TabPagerAdapter();
