@@ -37,6 +37,7 @@ public class ContactListFragment extends Fragment {
 	private CharacterParser characterParser;
 	
 //	private boolean mHidden;
+	private boolean mHasLoadOnce;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -53,8 +54,24 @@ public class ContactListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		logW(TAG + "-------------------onCreate");
 		initData();
-		queryMyfriends();
+//		queryMyfriends();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		logW(TAG + "---------------------------onResume");
+//		if(!mHidden) {
+//			queryMyfriends();
+//		}
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		logW(TAG + "---------------------------onStart");
 	}
 	
 	private void initData() {
@@ -82,27 +99,19 @@ public class ContactListFragment extends Fragment {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		setUserVisibleHint(true);
 		super.onActivityCreated(savedInstanceState);
 	}
 	
-//	@Override
-//	public void setUserVisibleHint(boolean isVisibleToUser) {
-//		logW("setUserVisibleHint ---isVisibleToUser :" + isVisibleToUser);
-//		if (isVisibleToUser) {
-//			queryMyfriends();
-//		}
-//		super.setUserVisibleHint(isVisibleToUser);
-//	}
-	
-//	@Override
-//	public void onResume() {
-//		super.onResume();
-//		logW(TAG + "---------------------------onResume");
-//		if(!mHidden) {
-//			queryMyfriends();
-//		}
-//	}
-	
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		logW("setUserVisibleHint ---isVisibleToUser :" + isVisibleToUser);
+		if (isVisibleToUser && !mHasLoadOnce) {
+			queryMyfriends();
+			mHasLoadOnce = true;
+		}
+		super.setUserVisibleHint(isVisibleToUser);
+	}
 	
 //	@Override
 //	public void onHiddenChanged(boolean hidden) {

@@ -38,6 +38,8 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	private AutoScrollListView mListView;
 	private IssueListAdapter mAdapter;
 	
+	private View mProgressContainer;
+	
 	private PopupWindow mDisplayType;
 	
 	private Context mContext;
@@ -57,6 +59,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		logW(TAG + "-------------------onCreate");
 		//Check the network,display toast
 		if(NetworkUtils.isNetworkConnected(mContext)) {
 			DataUtils.syncIssueFromServer(mContext);
@@ -68,18 +71,22 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public void onStart() {
 		super.onStart();
+		logW(TAG + "-------------------onStart");
 		getLoaderManager().restartLoader(LOAD_ISSUES, null, this);
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
+		logW(TAG + "-------------------onResume");
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.issue_list_fragment, container, false);
+		
+		mProgressContainer = rootView.findViewById(R.id.progressContainer);
 		
 		mEmptyView = (TextView) rootView.findViewById(R.id.empty);
 		
@@ -137,6 +144,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 
 	@Override
 	public Loader<ArrayList<IssueResult>> onCreateLoader(int id, Bundle args) {
+		mProgressContainer.setVisibility(View.VISIBLE);
 		return new IssueListLoader(mContext);
 	}
 
@@ -156,7 +164,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 //        }
 
         // Hide the progress indicator
-//        mProgressContainer.setVisibility(View.GONE);
+        mProgressContainer.setVisibility(View.GONE);
 
 	}
 

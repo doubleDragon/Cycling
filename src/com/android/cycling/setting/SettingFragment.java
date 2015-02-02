@@ -51,6 +51,7 @@ public class SettingFragment extends Fragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		logW(TAG + "-------------------onCreate");
 		if(savedInstanceState == null) {
 			isNeedSwitch = true;
 		} else {
@@ -61,6 +62,7 @@ public class SettingFragment extends Fragment{
 	@Override
 	public void onResume() {
 		super.onResume();
+		logW(TAG + "-------------------onResume");
 		mSelfUser = BmobUser.getCurrentUser(mContext, ServerUser.class);
 		if(mSelfUser == null) {
 			isNeedLogin = true;
@@ -68,6 +70,12 @@ public class SettingFragment extends Fragment{
 			isNeedLogin = false;
 		}
 		displayFragment();
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		logW(TAG + "-------------------onStart");
 	}
 
 	@Override

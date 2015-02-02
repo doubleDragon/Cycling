@@ -4,9 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-<!--     <include  -->
-<!--         layout="@layout/secondhand_fragment_head"/> -->
-
+    <include 
+        android:id="@+id/progressContainer"
+        layout="@layout/common_progress_dialog_layout"
+        />
+    
 	<com.android.cycling.widget.HeaderLayout
 	    android:id="@+id/header_layout"
 	    style="@style/HeaderLayout" />

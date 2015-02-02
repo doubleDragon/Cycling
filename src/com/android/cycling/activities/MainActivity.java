@@ -54,10 +54,7 @@ public class MainActivity extends CyclingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-
-        
         createViewsAndFragments();
-        mTabPager.getCurrentItem();
         
 		// 开启定时检测服务（单位为秒）-在这里检测后台是否还有未读的消息，有的话就取出来
 		BmobChat.getInstance(this).startPollService(30);

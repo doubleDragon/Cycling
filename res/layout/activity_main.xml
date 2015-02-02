@@ -19,5 +19,4 @@
         android:layout_gravity="bottom"
         />
     
-<!--     android:layout_alignParentBottom="true" -->
 </LinearLayout>

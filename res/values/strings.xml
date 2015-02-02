@@ -43,6 +43,7 @@
     <string name="issue">"发布交易"</string>
     <string name="limit_char_count">"最多50个字&#8230;"</string>
     <string name="limit_picture_select_max_count">"只能选择6张图片"</string>
+    <string name="loading">""加载中"</string>
     <string name="login">"登录"</string>
     <string name="my_photo">"个性相册"</string>
     <string name="no_issue_description">"商品描诉不能为空"</string>
