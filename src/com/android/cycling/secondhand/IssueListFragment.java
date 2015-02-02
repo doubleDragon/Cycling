@@ -80,7 +80,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.secondhand_fragment, container, false);
+		View rootView = inflater.inflate(R.layout.issue_list_fragment, container, false);
 		
 		mEmptyView = (TextView) rootView.findViewById(R.id.empty);
 		
