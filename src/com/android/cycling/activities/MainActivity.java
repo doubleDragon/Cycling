@@ -62,6 +62,11 @@ public class MainActivity extends CyclingActivity {
 		// initTagMessageBroadCast();
     }
     
+    @Override
+    public void onBackPressed() {
+    	moveTaskToBack(true);
+    }
+    
 	private void initNewMessageBroadCast() {
 		mNewMessageReceiver = new NewBroadcastReceiver();
 		IntentFilter intentFilter = new IntentFilter(
