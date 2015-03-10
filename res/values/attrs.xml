@@ -25,4 +25,13 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color_color" format="color" />
     </declare-styleable>
+    
+    <!-- PullListView custom attr -->
+    <declare-styleable name="PullListView">
+        <attr name="getMoreType">
+            <enum name="auto" value="0" />
+            <enum name="click" value="1" />
+        </attr>
+        <attr name="addPullHeaderByUser" format="boolean" />
+    </declare-styleable>
 </resources>

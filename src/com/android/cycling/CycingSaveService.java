@@ -12,10 +12,13 @@ import cn.bmob.v3.listener.FindListener;
 
 import com.android.cycling.data.ServerIssue;
 import com.android.cycling.data.ServerUser;
+import com.android.cycling.interactions.Event;
 import com.android.cycling.provider.CyclingConstants;
 import com.android.cycling.provider.CyclingConstants.Issue;
 import com.android.cycling.provider.CyclingConstants.Photo;
 import com.android.cycling.provider.CyclingConstants.User;
+
+import de.greenrobot.event.EventBus;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
@@ -63,14 +66,21 @@ public class CycingSaveService extends IntentService{
 			@Override
 			public void onSuccess(List<ServerIssue> arg0) {
 				logW("query success---result: " + arg0);
+				eventToIssueListFragment();
 				syncContinue(arg0);
+				
 			}
 			
 			@Override
 			public void onError(int arg0, String arg1) {
 				logW("query failed error: " + arg1);
+				eventToIssueListFragment();
 			}
 		});
+	}
+	
+	private void eventToIssueListFragment() {
+		EventBus.getDefault().post(new Event.PullListViewEvent());
 	}
 	
 	/**

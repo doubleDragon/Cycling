@@ -15,5 +15,8 @@ public class Event {
 	public static class AddContactAgreeEvent {
 		
 	}
+	
+	public static class PullListViewEvent {
+	}
 
 }

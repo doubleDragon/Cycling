@@ -1,15 +1,18 @@
 package com.android.cycling.secondhand;
 
-
 import com.android.cycling.R;
 import com.android.cycling.activities.IssueEditorActivity;
+import com.android.cycling.interactions.Event;
 import com.android.cycling.secondhand.IssueListLoader.IssueResult;
 import com.android.cycling.util.DataUtils;
 import com.android.cycling.util.NetworkUtils;
 import com.android.cycling.util.UserUtils;
-import com.android.cycling.widget.AutoScrollListView;
+import com.android.cycling.widget.PullListView;
 import com.android.cycling.widget.HeaderLayout;
 import com.android.cycling.widget.HeaderLayout.Action;
+import com.android.cycling.widget.PullListView.OnRefreshListener;
+
+import de.greenrobot.event.EventBus;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -28,20 +31,21 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class IssueListFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<IssueListLoader.IssueResult>>{
-	
+public class IssueListFragment extends Fragment implements OnRefreshListener,
+		LoaderManager.LoaderCallbacks<ArrayList<IssueListLoader.IssueResult>> {
+
 	private static final int LOAD_ISSUES = 1000;
-	
+
 	private ImageButton mPost;
 	private TextView mTitle;
 	private TextView mEmptyView;
-	private AutoScrollListView mListView;
+	private PullListView mListView;
 	private IssueListAdapter mAdapter;
-	
+
 	private View mProgressContainer;
-	
+
 	private PopupWindow mDisplayType;
-	
+
 	private Context mContext;
 
 	@Override
@@ -60,8 +64,9 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		logW(TAG + "-------------------onCreate");
-		//Check the network,display toast
-		if(NetworkUtils.isNetworkConnected(mContext)) {
+		EventBus.getDefault().register(this);
+		// Check the network,display toast
+		if (NetworkUtils.isNetworkConnected(mContext)) {
 			DataUtils.syncIssueFromServer(mContext);
 		} else {
 			toastMessage(R.string.no_network);
@@ -74,7 +79,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 		logW(TAG + "-------------------onStart");
 		getLoaderManager().restartLoader(LOAD_ISSUES, null, this);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -84,19 +89,22 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.issue_list_fragment, container, false);
-		
+		View rootView = inflater.inflate(R.layout.issue_list_fragment,
+				container, false);
+
 		mProgressContainer = rootView.findViewById(R.id.progressContainer);
-		
+
 		mEmptyView = (TextView) rootView.findViewById(R.id.empty);
-		
+
 		mAdapter = new IssueListAdapter(mContext);
-		
-		mListView = (AutoScrollListView) rootView.findViewById(R.id.list);
+
+		mListView = (PullListView) rootView.findViewById(R.id.list);
+		mListView.setOnRefreshListener(this);
 		mListView.setAdapter(mAdapter);
 		mListView.setEmptyView(mEmptyView);
-		
-		HeaderLayout actionBar = (HeaderLayout) rootView.findViewById(R.id.header_layout);
+
+		HeaderLayout actionBar = (HeaderLayout) rootView
+				.findViewById(R.id.header_layout);
 		// You can also assign the title programmatically by passing a
 		// CharSequence or resource id.
 		actionBar.setTitle(R.string.indicator_title_index0);
@@ -109,7 +117,7 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 
 			@Override
 			public void performAction(View view) {
-				if(UserUtils.isNeedLogin(mContext)) {
+				if (UserUtils.isNeedLogin(mContext)) {
 					UserUtils.intentToLogin(mContext);
 					return;
 				}
@@ -117,10 +125,25 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 				i.setAction(Intent.ACTION_INSERT);
 				startActivity(i);
 			}
-			
+
 		});
-		
+
 		return rootView;
+	}
+
+	@Override
+	public void onRefresh() {
+		//Sync issue
+		DataUtils.syncIssueFromServer(mContext);
+	}
+	
+	/**
+	 * Eventbus callback,refresh complete
+	 * @param event
+	 */
+	public void onEventMainThread(Event.PullListViewEvent event) {
+		mListView.refreshComplete();
+		mListView.getMoreComplete();
 	}
 
 	@Override
@@ -138,7 +161,8 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	@Override
 	public void onDestroy() {
 		mListView = null;
-        mEmptyView = null;
+		mEmptyView = null;
+		EventBus.getDefault().unregister(this);
 		super.onDestroy();
 	}
 
@@ -152,19 +176,19 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	public void onLoadFinished(Loader<ArrayList<IssueResult>> loader,
 			ArrayList<IssueResult> data) {
 		if (mAdapter != null) {
-            mAdapter.notifyDataSetInvalidated();
-        }
+			mAdapter.notifyDataSetInvalidated();
+		}
 
-        mAdapter.setData(data);
-        // The list should now be shown.
-//        if (isResumed()) {
-//            setListShown(true);
-//        } else {
-//            setListShownNoAnimation(true);
-//        }
+		mAdapter.setData(data);
+		// The list should now be shown.
+		// if (isResumed()) {
+		// setListShown(true);
+		// } else {
+		// setListShownNoAnimation(true);
+		// }
 
-        // Hide the progress indicator
-        mProgressContainer.setVisibility(View.GONE);
+		// Hide the progress indicator
+		mProgressContainer.setVisibility(View.GONE);
 
 	}
 
@@ -172,17 +196,18 @@ public class IssueListFragment extends Fragment implements LoaderManager.LoaderC
 	public void onLoaderReset(Loader<ArrayList<IssueResult>> loader) {
 		mAdapter.setData(null);
 	}
-	
+
 	private void toastMessage(int msg) {
 		Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
 	}
-	
+
 	private static final boolean DEBUG = true;
 	private static final String TAG = IssueListFragment.class.getSimpleName();
+
 	private static void logW(String msg) {
-		if(DEBUG) {
-		android.util.Log.d(TAG, msg);
+		if (DEBUG) {
+			android.util.Log.d(TAG, msg);
 		}
 	}
-	
+
 }

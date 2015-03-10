@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        class="com.android.cycling.widget.AutoScrollListView"
+        class="com.android.cycling.widget.PullListView"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
         android:dividerHeight="10dip"
