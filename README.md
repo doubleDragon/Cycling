@@ -12,6 +12,7 @@ Used lib
 universal-image-loader from nostra13<br/>
 android-actionbar from johannilsson<br/>
 google-gson<br/>
+EventBus<br/>
 
 Config project
 =======
