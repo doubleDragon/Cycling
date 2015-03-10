@@ -122,7 +122,10 @@ public class SettingFragment extends Fragment{
 		transaction.commit();
 	}
 	
-	private static class UnavailableFragment extends Fragment {
+	public static class UnavailableFragment extends Fragment {
+		
+		public UnavailableFragment() {};
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {

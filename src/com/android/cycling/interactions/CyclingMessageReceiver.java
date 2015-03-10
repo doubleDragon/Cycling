@@ -5,12 +5,10 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import com.android.cycling.CyclingApplication;
-import com.android.cycling.R;
-import com.android.cycling.activities.MainActivity;
-import com.android.cycling.activities.NewFriendActivity;
-import com.android.cycling.util.NetworkUtils;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobNotifyManager;
 import cn.bmob.im.BmobUserManager;
@@ -25,10 +23,14 @@ import cn.bmob.im.inteface.OnReceiveListener;
 import cn.bmob.im.util.BmobJsonUtil;
 import cn.bmob.im.util.BmobLog;
 import cn.bmob.v3.listener.FindListener;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
+
+import com.android.cycling.CyclingApplication;
+import com.android.cycling.R;
+import com.android.cycling.activities.MainActivity;
+import com.android.cycling.activities.NewFriendActivity;
+import com.android.cycling.util.NetworkUtils;
+
+import de.greenrobot.event.EventBus;
 
 public class CyclingMessageReceiver extends BroadcastReceiver {
 
@@ -44,6 +46,7 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String json = intent.getStringExtra("msg");
+		logW("收到的message = " + json);
 		BmobLog.i("收到的message = " + json);
 		mUserManager = BmobUserManager.getInstance(context);
 		mCurrentUser = mUserManager.getCurrentUser();
@@ -68,13 +71,16 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 		if (mCurrentUser != null) {
 			if (toId.equals(mCurrentUser.getObjectId())) {
 				if (ehList.size() > 0) {
-					for (EventListener handler : ehList)
+					for (EventListener handler : ehList) {
 						handler.onAddUser(message);
+					}
 				} else {
 					showOtherNotify(context, message.getFromname(), toId,
 							message.getFromname() + "请求添加好友",
 							NewFriendActivity.class);
 				}
+				android.util.Log.d("wsl", "tagToAddContact---post AddContactRequestEvent: true");
+				EventBus.getDefault().post(new Event.AddContactRequestEvent(true));
 			}
 		}
 	}
@@ -258,5 +264,13 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 		}
 
 	};
+	
+	private static final String TAG = CyclingMessageReceiver.class.getSimpleName();
+	private static final boolean DEBUG = true;
+	private static void logW(String msg) {
+		if(DEBUG) {
+			android.util.Log.d(TAG, msg);
+		}
+	}
 
 }

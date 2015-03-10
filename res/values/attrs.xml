@@ -5,6 +5,11 @@
     <attr name="indicatorTabBarStyle" format="reference" />
     <attr name="indicatorBarTabTextStyle" format="reference"/>
     
+    <attr name="tipResource" format="reference"/>
+    <declare-styleable name="BadgeView">
+        <attr name="tipResource"/>
+    </declare-styleable>
+    
     <declare-styleable name="roundedimageview">
         <attr name="border_thickness" format="dimension" />
         <attr name="border_color" format="color" />

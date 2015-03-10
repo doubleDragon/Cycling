@@ -30,7 +30,8 @@
             android:hint="@string/bmob_message_search_hint"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:singleLine="true" />
+            android:singleLine="true" 
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

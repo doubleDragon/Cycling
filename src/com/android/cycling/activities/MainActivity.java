@@ -1,5 +1,6 @@
 package com.android.cycling.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -47,7 +48,7 @@ public class MainActivity extends CyclingActivity {
 	private SettingFragment mFragment4;
 	
 	private NewBroadcastReceiver mNewMessageReceiver;
-	private TagBroadcastReceiver mAddUserReceiver;
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,18 +76,13 @@ public class MainActivity extends CyclingActivity {
 		registerReceiver(mNewMessageReceiver, intentFilter);
 	}
     
-	private void initTagMessageBroadCast(){
-		mAddUserReceiver = new TagBroadcastReceiver();
-		IntentFilter intentFilter = new IntentFilter(BmobConfig.BROADCAST_ADD_USER_MESSAGE);
-		intentFilter.setPriority(3);
-		registerReceiver(mAddUserReceiver, intentFilter);
-	}
+	
 	
     @Override
 	protected void onDestroy() {
     	BmobChat.getInstance(this).stopPollService();
 //    	unregisterReceiver(mNewMessageReceiver);
-//    	unregisterReceiver(mAddUserReceiver);
+//    	
 		super.onDestroy();
 //		android.os.Debug.stopMethodTracing();
 	}
@@ -260,7 +256,8 @@ public class MainActivity extends CyclingActivity {
             throw new IllegalArgumentException("position: " + position);
         }
 
-        @Override
+        @SuppressLint("NewApi")
+		@Override
         public Object instantiateItem(ViewGroup container, int position) {
             if (mCurTransaction == null) {
                 mCurTransaction = mFragmentManager.beginTransaction();
@@ -295,7 +292,8 @@ public class MainActivity extends CyclingActivity {
             return ((Fragment) object).getView() == view;
         }
 
-        @Override
+        @SuppressLint("NewApi")
+		@Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             Fragment fragment = (Fragment) object;
             if (mCurrentPrimaryItem != fragment) {
@@ -328,15 +326,7 @@ public class MainActivity extends CyclingActivity {
 		}
 	}
     
-    private class TagBroadcastReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			BmobInvitation message = (BmobInvitation) intent.getSerializableExtra("invite");
-			logW("TagBroadcastReceiver invite message: " + message);
-//			refreshInvite(message);
-			abortBroadcast();
-		}
-	}
+    
     
     private static final boolean DEBUG = true;
     private static void logW(String msg) {
