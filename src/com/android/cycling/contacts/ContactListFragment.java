@@ -47,15 +47,15 @@ public class ContactListFragment extends Fragment {
 
 	private boolean mHasLoadOnce;
 
-//	private TagBroadcastReceiver mAddUserReceiver;
+	private TagBroadcastReceiver mAddUserReceiver;
 	private LoadTask mLoadTask;
 	
-//	private void initTagMessageBroadCast(){
-//		mAddUserReceiver = new TagBroadcastReceiver();
-//		IntentFilter intentFilter = new IntentFilter(BmobConfig.BROADCAST_ADD_USER_MESSAGE);
-//		intentFilter.setPriority(3);
-//		mContext.registerReceiver(mAddUserReceiver, intentFilter);
-//	}
+	private void initTagMessageBroadCast(){
+		mAddUserReceiver = new TagBroadcastReceiver();
+		IntentFilter intentFilter = new IntentFilter(BmobConfig.BROADCAST_ADD_USER_MESSAGE);
+		intentFilter.setPriority(3);
+		mContext.registerReceiver(mAddUserReceiver, intentFilter);
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -74,14 +74,14 @@ public class ContactListFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		logW(TAG + "-------------------onCreate");
 		EventBus.getDefault().register(this);
-//		initTagMessageBroadCast();
+		initTagMessageBroadCast();
 		initData();
 	}
 	
 	@Override
 	public void onDestroy() {
 		EventBus.getDefault().unregister(this);
-//		mContext.unregisterReceiver(mAddUserReceiver);
+		mContext.unregisterReceiver(mAddUserReceiver);
 		super.onDestroy();
 	}
 
@@ -198,16 +198,15 @@ public class ContactListFragment extends Fragment {
 
 	}
 	
-//	private void refreshInvite(BmobInvitation message) {
-//		updateNewFriendTip();
-//	}
+	private void refreshInvite(BmobInvitation message) {
+		updateNewFriendTip(true);
+	}
 	
 	/**
 	 * Eventbus callback,update listview header tip view
 	 * @param event
 	 */
 	public void onEventMainThread(Event.AddContactRequestEvent event) {
-		android.util.Log.d("wsl", "onEventMainThread---AddContactRequestEvent: " + event.displayInviteTip);
 		updateNewFriendTip(event.displayInviteTip);
 	}
 
@@ -243,15 +242,15 @@ public class ContactListFragment extends Fragment {
 	 * @author wsl
 	 *
 	 */
-//	private class TagBroadcastReceiver extends BroadcastReceiver {
-//		@Override
-//		public void onReceive(Context context, Intent intent) {
-//			BmobInvitation message = (BmobInvitation) intent.getSerializableExtra("invite");
-//			logW("TagBroadcastReceiver invite message: " + message);
-//			refreshInvite(message);
-//			abortBroadcast();
-//		}
-//	}
+	private class TagBroadcastReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			BmobInvitation message = (BmobInvitation) intent.getSerializableExtra("invite");
+			logW("TagBroadcastReceiver invite message: " + message);
+			refreshInvite(message);
+			abortBroadcast();
+		}
+	}
 
 	private static final boolean DEBUG = true;
 	private static void logW(String msg) {
