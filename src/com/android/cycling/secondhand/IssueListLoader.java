@@ -132,7 +132,7 @@ public class IssueListLoader extends AsyncTaskLoader<ArrayList<IssueListLoader.I
 	
 	public ArrayList<IssueResult> getIssues() {
 		ContentResolver resolver = getContext().getContentResolver();
-		Cursor c = resolver.query(Issue.CONTENT_URI, PROJECTION, null, null, Issue._ID + " ASC");
+		Cursor c = resolver.query(Issue.CONTENT_URI, PROJECTION, null, null, Issue.DATE + " DESC");
 		ArrayList<IssueResult> results = new ArrayList<IssueResult>();
 		String photo;
 		String id;
