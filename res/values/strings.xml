@@ -63,6 +63,7 @@
     <string name="picture">"图片"</string>
     <string name="registe">"注册"</string>
     <string name="sending">"发送中&#8230;"</string>
+    <string name="tips">"提示"</string>
     <string name="type_all">"[整车出售]"</string>
     <string name="type_parts">"[散件出售]"</string>
     <string name="type_buy">"[求购]"</string>
@@ -77,6 +78,8 @@
     <string name="bmob_message_search_hint">搜索&#8230;</string>
     <string name="bmob_new_friends">新朋友</string>
     <string name="bmob_near_people">附近的人</string>
+    <string name="bmob_location">"[位置]"<xliff:g id="address">%1$s</xliff:g></string>
+    <string name="bmob_voice">[语音]</string>
     <!-- end -->
     
     <string name="upload_photo">"上传图片:"</string>

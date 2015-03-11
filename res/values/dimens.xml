@@ -21,5 +21,8 @@
     
     <dimen name="avatar_width_setting_fragment">64dip</dimen>
     <dimen name="avatar_height_setting_fragment">64dip</dimen>
+    
+    <!-- Bmob Im -->
+    <dimen name="message_top_height">70.0dip</dimen>
 
 </resources>

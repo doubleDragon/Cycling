@@ -14,61 +14,119 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowNoTitle">true</item>
     </style>
-    
+
     <style name="HomeActivityTheme" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/cycling_home_bg</item>
     </style>
-    
+
     <style name="Theme.Default" parent="@android:style/Theme"></style>
+
     <style name="Theme.NoTitle" parent="@android:style/Theme.NoTitleBar"></style>
+
     <style name="Theme.FullScreen" parent="@android:style/Theme.NoTitleBar.Fullscreen"></style>
-    
+
     <style name="ActivityHeaderTextStyle">
-	    <item name="android:textColor">#ffffff</item>
-	    <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-	</style>
-	
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+
     <style name="EditorActivityTextStyle">
         <item name="android:textColor">#b1b1b1</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
-    
+
     <style name="EditorActivityEditTextStyle">
         <item name="android:background">@drawable/issue_editor_fragment_edittext</item>
         <item name="android:padding">6dip</item>
     </style>
-    
+
     <style name="IssueListTextStyle">
         <item name="android:textColor">#b1b1b1</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
-    
-<!--     <item name="android:background">@drawable/headerlayout_background</item> -->
-    
+
+    <!-- <item name="android:background">@drawable/headerlayout_background</item> -->
+
     <style name="HeaderLayout">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/headerlayout_height</item>
         <item name="android:orientation">horizontal</item>
     </style>
-    
+
     <style name="HeaderLayoutItem">
         <item name="android:layout_width">@dimen/headerlayout_item_width</item>
         <item name="android:layout_height">@dimen/headerlayout_height</item>
         <item name="android:padding">5dp</item>
         <item name="android:layout_marginLeft">1px</item>
     </style>
+
     <style name="HeaderLayoutHomeItem" parent="HeaderLayoutItem">
         <item name="android:layout_marginRight">1px</item>
         <item name="android:layout_marginLeft">0px</item>
     </style>
+
     <style name="HeaderLayoutHomeLogo">
         <item name="android:layout_marginRight">1px</item>
         <item name="android:layout_marginLeft">0px</item>
+    </style>
+
+    <!-- DialogTip about -->
+    <style name="TextAppearance">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorHighlight">#FFFFFF</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:textColorLink">#FFFFFF</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.DialogWindowTitle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="DialogWindowTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.DialogWindowTitle</item>
+    </style>
+
+    <style name="alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Bmob im -->
+    <style name="Smile">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Smile.TextView">
+        <item name="android:textSize">18sp</item>
+    </style>
+    
+    <style name="Smile.TextView._Black">
+        <item name="android:textColor">@color/bmob_base_color_text_black</item>
+    </style>
+
+    <style name="Smile.ImageView">
+        <item name="android:contentDescription">@string/app_name</item>
+    </style>
+
+    <style name="Smile.ImageView.Photo_Middle">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:scaleType">fitXY</item>
     </style>
 
 </resources>

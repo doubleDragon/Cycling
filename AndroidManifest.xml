@@ -3,107 +3,95 @@
     package="com.android.cycling"
     android:versionCode="1"
     android:versionName="1.0" >
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-    
+
     <!-- Push SDK权限 -->
     <permission
         android:name="cn.bmob.permission.push"
         android:protectionLevel="normal" >
     </permission>
+
     <uses-permission android:name="cn.bmob.permission.push" /> <!-- 添加自定义的权限 -->
 
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
-    
+
     <application
         android:name=".CyclingApplication"
         android:allowBackup="true"
         android:icon="@drawable/cycling_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
-        
-        <uses-library android:name="android.test.runner"/>
-        
-        <activity 
+        android:theme="@style/AppTheme" >
+        <uses-library android:name="android.test.runner" />
+
+        <activity
             android:name=".activities.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/HomeActivityTheme"
-            >
+            android:theme="@style/HomeActivityTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
-        
-        <activity 
+        <activity
+            android:name=".activities.RegisteActivity"
             android:label="@string/registe"
-        	android:name=".activities.RegisteActivity"
-        	android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        
-        <activity 
+        <activity
+            android:name=".activities.LoginActivity"
             android:label="@string/registe"
-        	android:name=".activities.LoginActivity"
-        	android:windowSoftInputMode="stateHidden"
-        	>
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        
-        <activity 
+        <activity
+            android:name=".activities.UserEditorActivity"
             android:label="@string/user_edit"
-        	android:name=".activities.UserEditorActivity"
-        	android:windowSoftInputMode="stateHidden" 
-        	>
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        
-        <activity 
-        	android:name=".activities.IssueEditorActivity"
-        	android:windowSoftInputMode="stateHidden"
-        	>
+        <activity
+            android:name=".activities.IssueEditorActivity"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        
-        <activity 
-        	android:name=".activities.ContactDetailActivity"
-        	android:windowSoftInputMode="stateHidden"
-        	>
+        <activity
+            android:name=".activities.ContactDetailActivity"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        
-        <activity 
-        	android:name=".activities.NewFriendActivity"
-        	android:windowSoftInputMode="stateHidden"
-        	>
+        <activity
+            android:name=".activities.NewFriendActivity"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        
-        <activity 
-        	android:name=".activities.SelectPicturesActivity">
+        <activity android:name=".activities.SelectPicturesActivity" >
         </activity>
-        
-        <service android:name="CycingSaveService"
-            android:exported="false"/>
-        
-        <provider android:name=".provider.CyclingProvider"
+        <activity android:name=".activities.ChatActivity" >
+        </activity>
+
+        <service
+            android:name="CycingSaveService"
+            android:exported="false" />
+
+        <provider
+            android:name=".provider.CyclingProvider"
             android:authorities="com.android.cycling"
-            android:exported="false">
+            android:exported="false" >
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
-        
-        <!-- IM聊天所需的Push start-->
+
+        <!-- IM聊天所需的Push start -->
         <service
             android:name="cn.bmob.push.lib.service.PushService"
             android:exported="true"
@@ -125,28 +113,29 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".interactions.CyclingMessageReceiver" 
-            android:exported="true">
+        <receiver
+            android:name=".interactions.CyclingMessageReceiver"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="cn.bmob.push.action.MESSAGE" />
             </intent-filter>
         </receiver>
 
-        <!-- IM聊天所需的Push end-->
+        <!-- IM聊天所需的Push end -->
+
 
         <!-- 启动定时检测操作 -->
-         <service android:name="cn.bmob.im.poll.BmobPollService">
+        <service android:name="cn.bmob.im.poll.BmobPollService" >
             <intent-filter>
-                <action android:name="cn.bmob.im.service.BmobPollService"/>
+                <action android:name="cn.bmob.im.service.BmobPollService" />
             </intent-filter>
         </service>
-        
     </application>
-    
-    <instrumentation 
-        android:targetPackage="com.android.cycling"
-        android:name="android.test.InstrumentationTestRunner" 
-        android:label="TestApi">
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="TestApi"
+        android:targetPackage="com.android.cycling" >
     </instrumentation>
 
 </manifest>
