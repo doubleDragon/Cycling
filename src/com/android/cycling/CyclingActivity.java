@@ -1,6 +1,9 @@
 package com.android.cycling;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.android.cycling.activities.TransactionSafeActivity;
@@ -26,6 +29,14 @@ public class CyclingActivity extends TransactionSafeActivity {
 			mDisplayDialog.dismiss();
 		}
 	}
+	
+   public void hideSoftInputView() {
+       InputMethodManager manager = ((InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE));
+       if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+           if (getCurrentFocus() != null)
+               manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+       }
+   }
 	
 	protected void toastToUser(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

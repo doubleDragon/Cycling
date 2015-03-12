@@ -130,6 +130,7 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 			BmobChatManager.getInstance(context)
 					.updateMsgStatus(conversionId, msgTime);
 			if (toId.equals(mCurrentUser.getObjectId())) {
+				EventBus.getDefault().post(new Event.ReadedEvent(conversionId, msgTime));
 				if (ehList.size() > 0) {
 					for (EventListener handler : ehList)
 						handler.onReaded(conversionId, msgTime);
@@ -248,10 +249,8 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onSuccess(BmobMsg msg) {
-			if (ehList.size() > 0) {
-				for (int i = 0; i < ehList.size(); i++) {
-					((EventListener) ehList.get(i)).onMessage(msg);
-				}
+			if(EventBus.getDefault().hasSubscriberForEvent(Event.MessageEvent.class)) {
+				EventBus.getDefault().post(new Event.MessageEvent(msg));
 			} else {
 				boolean isAllow = CyclingApplication.getInstance().getSpUtil()
 						.isAllowPushNotify();
@@ -261,6 +260,20 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 					showMsgNotify(context, msg);
 				}
 			}
+			
+//			if (ehList.size() > 0) {
+//				for (int i = 0; i < ehList.size(); i++) {
+//					((EventListener) ehList.get(i)).onMessage(msg);
+//				}
+//			} else {
+//				boolean isAllow = CyclingApplication.getInstance().getSpUtil()
+//						.isAllowPushNotify();
+//				if (isAllow && mCurrentUser != null
+//						&& mCurrentUser.getObjectId().equals(toId)) {
+//					mNewNum++;
+//					showMsgNotify(context, msg);
+//				}
+//			}
 		}
 
 	};

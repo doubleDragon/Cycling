@@ -79,6 +79,8 @@
         </activity>
         <activity android:name=".activities.ChatActivity" >
         </activity>
+        <activity android:name=".activities.LocationActivity" >
+        </activity>
 
         <service
             android:name="CycingSaveService"

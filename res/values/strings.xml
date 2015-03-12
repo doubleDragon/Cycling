@@ -35,6 +35,7 @@
     
     <string name="information_editor">"资料编辑"</string>
     
+    <string name="input_message">"请输入发送消息!"</string>
     <string name="input_email">"请输入邮箱&#8230;"</string>
     <string name="input_name_alias">"请输入用户昵称&#8230;"</string>
     <string name="input_login_passward">"请输入登录密码&#8230;"</string>
@@ -69,17 +70,26 @@
     <string name="type_buy">"[求购]"</string>
     
     <!-- Bmob about -->
-    <string name="xlistview_header_hint_normal">下拉刷新</string>
-    <string name="xlistview_header_hint_ready">松开刷新数据</string>
-    <string name="xlistview_header_hint_loading">正在加载&#8230;</string>
-    <string name="xlistview_header_last_time">上次更新时间：</string>
-    <string name="xlistview_footer_hint_normal">查看更多</string>
-    <string name="xlistview_footer_hint_ready">松开载入更多</string>
-    <string name="bmob_message_search_hint">搜索&#8230;</string>
-    <string name="bmob_new_friends">新朋友</string>
-    <string name="bmob_near_people">附近的人</string>
+    <string name="xlistview_header_hint_normal">"下拉刷新"</string>
+    <string name="xlistview_header_hint_ready">"松开刷新数据"</string>
+    <string name="xlistview_header_hint_loading">"正在加载&#8230;"</string>
+    <string name="xlistview_header_last_time">"上次更新时间："</string>
+    <string name="xlistview_footer_hint_normal">"查看更多"</string>
+    <string name="xlistview_footer_hint_ready">"松开载入更多"</string>
+    <string name="bmob_message_search_hint">"搜索&#8230;"</string>
+    <string name="bmob_new_friends">"新朋友"</string>
+    <string name="bmob_near_people">"附近的人"</string>
     <string name="bmob_location">"[位置]"<xliff:g id="address">%1$s</xliff:g></string>
-    <string name="bmob_voice">[语音]</string>
+    <string name="bmob_voice">"[语音]"</string>
+    <string name="bmob_chat_with_who">"与"<xliff:g id="who">%1$s</xliff:g>"对话"</string>
+    <string name="bmob_voice_up_tips">"手指上滑,取消发送"</string>
+    <string name="bmob_longclick_speak">长按说话</string>
+    <string name="bmob_camera">拍摄</string>
+    <string name="location">位置</string>
+    
+    <string name="voice_cancel_tips">松开手指，取消发送</string>
+    <string name="voice_up_tips">手指上滑,取消发送</string>
+    <string name="voice_short_tips">录音时间太短</string>
     <!-- end -->
     
     <string name="upload_photo">"上传图片:"</string>

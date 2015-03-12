@@ -55,6 +55,10 @@
     <color name="bmob_im_base_bg">#f4f6f6</color>
     <color name="bmob_color_bottom_text_normal">#9da0a4</color>
     <color name="bmob_base_color_text_black">#3e3e39</color>
+    <color name="bmob_msg_chat_bg">#eceff4</color>
+    <color name="bmob_msg_chat_transparent">#00000000</color>
+     <color name="bmob_base_color_text_white">#ffffff</color>
+     <color name="bmob_msg_emote_divider">#ffa1a1a1</color>
     <!-- end -->
     
 </resources>
