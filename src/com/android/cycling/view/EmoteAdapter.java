@@ -1,4 +1,4 @@
-package com.android.cycling.secondhand;
+package com.android.cycling.view;
 
 import java.util.List;
 
@@ -10,9 +10,8 @@ import android.widget.ImageView;
 
 import com.android.cycling.R;
 import com.android.cycling.data.FaceText;
-import com.android.cycling.messages.BaseListAdapter;
 
-public class EmoteAdapter extends BaseListAdapter<FaceText>{
+public class EmoteAdapter extends BaseArrayListAdapter{
 	
 	public EmoteAdapter(Context context, List<FaceText> datas) {
         super(context, datas);
@@ -40,12 +39,5 @@ public class EmoteAdapter extends BaseListAdapter<FaceText>{
     class ViewHolder {
         ImageView mIvImage;
     }
-
-	@Override
-	public View bindView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

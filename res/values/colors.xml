@@ -59,6 +59,7 @@
     <color name="bmob_msg_chat_transparent">#00000000</color>
      <color name="bmob_base_color_text_white">#ffffff</color>
      <color name="bmob_msg_emote_divider">#ffa1a1a1</color>
+     <color name="bmob_dialog_color_title">#f82c22</color>
     <!-- end -->
     
 </resources>

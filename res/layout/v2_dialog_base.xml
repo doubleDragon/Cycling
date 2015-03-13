@@ -23,6 +23,7 @@
 
         <TextView
             android:id="@+id/dialog_title"
+            style="@style/Smile.TextView._Orange"
             android:layout_width="wrap_content"
             android:ellipsize="end"
             android:paddingLeft="10dp"
@@ -50,6 +51,7 @@
 
         <TextView
             android:id="@+id/dialog_message"
+            style="@style/Smile.TextView._Black"
             android:layout_width="match_parent"
             android:gravity="left|center"
             android:lineSpacingMultiplier="1.2"

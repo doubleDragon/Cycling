@@ -122,6 +122,10 @@
     <style name="Smile.TextView._White">
         <item name="android:textColor">@color/bmob_base_color_text_white</item>
     </style>
+    
+    <style name="Smile.TextView._Orange">
+        <item name="android:textColor">@color/bmob_dialog_color_title</item>
+    </style>
 
     <style name="Smile.ImageView">
         <item name="android:contentDescription">@string/app_name</item>
