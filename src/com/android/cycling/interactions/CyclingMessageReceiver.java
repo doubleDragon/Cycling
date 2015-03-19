@@ -26,7 +26,7 @@ import cn.bmob.v3.listener.FindListener;
 
 import com.android.cycling.CyclingApplication;
 import com.android.cycling.R;
-import com.android.cycling.activities.MainActivity;
+import com.android.cycling.activities.MainActivity2;
 import com.android.cycling.activities.NewFriendActivity;
 import com.android.cycling.util.NetworkUtils;
 
@@ -112,7 +112,7 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 					}
 				});
 		showOtherNotify(context, username, toId, username + "同意添加您为好友",
-				MainActivity.class);
+				MainActivity2.class);
 		BmobMsg.createAndSaveRecentAfterAgree(context, json);
 	}
 	
@@ -203,7 +203,7 @@ public class CyclingMessageReceiver extends BroadcastReceiver {
 		String contentTitle = msg.getBelongUsername() + " (" + mNewNum
 				+ "条新消息)";
 
-		Intent intent = new Intent(context, MainActivity.class);
+		Intent intent = new Intent(context, MainActivity2.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 		boolean isAllowVoice = CyclingApplication.getInstance().getSpUtil()

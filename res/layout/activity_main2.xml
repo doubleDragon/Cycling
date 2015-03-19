@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wsl="http://schemas.android.com/apk/res/com.android.cycling"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent" 
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:background="@drawable/indicator_bg"
+        android:orientation="horizontal"
+        >
+        
+        <com.android.cycling.widget.IndicatorItem
+            android:id="@+id/tab0"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            wsl:icon="@drawable/tab_secondhand_01"
+            wsl:text="@string/indicator_title_index0"
+            wsl:textSize="12sp"
+            />
+        
+        <com.android.cycling.widget.IndicatorItem
+            android:id="@+id/tab1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            wsl:icon="@drawable/tab_messages_01"
+            wsl:text="@string/indicator_title_index1"
+            wsl:textSize="12sp"
+            />
+        
+        <com.android.cycling.widget.IndicatorItem
+            android:id="@+id/tab2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            wsl:icon="@drawable/tab_around_01"
+            wsl:text="@string/indicator_title_index2"
+            wsl:textSize="12sp"
+            />
+        
+        <com.android.cycling.widget.IndicatorItem
+            android:id="@+id/tab3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            wsl:icon="@drawable/tab_contacts_01"
+            wsl:text="@string/indicator_title_index3"
+            wsl:textSize="12sp"
+            />
+        
+        <com.android.cycling.widget.IndicatorItem
+            android:id="@+id/tab4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            wsl:icon="@drawable/tab_settings_01"
+            wsl:text="@string/indicator_title_index4"
+            wsl:textSize="12sp"
+            />
+        
+    </LinearLayout>
+
+</LinearLayout>

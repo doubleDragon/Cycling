@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <attr name="indicatorBarTabStyle" format="reference" />
-    <attr name="indicatorTabBarStyle" format="reference" />
-    <attr name="indicatorBarTabTextStyle" format="reference"/>
+    <attr name="icon" format="reference"></attr>
+    <attr name="color" format="color"></attr>
+    <attr name="text" format="string"></attr>
+    <attr name="textSize" format="dimension"></attr>
     
     <attr name="tipResource" format="reference"/>
     <declare-styleable name="BadgeView">
@@ -33,5 +34,12 @@
             <enum name="click" value="1" />
         </attr>
         <attr name="addPullHeaderByUser" format="boolean" />
+    </declare-styleable>
+    
+    <declare-styleable name="IndicatorItem">
+        <attr name="icon"/>
+        <attr name="color"/>
+        <attr name="text"/>
+        <attr name="textSize"/>
     </declare-styleable>
 </resources>

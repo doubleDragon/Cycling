@@ -1,7 +1,5 @@
 package com.android.cycling.activities;
 
-import com.android.cycling.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,7 +34,7 @@ public class HomeActivity extends Activity {
 		}
 		
 		private void intentToMainActivity() {
-			Intent i = new Intent(context, MainActivity.class);
+			Intent i = new Intent(context, MainActivity2.class);
 			context.startActivity(i);
 			context.finish();
 		}
